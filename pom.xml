@@ -8,10 +8,10 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>Lab_Assistant</artifactId>
+	<groupId>com.gec</groupId>
+	<artifactId>lab_admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Lab_Assistant</name>
+	<name>lab_admin</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

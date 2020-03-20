@@ -1,6 +1,6 @@
-package com.example.Lab_Assistant.db.models.repositories;
+package com.gec.lab_admin.db.models.repositories;
 
-import com.example.Lab_Assistant.db.models.Teacher;
+import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TeacherRepository extends CrudRepository<Teacher,String> {

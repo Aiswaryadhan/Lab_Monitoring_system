@@ -1,4 +1,4 @@
-package com.example.Lab_Assistant.db.models;
+package com.gec.lab_admin.db.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.example.Lab_Assistant;
+package com.gec.lab_admin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

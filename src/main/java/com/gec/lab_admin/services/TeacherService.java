@@ -1,7 +1,7 @@
-package com.example.Lab_Assistant.services;
+package com.gec.lab_admin.services;
 
-import com.example.Lab_Assistant.db.models.Teacher;
-import com.example.Lab_Assistant.db.models.repositories.TeacherRepository;
+import com.gec.lab_admin.db.models.Teacher;
+import com.gec.lab_admin.db.models.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

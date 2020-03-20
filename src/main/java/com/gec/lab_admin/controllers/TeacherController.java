@@ -1,6 +1,6 @@
-package com.example.Lab_Assistant.controllers;
+package com.gec.lab_admin.controllers;
 
-import com.example.Lab_Assistant.services.TeacherService;
+import com.gec.lab_admin.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
