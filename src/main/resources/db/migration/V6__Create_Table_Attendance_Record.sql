@@ -1,5 +1,5 @@
-create table attendance_record(
-    lab_date date,
+create table IF NOT EXISTS attendance_record(
+    lab_date date not null,
     subject_id varchar(10),
     student_id varchar(10),
     presence int,
