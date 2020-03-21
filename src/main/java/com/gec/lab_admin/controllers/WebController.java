@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Controller
 public class WebController {
 
     @RequestMapping("/")
@@ -17,9 +18,9 @@ public class WebController {
         return "Hello World";
     }
 
-    @RequestMapping("/teacher_login.html")
+    @RequestMapping("/login")
     public String login() {
-        return "teacher_login.html";
+        return "login_page";
     }
 
 }
