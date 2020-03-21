@@ -19,7 +19,7 @@ public class TeacherService {
         teacherRepository.findAll().forEach(teacherDetails::add);
         return teacherDetails;
     }
-    public Optional<Teacher> find(String teacherId){
-        return teacherRepository.findById(teacherId);
+    public void login(Teacher tr, String teacherID) {
+
     }
 }

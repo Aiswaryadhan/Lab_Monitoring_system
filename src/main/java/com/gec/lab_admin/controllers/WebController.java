@@ -13,12 +13,15 @@ public class WebController {
     public String index() {
         return "Welcome";
     }
+
     @RequestMapping("/hello")
+    @ResponseBody
     public String welcome(){
         return "Hello World";
     }
 
     @RequestMapping("/login")
+    @ResponseBody
     public String login() {
         return "login_page";
     }

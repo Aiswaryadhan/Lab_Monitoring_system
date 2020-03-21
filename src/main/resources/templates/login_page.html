@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login V2</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -40,23 +40,25 @@
 						<i class="zmdi zmdi-font"></i>
 					</span>
 
-                <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-                    <input class="input100" type="text" name="email">
-                    <span class="focus-input100" data-placeholder="Email"></span>
+                <div class="wrap-input100 validate-input" data-validate = "Enter Username">
+                    <div class="error" id="error_user"></div>
+                    <input class="input100" type="text" id="user" name="user">
+                    <span class="focus-input100" data-placeholder="User Name"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter password">
+                    <div class="error" id="error_pass"></div>
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-                    <input class="input100" type="password" name="pass">
+                    <input class="input100" type="password" id="pass" name="pass">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>
 
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">
+                        <button class="login100-form-btn" id="submit" name="submit">
                             Login
                         </button>
                     </div>
