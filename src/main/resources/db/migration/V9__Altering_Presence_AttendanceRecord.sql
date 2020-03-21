@@ -1,0 +1,1 @@
+ALTER TABLE attendance_record MODIFY presence BIT(1) not null;

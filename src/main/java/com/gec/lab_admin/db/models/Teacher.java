@@ -1,5 +1,7 @@
 package com.gec.lab_admin.db.models;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,10 +27,15 @@ public class Teacher{
     @Column(name="password")
     private String password;
 
-    public Teacher(String id, String name,String password) {
+    @Size(max = 1)
+    @Column(name="is_admin")
+    private Boolean is_admin;
+
+    public Teacher(String id, String name,String password,Boolean is_admin) {
         this.id = id;
         this.name = name;
         this.password=password;
+        this.is_admin=is_admin;
     }
 
     public Teacher(){
@@ -38,7 +45,6 @@ public class Teacher{
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -46,16 +52,23 @@ public class Teacher{
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
+
     public String getTeacher_password() {
         return password;
     }
-
     public void setTeacher_password(String pwd) {
         this.password = pwd;
+    }
+
+    public Boolean getTeacher_isAdmin() {
+        return is_admin;
+    }
+
+    public void setTeacher_isAdmin(Boolean is_admin) {
+        this.is_admin = is_admin;
     }
 
 }
