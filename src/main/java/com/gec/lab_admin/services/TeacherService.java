@@ -5,6 +5,7 @@ import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class TeacherService {
         teacherRepository.findAll().forEach(teacherDetails::add);
         return teacherDetails;
     }
-    public void login(Teacher tr, String teacherID) {
-
+    public Optional<Teacher> login(String teacherId) {
+        return teacherRepository.findById(teacherId);
     }
 }

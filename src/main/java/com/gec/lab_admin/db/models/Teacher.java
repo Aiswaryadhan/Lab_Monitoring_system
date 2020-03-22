@@ -1,5 +1,6 @@
 package com.gec.lab_admin.db.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ public class Teacher{
     @NotNull
     private String id;
 
+    @JsonIgnore
     @Size(max = 30)
     @Column(name="name")
     private String name;
@@ -27,6 +29,7 @@ public class Teacher{
     @Column(name="password")
     private String password;
 
+    @JsonIgnore
     @Size(max = 1)
     @Column(name="is_admin")
     private Boolean is_admin;
@@ -45,6 +48,7 @@ public class Teacher{
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -52,24 +56,25 @@ public class Teacher{
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getTeacher_password() {
+    public String getPassword() {
         return password;
     }
-    public void setTeacher_password(String pwd) {
-        this.password = pwd;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Boolean getTeacher_isAdmin() {
+    public Boolean getIs_admin() {
         return is_admin;
     }
 
-    public void setTeacher_isAdmin(Boolean is_admin) {
+    public void setIs_admin(Boolean is_admin) {
         this.is_admin = is_admin;
     }
-
 }
 
