@@ -39,8 +39,8 @@ $(document).ready(function(){
                                   "Content-Type": "application/json"
                               },
                      success: function (data) {
-                            $('#selectsem').empty();
-                            $('#selectsem').append("<option value=\"select\" id=\"user\">select</option>");
+                            $('#selectsub').empty();
+                            $('#selectsub').append("<option value=\"select\" id=\"user\">select</option>");
                             $( "#selectsem" ).prop( "disabled", true );
                             var i=0;
                             for(i=0;i<data.length;i++) {

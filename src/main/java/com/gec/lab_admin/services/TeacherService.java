@@ -20,6 +20,13 @@ public class TeacherService {
         teacherRepository.findAll().forEach(teacherDetails::add);
         return teacherDetails;
     }
+    public List<Teacher> generateSubject(String teacher_id){
+        List<Teacher> reportList=new ArrayList<>();
+        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
+//        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
+//        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
+        return reportList;
+    }
     public Optional<Teacher> login(String teacherId) {
         return teacherRepository.findById(teacherId);
     }

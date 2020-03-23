@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,5 +36,15 @@ public class TeacherController {
             logger.error("wrong user name");
             return "wrong user name";
         }
+    }
+    @RequestMapping("/login/{teacherid}")
+    public List<Teacher> generateSubject(@PathVariable String teacherid) {
+        List<Teacher> subjectList = new ArrayList<>();
+        subjectList = teacherService.generateSubject(teacherid);
+        subjectList.forEach(subject -> {
+//            logger.info("Fetched subjectid :" + subject.getId());
+//            logger.info("Fetched subject :" + subject.getSubject());
+        });
+        return subjectList;
     }
 }
