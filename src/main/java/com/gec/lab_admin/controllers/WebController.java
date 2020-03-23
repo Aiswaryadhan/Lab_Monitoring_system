@@ -21,7 +21,7 @@ public class WebController {
     }
 
     @RequestMapping("/login")
-    @ResponseBody
+    //@ResponseBody
     public String login() {
         return "login_page";
     }
