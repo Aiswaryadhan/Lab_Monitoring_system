@@ -1,5 +1,6 @@
 $(document).ready(function(){
-
+console.log("ready");
+ alert("Welcome");
             $("#user").blur(function(){
                 var user = $('#user').val();
                 if(user=='')
@@ -13,10 +14,34 @@ $(document).ready(function(){
                 {
                       $('#error_user').slideUp();
                       status = 0;
+                      $.ajax({
+                                                                  type: "GET",
+                                                                  url: 'http://localhost:8080/teacher/id/'+user,
+                                                                  headers: {
+                                                                                 "Content-Type": "application/json"
+                                                                           },
+                                                                  dataType: 'json',
+                                                                  success: function (data) {
+
+                                                                  $('#sub').empty();
+                                                                  $('#sub').append("<option value=\"select\" id=\"user\">select</option>");
+                                                                  $( "#selectsub" ).prop( "disabled", true );
+//                                                                  var id = data[i]['id'];
+//                                                                  var name = data[i]['subject'];
+                                                                  var i=0;
+                                                                  for(i=0;i<data.length;i++) {
+                                                                    var arr=data[i].split(",");
+                                                                    var id=arr[1];
+                                                                    var sub=arr[0];
+                                                                           $('#sub').append("<option value=\"" +id+ "\">" +sub+ "</option>");
+                                                                  }
+                                                        }
+                                             });
 
                 }
             });
            $("#pass").blur(function(){
+//           alert("password");
                 var pass = $('#pass').val();
                 if(pass=='')
                 {
@@ -31,27 +56,15 @@ $(document).ready(function(){
                        status = 0;
                 }
            });
-           $("user").change(function(){
-                 $.ajax({
-                     type: "GET",
-                     url: 'http://localhost:8080/teacher/id'+user,
-                     headers: {
-                                  "Content-Type": "application/json"
-                              },
-                     success: function (data) {
-                            $('#selectsub').empty();
-                            $('#selectsub').append("<option value=\"select\" id=\"user\">select</option>");
-                            $( "#selectsem" ).prop( "disabled", true );
-                            var i=0;
-                            for(i=0;i<data.length;i++) {
-                                 $('#selectsem').append("<option value=\"" + data[i].id + "\">" + data[i].id + "</option>");
-                            }
-                 });
-           });
+//           $("sub").click(function(){
+//           alert("HHHH");
+
+
+//           });
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
-                //alert(username);
+                alert(user);
                 $.ajax({
                             type : "POST",
                             url : 'http://localhost:8080/login/'+user,
@@ -60,16 +73,17 @@ $(document).ready(function(){
                             },
                             success : function(data) {
                                 var jsonArray = [];
-                               success : function(data) {
                                                             alert("Logged in..");
 
                                                          },
-                                else {
-                                    alert("Invalid Username or password");
-                                    location.reload();
-                                }
-                            },
+//                                else {
+//                                    alert("Invalid Username or password");
+//                                    location.reload();
+//                                }
+
                             error : function(data) {
+                            alert("Invalid Username or password");
+                                                                location.reload();
                             }
                         });
             });//close of click

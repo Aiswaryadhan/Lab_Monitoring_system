@@ -1,5 +1,6 @@
 package com.gec.lab_admin.controllers;
 
+import com.gec.lab_admin.db.models.Subject;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
@@ -37,14 +38,8 @@ public class TeacherController {
             return "wrong user name";
         }
     }
-    @RequestMapping("/login/{teacherid}")
-    public List<Teacher> generateSubject(@PathVariable String teacherid) {
-        List<Teacher> subjectList = new ArrayList<>();
-        subjectList = teacherService.generateSubject(teacherid);
-        subjectList.forEach(subject -> {
-//            logger.info("Fetched subjectid :" + subject.getId());
-//            logger.info("Fetched subject :" + subject.getSubject());
-        });
-        return subjectList;
+    @RequestMapping("/teacher/id/{teacher_id}")
+    public List<String> generateSubject(@PathVariable String teacher_id) {
+        return teacherService.getSubjects(teacher_id);
     }
 }

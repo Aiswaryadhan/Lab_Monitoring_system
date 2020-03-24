@@ -1,5 +1,6 @@
 package com.gec.lab_admin.services;
 
+import com.gec.lab_admin.db.models.Subject;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ public class TeacherService {
         teacherRepository.findAll().forEach(teacherDetails::add);
         return teacherDetails;
     }
-    public List<Teacher> generateSubject(String teacher_id){
-        List<Teacher> reportList=new ArrayList<>();
-        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
-//        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
-//        reportList.add(teacherRepository.generateSubject1Teacher(teacher_id));
-        return reportList;
+
+
+
+    public List<String> getSubjects(String teacher_id){
+        List<Subject> subjectList=new ArrayList<>();
+        return teacherRepository.getSubjects(teacher_id);
     }
     public Optional<Teacher> login(String teacherId) {
         return teacherRepository.findById(teacherId);

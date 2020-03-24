@@ -1,5 +1,6 @@
+
 <!doctype html>
-<html lang="en" class="fullscreen-bg">
+<html lang="en" class="fullscreen-bg" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Login</title>
@@ -19,6 +20,8 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/login.js"></script>
 </head>
 
 <body>
@@ -30,7 +33,7 @@
                 <div class="left">
                     <div class="content">
                         <div class="header">
-<!--                            <div class="logo text-center"><img src="assets/img/logo-dark.png" alt="Klorofil Logo"></div>-->
+                            <!--                            <div class="logo text-center"><img src="assets/img/logo-dark.png" alt="Klorofil Logo"></div>-->
                             <p class="lead">Login to your account</p>
                         </div>
                         <form class="form-auth-small" action="index.php">
@@ -46,30 +49,30 @@
                             </div>
                             <div class="form-group">
                                 <div class="error" id="error_sem"></div>
-                                <select class="form-control">
+                                <select class="form-control" id="sub">
                                     <option value="Select" id="selectsub">Select Subject</option>
                                 </select>
                             </div>
-<!--                            <div class="form-group clearfix">-->
-<!--                                <label class="fancy-checkbox element-left">-->
-<!--                                    <input type="checkbox">-->
-<!--                                    <span>Remember me</span>-->
-<!--                                </label>-->
-<!--                            </div>-->
+                            <!--                            <div class="form-group clearfix">-->
+                            <!--                                <label class="fancy-checkbox element-left">-->
+                            <!--                                    <input type="checkbox">-->
+                            <!--                                    <span>Remember me</span>-->
+                            <!--                                </label>-->
+                            <!--                            </div>-->
                             <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-<!--                            <div class="bottom">-->
-<!--                                <span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>-->
-<!--                            </div>-->
+                            <!--                            <div class="bottom">-->
+                            <!--                                <span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>-->
+                            <!--                            </div>-->
                         </form>
                     </div>
                 </div>
-<!--                <div class="right">-->
-<!--                    <div class="overlay"></div>-->
-<!--                    <div class="content text">-->
-<!--                        <h1 class="heading">Free Bootstrap dashboard template</h1>-->
-<!--                        <p>by The Develovers</p>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div class="right">-->
+                <!--                    <div class="overlay"></div>-->
+                <!--                    <div class="content text">-->
+                <!--                        <h1 class="heading">Free Bootstrap dashboard template</h1>-->
+                <!--                        <p>by The Develovers</p>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div class="clearfix"></div>
             </div>
         </div>

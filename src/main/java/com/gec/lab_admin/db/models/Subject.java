@@ -18,6 +18,8 @@ public class Subject {
     @NotNull
     private String id;
 
+//    FIXME : rename this column as name
+
 //    @JsonIgnore
     @Size(max = 50)
     @Column(name="subject")
