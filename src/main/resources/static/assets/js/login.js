@@ -1,6 +1,6 @@
 $(document).ready(function(){
-console.log("ready");
- alert("Welcome");
+//console.log("ready");
+// alert("Welcome");
             $("#user").blur(function(){
                 var user = $('#user').val();
                 if(user=='')
@@ -64,26 +64,29 @@ console.log("ready");
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
-                alert(user);
+                var logCred = {
+                            'id': user,
+                            'password': pwd
+                        };
+                         var aJson = JSON.stringify(logCred);
                 $.ajax({
                             type : "POST",
-                            url : 'http://localhost:8080/login/'+user,
+                            url : 'http://localhost:8080/login',
                             headers : {
                                 "Content-Type" : "application/json"
                             },
+                             data:aJson,
                             success : function(data) {
-                                var jsonArray = [];
-                                                            alert("Logged in..");
+                                var msg = "";
+                                alert(data);
+                                if(data == "success"){
+                                                           window.location.replace("http://localhost:8080/teacherDashboard");
 
-                                                         },
-//                                else {
-//                                    alert("Invalid Username or password");
-//                                    location.reload();
-//                                }
-
-                            error : function(data) {
-                            alert("Invalid Username or password");
-                                                                location.reload();
+                                }
+                                else{
+                                         msg = "Invalid username and password!";
+                                }
+                                $("#message").html(msg);
                             }
                         });
             });//close of click

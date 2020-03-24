@@ -38,6 +38,8 @@ public class TeacherController {
             return "wrong user name";
         }
     }
+
+
     @RequestMapping("/teacher/id/{teacher_id}")
     public List<String> generateSubject(@PathVariable String teacher_id) {
         return teacherService.getSubjects(teacher_id);

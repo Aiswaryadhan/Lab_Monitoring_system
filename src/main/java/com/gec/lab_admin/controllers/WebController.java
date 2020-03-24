@@ -26,4 +26,10 @@ public class WebController {
         return "login_page";
     }
 
+    @RequestMapping("/teacherDashboard")
+    //@ResponseBody
+    public String teacherDashboard() {
+        return "teacher_dashboard";
+    }
+
 }
