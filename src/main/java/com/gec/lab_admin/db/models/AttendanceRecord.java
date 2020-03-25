@@ -1,28 +1,25 @@
 package com.gec.lab_admin.db.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Entity
 @Table(name="attendance_record")
 public class AttendanceRecord {
 
     @EmbeddedId
+    @Id
     private AttendanceId attendanceId;
 
-    @Size(max = 1)
-    @NotNull
-    @Column(name="presence")
-    private Boolean presence;
+//fixme : typ error
+    @Column(name="presence", columnDefinition = "TINYINT(1)")
+    private boolean presence;
 
     public  AttendanceRecord(){
 
     }
-    public AttendanceRecord(AttendanceId attendanceId,Boolean presence) {
+    public AttendanceRecord(AttendanceId attendanceId,boolean presence) {
         this.attendanceId=attendanceId;
         this.presence = presence;
     }
@@ -35,11 +32,11 @@ public class AttendanceRecord {
         this.attendanceId = attendanceId;
     }
 
-    public Boolean getPresence() {
+    public boolean getPresence() {
         return presence;
     }
 
-    public void setPresence(Boolean presence) {
+    public void setPresence(boolean presence) {
         this.presence = presence;
     }
 }

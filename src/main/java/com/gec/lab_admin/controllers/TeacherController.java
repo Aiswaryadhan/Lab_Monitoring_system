@@ -23,7 +23,6 @@ public class TeacherController {
         if(loggedInTeacher.isPresent()){
             if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
                 logger.info("succes");
-
                 return "success";
             }
             else{

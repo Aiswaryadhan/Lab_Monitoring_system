@@ -10,11 +10,7 @@ import java.util.Optional;
 
 public interface AttendanceRepository extends CrudRepository<AttendanceRecord,String> {
 
-    Date dt=new Date();
-    @Query(
-            value = "insert into attendance_record values(dt,:subject_id,(select )))",
-            nativeQuery = true)
-    List<String> getSubjects(String teacher_id);
+
 
     Optional<AttendanceRecord> findById(String subjectId);
 }
