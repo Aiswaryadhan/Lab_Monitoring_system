@@ -2,20 +2,25 @@ package com.gec.lab_admin.db.models;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Table(name="teachersubject")
 public class TeacherSubject {
-    @Id
+    //@Id
     @Column(name="teacher_id")
     @Size(max = 10)
     private String teacher_id;
 
 
-    //    @JsonIgnore
     @Size(max = 10)
     @Column(name="subject_id")
     private String subject_id;
+
+    public TeacherSubject(){
+
+    }
 
     public TeacherSubject( String teacher, String subject) {
         this.teacher_id = teacher;

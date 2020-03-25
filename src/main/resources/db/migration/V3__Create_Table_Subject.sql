@@ -1,4 +1,4 @@
-create table IF NOT EXISTS subjects(
+create table IF NOT EXISTS subject(
     id varchar(10) primary key,
-    subject varchar(50) not null
+    name varchar(50) not null
 );

@@ -17,9 +17,9 @@ public class AttendanceController {
 
     final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
-    @RequestMapping(method = RequestMethod.POST,value = "/update/{subject_id}")
-    public void update(@RequestBody AttendanceRecord attendanceRecord, @PathVariable s ){
-        studentService.update(student,studentID);
+    @RequestMapping(method = RequestMethod.POST,value = "/insert/{subject_id}")
+    public void insert(@RequestBody AttendanceRecord attendanceRecord, @PathVariable String subjectId ){
+        attendanceService.insert(subjectId);
 
     }
 

@@ -11,26 +11,25 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="subject")
-public class Subject {
+public class Subjects {
     @Id
     @Column(name="id")
     @Size(max = 10)
     @NotNull
     private String id;
 
-//    FIXME : rename this column as name
 
 //    @JsonIgnore
     @Size(max = 50)
-    @Column(name="subject")
-    private String subject;
+    @Column(name="name")
+    private String name;
 
-    public Subject(String id, String subject) {
+    public Subjects(String id, String name) {
         this.id = id;
-        this.subject = subject;
+        this.name = name;
     }
 
-    public Subject(){
+    public Subjects(){
 
     }
 
@@ -43,10 +42,10 @@ public class Subject {
     }
 
     public String getSubject() {
-        return subject;
+        return name;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSubject(String name) {
+        this.name = name;
     }
 }

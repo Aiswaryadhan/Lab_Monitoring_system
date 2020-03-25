@@ -1,12 +1,11 @@
 package com.gec.lab_admin.services;
 
-import com.gec.lab_admin.db.models.Subject;
+import com.gec.lab_admin.db.models.Subjects;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class TeacherService {
 
 
     public List<String> getSubjects(String teacher_id){
-        List<Subject> subjectList=new ArrayList<>();
+        List<Subjects> subjectList=new ArrayList<>();
         return teacherRepository.getSubjects(teacher_id);
     }
     public Optional<Teacher> login(String teacherId) {
