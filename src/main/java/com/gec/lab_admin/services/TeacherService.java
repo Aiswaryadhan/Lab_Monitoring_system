@@ -1,15 +1,11 @@
 package com.gec.lab_admin.services;
 
-import com.gec.lab_admin.db.models.AttendanceId;
-import com.gec.lab_admin.db.models.AttendanceRecord;
-import com.gec.lab_admin.db.models.Subjects;
-import com.gec.lab_admin.db.models.Teacher;
+import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -21,10 +17,10 @@ public class TeacherService {
     @Autowired
     private AttendanceRepository attendanceRepository;
 
-    @PostConstruct
-    public void testing(){
-        this.populateAttendanceRegister("sub01");
-    }
+//    @PostConstruct
+//    public void testing(){
+//        this.populateAttendanceRegister("sub01");
+//    }
 
     public List<Teacher> findAll(){
         List<Teacher> teacherDetails = new ArrayList<>();
@@ -44,7 +40,7 @@ public class TeacherService {
     }
 
     @Transactional
-    public void populateAttendanceRegister(String subjectID){
+    public List<Student> getAttendanceRecords(String subjectID){
         List<Map<String, String>> studentList = teacherRepository.getAttendanceRecords(subjectID);
         List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
         AttendanceRecord attendanceRecord = new AttendanceRecord();
@@ -57,5 +53,6 @@ public class TeacherService {
             attendanceRecord.setPresence(false);
             attendanceRepository.save(attendanceRecord);
         }
+        return null;
     }
 }

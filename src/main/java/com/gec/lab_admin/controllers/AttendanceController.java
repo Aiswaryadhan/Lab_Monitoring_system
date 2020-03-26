@@ -20,13 +20,9 @@ public class AttendanceController {
 
     final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
-    @RequestMapping("/student/getall/{subjectid}")
-    public List<Student> getAll(@PathVariable String subjectid) {
-//        List<Student> studentList = new ArrayList<>();
-//        studentList = attendanceService.getAll(subjectid);
-//        studentList.forEach(report -> {
+//    @RequestMapping("/student/getAttendanceRecords/{subjectid}")
+//    public List<Student> getAttendanceRecords(@PathVariable String subjectid) {
 //
-//        });
-    return null;
-    }
+//    return null;
+//    }
 }

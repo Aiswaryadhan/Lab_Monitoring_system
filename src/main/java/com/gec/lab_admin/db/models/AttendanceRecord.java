@@ -3,6 +3,7 @@ package com.gec.lab_admin.db.models;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="attendance_record")
@@ -13,14 +14,24 @@ public class AttendanceRecord {
     private AttendanceId attendanceId;
 
 //fixme : typ error
-    @Column(name="presence", columnDefinition = "TINYINT(1)")
+
+    //@Size(max = 1)
+//    @Column(name="presence")
+   // @Column(columnDefinition = "TINYINT",name="presence")
+    @Column(name = "presence", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean presence;
 
     public  AttendanceRecord(){
 
     }
-    public AttendanceRecord(AttendanceId attendanceId,boolean presence) {
-        this.attendanceId=attendanceId;
+//    public AttendanceRecord(AttendanceId attendanceId,boolean presence) {
+//        this.attendanceId=attendanceId;
+//        this.presence = presence;
+//    }
+
+    public AttendanceRecord(AttendanceId attendanceId, boolean presence) {
+        this.attendanceId = attendanceId;
         this.presence = presence;
     }
 
