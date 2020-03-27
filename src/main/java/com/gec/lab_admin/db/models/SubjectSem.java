@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Table(name="subjectsem")
@@ -16,6 +17,7 @@ public class SubjectSem {
 
     @Size(max = 11)
     @Column(name="sem")
+    @NotNull
     private Integer sem;
 
     public SubjectSem(){

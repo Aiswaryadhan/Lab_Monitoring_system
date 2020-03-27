@@ -5,8 +5,9 @@ import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.*;
 
 @Service
@@ -22,13 +23,6 @@ public class TeacherService {
 //        this.populateAttendanceRegister("sub01");
 //    }
 
-    public List<Teacher> findAll(){
-        List<Teacher> teacherDetails = new ArrayList<>();
-        teacherRepository.findAll().forEach(teacherDetails::add);
-        return teacherDetails;
-    }
-
-
 
     public List<String> getSubjects(String teacher_id){
         List<Subjects> subjectList=new ArrayList<>();
@@ -39,7 +33,7 @@ public class TeacherService {
         return teacherRepository.findById(teacherId);
     }
 
-    @Transactional
+//    @Transactional
     public List<Student> getAttendanceRecords(String subjectID){
         List<Map<String, String>> studentList = teacherRepository.getAttendanceRecords(subjectID);
         List<AttendanceRecord> attendanceRecordList = new ArrayList<>();

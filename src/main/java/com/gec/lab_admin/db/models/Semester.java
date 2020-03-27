@@ -22,6 +22,7 @@ public class Semester {
     //    @JsonIgnore
     @Size(max = 10)
     @Column(name="name")
+    @NotNull
     private String name;
 
     public Semester(){

@@ -26,8 +26,6 @@ $(document).ready(function(){
                                                                   $('#sub').empty();
                                                                   $('#sub').append("<option value=\"select\" id=\"user\">select</option>");
                                                                   $( "#selectsub" ).prop( "disabled", true );
-//                                                                  var id = data[i]['id'];
-//                                                                  var name = data[i]['subject'];
                                                                   var i=0;
                                                                   for(i=0;i<data.length;i++) {
                                                                     var arr=data[i].split(",");
@@ -56,11 +54,7 @@ $(document).ready(function(){
                        status = 0;
                 }
            });
-//           $("sub").click(function(){
-//           alert("HHHH");
 
-
-//           });
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
@@ -78,7 +72,7 @@ $(document).ready(function(){
                              data:aJson,
                             success : function(data) {
                                 var msg = "";
-                                alert(data);
+                                //alert(data);
                                 if(data == "success"){
                                                            window.location.replace("http://localhost:8080/teacherDashboard");
 

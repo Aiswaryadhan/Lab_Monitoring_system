@@ -22,6 +22,7 @@ public class Subjects {
 //    @JsonIgnore
     @Size(max = 50)
     @Column(name="name")
+    @NotNull
     private String name;
 
     public Subjects(String id, String name) {

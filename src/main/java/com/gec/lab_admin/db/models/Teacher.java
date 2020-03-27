@@ -23,10 +23,12 @@ public class Teacher{
     @JsonIgnore
     @Size(max = 30)
     @Column(name="name")
+    @NotNull
     private String name;
 
     @Size(max = 20)
     @Column(name="password")
+    @NotNull
     private String password;
 
     @JsonIgnore
