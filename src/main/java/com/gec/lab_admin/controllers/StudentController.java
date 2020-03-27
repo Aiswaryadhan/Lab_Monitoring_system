@@ -1,6 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.Student;
+import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class StudentController {
         if(loggedInStudent.isPresent()){
             if(loggedInStudent.get().getPassword().equals(student.getPassword())){
                 logger.info("succes");
+                studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 return "success";
             }
             else{
@@ -36,10 +38,5 @@ public class StudentController {
             logger.error("wrong user name");
             return "wrong user name";
         }
-    }
-
-    @RequestMapping(method=RequestMethod.PUT,value="/update/{subjectId}/{studentId}")
-    public void updateAttendance(@PathVariable String subjectId,@PathVariable String studentId) {
-         studentService.updateAttendance(subjectId,studentId);
     }
 }
