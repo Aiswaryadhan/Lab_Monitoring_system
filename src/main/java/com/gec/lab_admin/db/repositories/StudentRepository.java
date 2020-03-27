@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface StudentRepository extends CrudRepository<Student,String> {
-    @Transactional
     @Modifying
     @Query(
             value = "update attendance_record set presence=1 where student_id=:studentId AND date=CURDATE() AND subject_id=:subjectId",

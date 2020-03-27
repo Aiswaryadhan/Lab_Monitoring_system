@@ -18,11 +18,15 @@ public class TeacherController {
 
     final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
-    @RequestMapping(method = RequestMethod.POST,value = "/login")
-    public String login(@RequestBody Teacher teacher){
+    public static String LOGGED_IN_TEACHER_SUBJECT="";
+
+    @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
+    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId){
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
         if(loggedInTeacher.isPresent()){
             if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
+                LOGGED_IN_TEACHER_SUBJECT = subjectId;
+                teacherService.getAttendanceRecords(subjectId);
                 logger.info("succes");
                 return "success";
             }
@@ -41,10 +45,5 @@ public class TeacherController {
     @RequestMapping("/teacher/id/{teacher_id}")
     public List<String> generateSubject(@PathVariable String teacher_id) {
         return teacherService.getSubjects(teacher_id);
-    }
-    @RequestMapping("/attendance_record/{subjectId}")
-    public List<Student> generateAttendance(@PathVariable String subjectId) {
-        return teacherService.getAttendanceRecords(subjectId);
-//        return null;
     }
 }

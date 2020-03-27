@@ -34,7 +34,7 @@ public class TeacherService {
     }
 
 //    @Transactional
-    public List<Student> getAttendanceRecords(String subjectID){
+    public void getAttendanceRecords(String subjectID){
         List<Map<String, String>> studentList = teacherRepository.getAttendanceRecords(subjectID);
         List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
         AttendanceRecord attendanceRecord = new AttendanceRecord();
@@ -47,6 +47,5 @@ public class TeacherService {
             attendanceRecord.setPresence(false);
             attendanceRepository.save(attendanceRecord);
         }
-        return null;
     }
 }

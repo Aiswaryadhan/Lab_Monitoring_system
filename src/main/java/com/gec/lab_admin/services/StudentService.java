@@ -7,6 +7,7 @@ import com.gec.lab_admin.db.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,18 @@ public class StudentService {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+
+
+
+
+
+
+
+
+
+
+    
 
     public Optional<Student> login(String studentId) {
         return studentRepository.findById(studentId);
