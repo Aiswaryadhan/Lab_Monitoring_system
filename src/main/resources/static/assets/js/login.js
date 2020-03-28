@@ -64,6 +64,7 @@ $(document).ready(function(){
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
+                var selsub=$("#sub").val();
                 var logCred = {
                             'id': user,
                             'password': pwd
@@ -71,14 +72,15 @@ $(document).ready(function(){
                          var aJson = JSON.stringify(logCred);
                 $.ajax({
                             type : "POST",
-                            url : 'http://localhost:8080/login',
+                            url : 'http://localhost:8080/login/'+selsub,
                             headers : {
                                 "Content-Type" : "application/json"
                             },
                              data:aJson,
                             success : function(data) {
                                 var msg = "";
-                                alert(data);
+                                //alert("Hello");
+                                //alert(data);
                                 if(data == "success"){
                                                            window.location.replace("http://localhost:8080/teacherDashboard");
 

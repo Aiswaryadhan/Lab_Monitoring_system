@@ -33,7 +33,7 @@ public class TeacherService {
         return teacherRepository.findById(teacherId);
     }
 
-//    @Transactional
+    //    @Transactional
     public void getAttendanceRecords(String subjectID){
         List<Map<String, String>> studentList = teacherRepository.getAttendanceRecords(subjectID);
         List<AttendanceRecord> attendanceRecordList = new ArrayList<>();

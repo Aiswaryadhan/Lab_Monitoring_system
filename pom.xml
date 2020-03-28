@@ -8,6 +8,10 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<groupId>org.springframework</groupId>
+	<artifactId>gs-messaging-jms</artifactId>
+	<version>0.1.0</version>
 	<groupId>com.gec</groupId>
 	<artifactId>lab_admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -22,6 +26,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-broker -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-broker</artifactId>
+			<version>5.15.12</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.10.3</version>
 		</dependency>
 
 

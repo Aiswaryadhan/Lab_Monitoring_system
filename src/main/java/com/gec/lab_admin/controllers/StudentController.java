@@ -26,7 +26,7 @@ public class StudentController {
         if(loggedInStudent.isPresent()){
             if(loggedInStudent.get().getPassword().equals(student.getPassword())){
                 logger.info("succes");
-                studentService.updateAttendance(student.getId(), TeacherController.LOGGED_IN_TEACHER_SUBJECT);
+                studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 return "success";
             }
             else{

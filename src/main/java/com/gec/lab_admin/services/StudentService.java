@@ -22,18 +22,6 @@ public class StudentService {
     @Autowired
     private AttendanceRepository attendanceRepository;
 
-
-
-
-
-
-
-
-
-
-
-    
-
     public Optional<Student> login(String studentId) {
         return studentRepository.findById(studentId);
     }
