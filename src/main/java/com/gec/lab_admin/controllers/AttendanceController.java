@@ -3,6 +3,8 @@ package com.gec.lab_admin.controllers;
 import com.gec.lab_admin.db.models.AttendanceRecord;
 import com.gec.lab_admin.db.models.Student;
 import com.gec.lab_admin.db.models.Teacher;
+import com.gec.lab_admin.services.ActivemqConsumerService;
+import com.gec.lab_admin.services.ActivemqProducerService;
 import com.gec.lab_admin.services.AttendanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,12 @@ import java.util.Optional;
 public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
+
+    @Autowired
+    ActivemqProducerService activemqProducerService;
+
+    @Autowired
+    ActivemqConsumerService activemqConsumerService;
 
     final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
