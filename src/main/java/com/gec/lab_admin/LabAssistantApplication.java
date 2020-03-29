@@ -1,7 +1,8 @@
 package com.gec.lab_admin;
 
 import javax.jms.ConnectionFactory;
-import ch.qos.logback.classic.pattern.MessageConverter;
+//import ch.qos.logback.classic.pattern.MessageConverter;
+import org.attoparser.dom.Text;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -33,7 +34,7 @@ public class LabAssistantApplication {
 	@Bean // Serialize message content to json using TextMessage
 	public MessageConverter jacksonJmsMessageConverter() {
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		converter.setTargetType(TrayIcon.MessageType.TEXT);
+//		converter.setTargetType(TrayIcon.MessageType.);
 		converter.setTypeIdPropertyName("_type");
 		return converter;
 	}
@@ -44,7 +45,7 @@ public class LabAssistantApplication {
 
 		// Send a message with a POJO - the template reuse the message converter
 		System.out.println("Sending an email message.");
-		jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
+		jmsTemplate.convertAndSend("mailbox", new Email("info@gmail.com", "Hello"));
 //		SpringApplication.run(LabAssistantApplication.class, args);
 	}
 
