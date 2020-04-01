@@ -53,7 +53,7 @@ public class EventSimulator {
 
     public void updateData(Object object) throws InterruptedException {
 
-        Thread.sleep(10000);
+        Thread.sleep(5000);
 
         ArrayList Objects = (ArrayList) object;
         for (int i=0; i<Objects.size(); i++) {

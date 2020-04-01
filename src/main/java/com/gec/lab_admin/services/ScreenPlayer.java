@@ -15,7 +15,7 @@ public class ScreenPlayer extends JFrame {
 
     private Image img;
 
-    private Rectangle screenRect = new Rectangle(0, 0, 0, 0);
+    public Rectangle screenRect = new Rectangle(0, 0, 0, 0);
     private Rectangle oldScreenRect = new Rectangle(-1, -1, -1, -1);
 
     private KeyAdapter keyAdapter;
@@ -69,8 +69,10 @@ public class ScreenPlayer extends JFrame {
             }
         };
 
+        setSize(600, 400);
         setFocusable(true);
         setVisible(true);
+        addAdapters();
     }
 
         public void addAdapters() {
@@ -112,6 +114,17 @@ public class ScreenPlayer extends JFrame {
         }
 
         img = ImageUtility.read(data);
+        repaint();
+    }
+
+    public void UpdateScreen(Image data) {
+        if (!screenRect.equals(oldScreenRect)) {
+            oldScreenRect = screenRect;
+            setSize(screenRect.getSize());
+            setPreferredSize(screenRect.getSize());
+        }
+
+        img = data;
         repaint();
     }
 
