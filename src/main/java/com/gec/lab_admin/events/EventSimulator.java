@@ -20,14 +20,14 @@ import com.gec.lab_admin.utilities.ImageUtility;
  * @author benbac
  */
 
-public class robot {
+public class EventSimulator {
 
     private Robot rt;
 
     private Toolkit tk = null;
     private Rectangle screenRect;
 
-    public robot() {
+    public EventSimulator() {
         tk = Toolkit.getDefaultToolkit();
         screenRect = new Rectangle(tk.getScreenSize());
         try {
@@ -51,7 +51,10 @@ public class robot {
         return screenRect;
     }
 
-    public void updateData(Object object) {
+    public void updateData(Object object) throws InterruptedException {
+
+        Thread.sleep(10000);
+
         ArrayList Objects = (ArrayList) object;
         for (int i=0; i<Objects.size(); i++) {
             Object obj = Objects.get(i);

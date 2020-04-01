@@ -6,6 +6,7 @@ import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.ActivemqConsumerService;
 import com.gec.lab_admin.services.ActivemqProducerService;
 import com.gec.lab_admin.services.AttendanceService;
+import com.gec.lab_admin.services.ScreenPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
