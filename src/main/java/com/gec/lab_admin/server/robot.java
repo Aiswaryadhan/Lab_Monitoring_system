@@ -1,5 +1,4 @@
-package com.gec.lab_admin.events;
-
+package com.gec.lab_admin.server;
 
 import java.awt.AWTException;
 import java.awt.Graphics2D;
@@ -14,11 +13,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.gec.lab_admin.utilities.ImageUtility;
-
-/**
- * robot.java
- * @author benbac
- */
 
 public class robot {
 

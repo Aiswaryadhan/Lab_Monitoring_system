@@ -1,5 +1,6 @@
 package com.gec.lab_admin;
 
+import com.gec.lab_admin.server.rmi.ServerImpl;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +15,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import java.awt.*;
+import com.gec.lab_admin.server.rmi.Server;
+import com.gec.lab_admin.viewer.rmi.Viewer;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 @SpringBootApplication
 @EnableJms
@@ -24,58 +30,20 @@ public class LabAssistantApplication {
 
 	@Value("${spring.activemq.broker-url}")
 	private String activeMQUrl;
+	private static ServerImpl serverImpl;
+	private static Registry registry;
 
-	public static void click(int x, int y) throws AWTException{
-		Robot bot = new Robot();
-		bot.mouseMove(x, y);
-		bot.mousePress(InputEvent.BUTTON1_MASK);
-		bot.mouseRelease(InputEvent.BUTTON1_MASK);
-	}
-
-	public static void main(String[] args)throws AWTException {
+	public static void main(String[] args) throws AWTException, RemoteException {
 		Robot robot = new Robot();
-		robot.keyPress(KeyEvent.VK_SHIFT);
-		robot.keyPress(KeyEvent.VK_CONTROL);
-		robot.keyPress(KeyEvent.VK_WINDOWS);
-		robot.keyPress(KeyEvent.VK_D);
-		robot.keyRelease(KeyEvent.VK_SHIFT);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
-		robot.keyRelease(KeyEvent.VK_WINDOWS);
-		robot.keyRelease(KeyEvent.VK_D);
-		robot.delay(500);
-		click(50,300);
-		robot.delay(500);
-		click(310,110);
-		robot.delay(500);
-		robot.keyPress(KeyEvent.VK_J);
-		robot.keyRelease(KeyEvent.VK_J);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_A);
-		robot.keyRelease(KeyEvent.VK_A);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_V);
-		robot.keyRelease(KeyEvent.VK_V);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_A);
-		robot.keyRelease(KeyEvent.VK_A);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_R);
-		robot.keyRelease(KeyEvent.VK_R);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_O);
-		robot.keyRelease(KeyEvent.VK_O);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_B);
-		robot.keyRelease(KeyEvent.VK_B);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_O);
-		robot.keyRelease(KeyEvent.VK_O);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_T);
-		robot.keyRelease(KeyEvent.VK_T);
-		robot.delay(100);
-		robot.keyPress(KeyEvent.VK_ENTER);
-		robot.keyRelease(KeyEvent.VK_ENTER);
+		new Viewer().start();
+		try {
+			ServerImpl serverImpl = new ServerImpl();
+			registry = LocateRegistry.createRegistry(8080);
+			registry.rebind("ServerImpl", serverImpl);
+		}
+		catch (Exception e) {
+			e.getStackTrace();
+		}
 		SpringApplication.run(LabAssistantApplication.class, args);
 //		click(500,600);
 	}
