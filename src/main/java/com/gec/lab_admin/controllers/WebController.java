@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class WebController {
 
     @RequestMapping("/")
-    @ResponseBody
+//    @ResponseBody
     public String index() {
-        return "Welcome";
+        return "chat";
     }
 
     @RequestMapping("/hello")
