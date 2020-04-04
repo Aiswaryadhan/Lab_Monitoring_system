@@ -26,10 +26,40 @@ public class WebController {
         return "login_page";
     }
 
+    @RequestMapping("/home")
+    //@ResponseBody
+    public String home() {
+        return "admin_dashboard";
+    }
+
     @RequestMapping("/teacherDashboard")
     //@ResponseBody
     public String teacherDashboard() {
         return "teacher_dashboard";
+    }
+
+    @RequestMapping("/semesters")
+    //@ResponseBody
+    public String semesterInsertion() {
+        return "insert_semester";
+    }
+
+    @RequestMapping("/subjects")
+    //@ResponseBody
+    public String subjectInsertion() {
+        return "insert_subject";
+    }
+
+    @RequestMapping("/students")
+    //@ResponseBody
+    public String studentInsertion() {
+        return "insert_student";
+    }
+
+    @RequestMapping("/teachers")
+    //@ResponseBody
+    public String teacherInsertion() {
+        return "insert_teacher";
     }
 
 }

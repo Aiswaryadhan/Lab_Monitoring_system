@@ -24,7 +24,7 @@ $(document).ready(function(){
                                                                   success: function (data) {
 
                                                                   $('#sub').empty();
-                                                                  $('#sub').append("<option value=\"select\" id=\"user\">select</option>");
+                                                                  $('#sub').append("<option value=\"select\" id=\"user\">Select subject</option>");
                                                                   $( "#selectsub" ).prop( "disabled", true );
 //                                                                  var id = data[i]['id'];
 //                                                                  var name = data[i]['subject'];
@@ -82,7 +82,7 @@ $(document).ready(function(){
                                 //alert("Hello");
                                 //alert(data);
                                 if(data == "success"){
-                                                           window.location.replace("http://localhost:8080/teacherDashboard");
+                                                           window.location.replace("http://localhost:8080/admin_dashboard");
 
                                 }
                                 else{
