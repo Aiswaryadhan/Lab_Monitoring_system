@@ -9,6 +9,15 @@ public class ChatMessage {
     private MessageType messageType;
     private String content;
     private String sender;
+    private String receiver;
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 
     public MessageType getType() {
         return messageType;

@@ -18,24 +18,22 @@ public class TeacherController {
 
     final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
-    public static String LOGGED_IN_TEACHER_SUBJECT="";
+    public static String LOGGED_IN_TEACHER_SUBJECT = "";
 
-    @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
-    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId){
+    @RequestMapping(method = RequestMethod.POST, value = "/login/{subjectId}")
+    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId) {
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
-        if(loggedInTeacher.isPresent()){
-            if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
+        if (loggedInTeacher.isPresent()) {
+            if (loggedInTeacher.get().getPassword().equals(teacher.getPassword())) {
                 LOGGED_IN_TEACHER_SUBJECT = subjectId;
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("succes");
                 return "success";
-            }
-            else{
+            } else {
                 logger.debug("wrong password");
                 return "wrong password";
             }
-        }
-        else{
+        } else {
             logger.error("wrong user name");
             return "wrong user name";
         }

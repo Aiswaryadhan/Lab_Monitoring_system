@@ -1,3 +1,4 @@
+
 'use strict';
 
 var usernamePage = document.querySelector('#username-page');
@@ -6,6 +7,7 @@ var chatList = document.querySelector('#list-container');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
+var receiver = document.querySelector('#receiver');
 var messageArea = document.querySelector('#messageArea');
 var listArea = document.querySelector('#listArea');
 var connectingElement = document.querySelector('.connecting');
@@ -36,7 +38,7 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/queue/public', onMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/chat.register",
@@ -61,6 +63,7 @@ function send(event) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
+            receiver:receiver.value,
             type: 'CHAT'
         };
 
@@ -73,39 +76,40 @@ function send(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+    if((message.receiver===username && message.sender===receiver.value)||(message.sender===username && message.receiver===receiver.value)){
+        var messageElement = document.createElement('li');
 
-    var messageElement = document.createElement('li');
+        if(message.type === 'JOIN') {
+            messageElement.classList.add('event-message');
+            message.content = message.sender + ' joined!';
+            listArea.content =  message.sender;
+        } else if (message.type === 'LEAVE') {
+            messageElement.classList.add('event-message');
+            message.content = message.sender + ' left!';
+        } else {
+            messageElement.classList.add('chat-message');
 
-    if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-        listArea.content =  message.sender;
-    } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
-    } else {
-        messageElement.classList.add('chat-message');
+            var avatarElement = document.createElement('i');
+            var avatarText = document.createTextNode(message.sender[0]);
+            avatarElement.appendChild(avatarText);
+            avatarElement.style['background-color'] = getAvatarColor(message.sender);
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+            messageElement.appendChild(avatarElement);
 
-        messageElement.appendChild(avatarElement);
+            var usernameElement = document.createElement('span');
+            var usernameText = document.createTextNode(message.sender);
+            usernameElement.appendChild(usernameText);
+            messageElement.appendChild(usernameElement);
+        }
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        var textElement = document.createElement('p');
+        var messageText = document.createTextNode(message.content);
+        textElement.appendChild(messageText);
+
+        messageElement.appendChild(textElement);
+        messageArea.appendChild(messageElement);
+        messageArea.scrollTop = messageArea.scrollHeight;
     }
-
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
-
-    messageElement.appendChild(textElement);
-    messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
 }
 
 
