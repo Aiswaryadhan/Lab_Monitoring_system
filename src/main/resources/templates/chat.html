@@ -1,72 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Spring Boot WebSocket Chat Application | CalliCoder</title>
-    <link rel="stylesheet" href="assets/css/chat.css" />
+    <title>Hello WebSocket</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--    <link href="/main.css" rel="stylesheet"type="text/css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/assets/js/chat.js"></script>
 </head>
-<body background="assets/chatBackground.jpg"
-      style="background-position: center; background-repeat: no-repeat; background-size: cover;">
-<noscript>
-    <h2>Sorry! Your browser doesn't support Javascript</h2>
-</noscript>
-
-<div id="username-page">
-    <div class="username-page-container">
-        <h1 class="title">Type your username</h1>
-        <form id="usernameForm" name="usernameForm">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Username"
-                       autocomplete="off" class="form-control" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="accent username-submit">Start
-                    Chatting</button>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="contents">
-    <div class="div-col">
-        <div id="chat-page" class="hidden">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2>Chat Box</h2>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">WebSocket connection:</label>
+                    <input id="login" type="text" />
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
                 </div>
-                <div class="connecting">Connecting...</div>
-                <ul id="messageArea">
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="nam">Receiver name ?</label>
+                    <input type="text" id="nam" class="form-control" placeholder="Your name here...">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="msg" class="form-control" placeholder="Your Message here...">
+                    <button id="send" class="btn btn-default" type="submit">Send</button>
+                </div>
 
-                </ul>
-                <form id="messageForm" name="messageForm" nameForm="messageForm">
-                    <div class="form-group">
-                        <div class="input-group clearfix">
-                            <input type="text" id="message" placeholder="Type a message..."
-                           autocomplete="off" class="form-control" />
-                            <button type="submit" class="primary">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-    <div class="div-col2">
-        <div id="list-container" class="hidden">
-            <div class="chat-header">
-                <h2>Online</h2>
-            </div>
-            <div class="connecting">Connecting...</div>
-            <ul id="listArea">
+    <div class="row">
 
-            </ul>
-
+        <div class="col-md-6">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Conversation</th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>
+            </table>
         </div>
     </div>
+    </form>
 </div>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="assets/js/chat.js"></script>
 </body>
 </html>
