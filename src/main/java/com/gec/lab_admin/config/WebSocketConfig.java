@@ -21,49 +21,17 @@ import org.springframework.web.socket.config.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by VIRONOE on 05/04/2017.
- */
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
-	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/topic", "/queue" ,"/user");
-		config.setApplicationDestinationPrefixes("/app");
-		config.setUserDestinationPrefix("/user");
-	}
-
-	public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-		stompEndpointRegistry.addEndpoint("/gs-guide-websocket")
-				.withSockJS();
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/javatechie").withSockJS();
 	}
 
 	@Override
-	public void configureClientInboundChannel(ChannelRegistration registration) {
-		registration.setInterceptors(new ChannelInterceptorAdapter() {
-
-			@Override
-			public Message<?> preSend(Message<?> message, MessageChannel channel) {
-
-				StompHeaderAccessor accessor =
-						MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-
-				if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-					String user = accessor.getFirstNativeHeader("user");
-					if (!StringUtils.isEmpty(user)) {
-						List<GrantedAuthority> authorities = new ArrayList<>();
-						authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-						Authentication auth = new UsernamePasswordAuthenticationToken(user, user, authorities);
-						SecurityContextHolder.getContext().setAuthentication(auth);
-						accessor.setUser(auth);
-					}
-				}
-
-				return message;
-			}
-		});
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.enableSimpleBroker("/queue");
+		registry.setApplicationDestinationPrefixes("/app");
 	}
-
 }
