@@ -82,7 +82,9 @@ footer {
   position: relative;
   float: right;
   background-color: #f5f5fa; }
-
+#content{
+padding-top:30px;
+}
 #wrapper #sidebar-nav,
 #wrapper .main {
   padding-top: 80px; }

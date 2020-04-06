@@ -62,4 +62,10 @@ public class WebController {
         return "insert_teacher";
     }
 
+    @RequestMapping("/monitor")
+    //@ResponseBody
+    public String studentMonitor() {
+        return "student_monitoring";
+    }
+
 }
