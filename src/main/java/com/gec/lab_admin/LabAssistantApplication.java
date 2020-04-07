@@ -21,6 +21,7 @@ import java.awt.*;
 @SpringBootApplication
 @EnableJms
 public class LabAssistantApplication {
+
 	@Bean
 	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
 													DefaultJmsListenerContainerFactoryConfigurer configurer) {

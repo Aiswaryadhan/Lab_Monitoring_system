@@ -5,7 +5,6 @@ import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
@@ -47,5 +46,12 @@ public class TeacherService {
             attendanceRecord.setPresence(false);
             attendanceRepository.save(attendanceRecord);
         }
+    }
+
+    public String getTeacherName(String teacherId) {
+        return teacherRepository.getTeacherName(teacherId);
+    }
+
+    public List<String> getStudentName(String subjectId) { return teacherRepository.getStudentName(subjectId);
     }
 }

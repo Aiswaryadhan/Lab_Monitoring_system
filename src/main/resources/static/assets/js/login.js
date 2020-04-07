@@ -54,6 +54,7 @@ $(document).ready(function(){
                 {
                        $('#error_pass').slideUp();
                        status = 0;
+
                 }
            });
 //           $("sub").click(function(){
@@ -65,6 +66,7 @@ $(document).ready(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
                 var selsub=$("#sub").val();
+
                 var logCred = {
                             'id': user,
                             'password': pwd
@@ -82,7 +84,9 @@ $(document).ready(function(){
                                 //alert("Hello");
                                 //alert(data);
                                 if(data == "success"){
-                                                           window.location.replace("http://localhost:8080/admin_dashboard");
+                                                            $.cookie("id", user);
+                                                            $.cookie("subject", selsub);
+                                                            window.location.replace("http://localhost:8080/home");
 
                                 }
                                 else{

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class WebController {
 
-    @RequestMapping("/")
-    @ResponseBody
-    public String index() {
-        return "Welcome";
-    }
+//    @RequestMapping("/")
+//    @ResponseBody
+//    public String index() {
+//        return "Welcome";
+//    }
 
     @RequestMapping("/hello")
     @ResponseBody
@@ -67,5 +67,6 @@ public class WebController {
     public String studentMonitor() {
         return "student_monitoring";
     }
+
 
 }

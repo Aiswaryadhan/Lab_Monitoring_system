@@ -1,6 +1,5 @@
 package com.gec.lab_admin.controllers;
 
-import com.gec.lab_admin.db.models.Student;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
@@ -45,5 +44,16 @@ public class TeacherController {
     @RequestMapping("/teacher/id/{teacher_id}")
     public List<String> generateSubject(@PathVariable String teacher_id) {
         return teacherService.getSubjects(teacher_id);
+    }
+
+    @RequestMapping("teacher/getName/{teacherId}")
+    public String findTeacher(@PathVariable String teacherId){
+        logger.info("finding teacher with id "+ teacherId);
+        return teacherService.getTeacherName(teacherId);
+    }
+    @RequestMapping("teacher/getStudName/{subjectId}")
+    public List<String> findStudent(@PathVariable String subjectId){
+        logger.info("finding student");
+        return teacherService.getStudentName(subjectId);
     }
 }

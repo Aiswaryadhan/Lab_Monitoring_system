@@ -1,39 +1,107 @@
+$(document).ready(function(){
+     if ($.cookie("id") != null && $.cookie("subject") != null) {
+                var teacherId =$.cookie("id");
+                var sub= $.cookie("subject");
+                $.ajax({
+                           type: "POST",
+                           url: 'http://localhost:8080/teacher/getName/'+teacherId,
+                           success: function (data) {
 
-'use strict';
+                                        $("#teacher_name").text(data);
+                           }
+                });
+                $.ajax({
+                                           type: "POST",
+                                           url: 'http://localhost:8080/teacher/getStudName/'+sub,
+                                           success: function (data) {
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var chatList = document.querySelector('#list-container');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var receiver = document.querySelector('#receiver');
-var messageArea = document.querySelector('#messageArea');
-var listArea = document.querySelector('#listArea');
-var connectingElement = document.querySelector('.connecting');
+                                                         var len = data.length;
+                                                         var txt = "";
+                                                         if(len > 0){
+                                                            for(var i=0;i!=len;i++){
+                                                                txt += "<tr><td>"+data[i]+"</td></tr>";
+                                                            }
+                                                            if(txt != ""){
+                                                                                $('#listStud').append(txt).removeClass("hidden");
+                                                                            }
+                                                         }
+                                           }
+                                });
 
-var stompClient = null;
-var username = null;
+     }
+     'use strict';
+    $("#msgDiv").hide();
+     var usernamePage = document.querySelector('#username-page');
+     var chatPage = document.querySelector('#chat-page');
+     var chatList = document.querySelector('#list-container');
+     var usernameForm = document.querySelector('#usernameForm');
+     var messageForm = document.querySelector('#messageForm');
+     var messageInput = document.querySelector('#message');
+     var receiver = null;
+     var messageArea = document.querySelector('#messageArea');
+     var connectingElement = document.querySelector('.connecting');
 
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
+     var stompClient = null;
+     var username = null;
 
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
+     var colors = [
+         '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+         '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+     ];
 
-    if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-        chatList.classList.remove('hidden');
-        var socket = new SockJS('/javatechie');
-        stompClient = Stomp.over(socket);
+     $('#onlineStud').on( 'click', 'tr', function () {
 
-        stompClient.connect({}, onConnected, onError);
-    }
-    event.preventDefault();
-}
+     	 				                                                   if ( $(this).hasClass('highlighted') )
+     																	     {
+     						                                                  $(this).removeClass('highlighted');
+//     																		  $('#btn_insert_publisher').attr('disabled', "disabled");
+     																		  }
+     					                                                   else
+     																	    {
+     																			$('tr.highlighted').removeClass('highlighted');
+     																			$(this).addClass('highlighted');
+     																			 var newDiv = $('<div class="listing listing_ad job"><h4><a>Some text</a></h4> </div>');
+                                                                                      //newDiv.style.background = "#000";
+                                                                                       $('body').append(newDiv);
+                                                                                    });
+
+     																		}
+     																	var tableData = $(this).children("td").map(function() {
+     																								return $(this).text();
+     																	}).get();
+
+     														receiver=tableData[0];
+     														 $("#recvr").text(receiver);
+                                                            $("#msgDiv").show();
+                                                                 username = $("#teacher_name").text();
+                                                                   // alert(username);
+                                                                    if(username) {
+                                                                        usernamePage.classList.add('hidden');
+                                                                        var socket = new SockJS('/javatechie');
+                                                                        stompClient = Stomp.over(socket);
+
+                                                                        stompClient.connect({}, onConnected, onError);
+                                                                    }
+                                                                    event.preventDefault();
+
+
+         //console.log( table.row( this ).data() );
+     									} );
+
+
+
+//$("#btn_connect").click(function() {
+//    username = $("#teacher_name").text();
+//   // alert(username);
+//    if(username) {
+//        usernamePage.classList.add('hidden');
+//        var socket = new SockJS('/javatechie');
+//        stompClient = Stomp.over(socket);
+//
+//        stompClient.connect({}, onConnected, onError);
+//    }
+//    event.preventDefault();
+//})
 
 
 function onConnected() {
@@ -46,7 +114,6 @@ function onConnected() {
         JSON.stringify({sender: username, type: 'JOIN'})
     )
 
-    connectingElement.classList.add('hidden');
 }
 
 
@@ -56,14 +123,14 @@ function onError(error) {
 }
 
 
-function send(event) {
+$("#btnSend").click(function(){
     var messageContent = messageInput.value.trim();
 
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
-            receiver:receiver.value,
+            receiver:receiver,
             type: 'CHAT'
         };
 
@@ -71,22 +138,18 @@ function send(event) {
         messageInput.value = '';
     }
     event.preventDefault();
-}
+});
 
-
+$("#btnClose").click(function(){
+   $("#msgDiv").hide();
+});
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-    if((message.receiver===username && message.sender===receiver.value)||(message.sender===username && message.receiver===receiver.value)){
+    if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
+    // alert("receved");
         var messageElement = document.createElement('li');
-
-        if(message.type === 'JOIN') {
-            messageElement.classList.add('event-message');
-            message.content = message.sender + ' joined!';
-            listArea.content =  message.sender;
-        } else if (message.type === 'LEAVE') {
-            messageElement.classList.add('event-message');
-            message.content = message.sender + ' left!';
-        } else {
+        if(message.type === 'CHAT') {
+       // alert("chat");
             messageElement.classList.add('chat-message');
 
             var avatarElement = document.createElement('i');
@@ -123,5 +186,4 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
-messageForm.addEventListener('submit', send, true)
+});

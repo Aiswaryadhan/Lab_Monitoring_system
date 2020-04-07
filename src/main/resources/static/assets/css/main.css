@@ -328,7 +328,17 @@ html.fullscreen-bg #wrapper {
   height: 10px;
   content: '';
   margin-right: 8px; }
-
+#msgDiv {
+  height: 500px;
+  width:500px;
+  border: 1px solid black;
+}
+#message{
+width:400px;
+}
+#btnSend{
+width:400px;
+}
 ul.notifications > li {
   border-bottom: 1px solid #F0F0F0; }
   ul.notifications > li:last-child {

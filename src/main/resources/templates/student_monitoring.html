@@ -13,16 +13,18 @@
     <link rel="stylesheet" href="assets/vendor/chartist/css/chartist-custom.css">
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/chat.css">
     <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
     <link rel="stylesheet" href="assets/css/demo.css">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<!--    <script src="/webjars/jquery/jquery.min.js"></script>-->
 </head>
 
 <body>
@@ -62,7 +64,7 @@
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span id="teacher_name"></span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                             <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
@@ -109,74 +111,82 @@
     <div class="main">
         <!-- MAIN CONTENT -->
         <div id="content">
-        <div id="main-content" class="container">
+        <div id="main-content">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="panel">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="connect">WebSocket connection:</label>
-                            <input id="login" type="text" />
-                            <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                            <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                            </button>
+                <div class="col-md-0">
+                    <div class="hidden">
+                        <div id="username-page">
+                                <form id="usernameForm" name="usernameForm">
+                                    <div class="hidden" >
+                                        <input type="text" id="name" placeholder="Sender"
+                                               autocomplete="off" class="form-control" />
+
+                                    </div>
+                                    <div class="hidden">
+                                        <input type="text" id="receiver" placeholder="Receiver"
+                                               autocomplete="off" class="form-control" />
+
+                                    </div>
+                                    <div class="hidden" >
+                                        <input type="button" value="Start Chatting" id="btn_connect"/>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                <div class="col-md-6">
+                    <!--                        <h3 class="panel-title"><p id="recvr"></p></h3>-->
+                    <div class="contents">
+
+                        <div id="msgDiv" >
+                            <!--                                <div class="chat-container">-->
+                            <input type="button" id="btnClose" value="Close" class="primary"/>
+                            <ul id="messageArea">
+
+                            </ul>
+                            <form id="messageForm" name="messageForm" nameForm="messageForm">
+                                <div class="form-group">
+                                    <div class="input-group ">
+                                                <textarea id="message" placeholder="Type a message..."
+                                                          autocomplete="off" class="form-control" ></textarea>
+                                        <input type="button" id="btnSend" value="Send" class="primary"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--                                </div>-->
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-<!--                    <div class="hidden">-->
-                        <div class="panel">
-                        <form class="form-inline" >
-                            <div class="form-group">
-                                <label for="name">Receiver name ?</label>
-                                <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                            </div>
-                            <button id="send" class="btn btn-default" type="submit">Send</button>
-                        </form>
-<!--                        </div>-->
-                    </div>
+                <div class="col-md-3">
                 </div>
                 <div class="col-md-3">
                     <div class="panel">
                         <div class="form-group">
-<!--                            <label for="name">Online</label>-->
+                            <!--                            <label for="name">Online</label>-->
                             <center>
-                            <table id="list" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th> <center>Online </center></th>
-                                </tr>
-                                </thead>
-                                <tbody id="listArea">
-                                <tr><td><center>Aiswarya</center></td></tr>
-                                <tr><td><center>Athira</center> </td></tr>
-                                <tr><td><center> Akhila</center> </td></tr>
-                                <tr><td><center>Sarang</center> </td></tr>
-                                <tr><td><center>Gpika</center> </td></tr>
-                                </tbody>
-                            </table>
+                                <table id="listStud" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> <center>Online </center></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="onlineStud">
+
+                                    </tbody>
+                                </table>
                             </center>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="panel">
-                <div class="col-md-8">
-                    <table id="conversation" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Messages</th>
-                        </tr>
-                        </thead>
-                        <tbody id="greetings">
-                        </tbody>
-                    </table>
                 </div>
-                </div>
+
+                <!-- END PANEL WITH FOOTER -->
             </div>
-            </form>
+                </div>
+
+            </div>
+
+
         </div>
         </div>
     </div>
@@ -192,12 +202,14 @@
 </div>
 <!-- END WRAPPER -->
 <!-- Javascript -->
-<script src="assets/vendor/jquery/jquery.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="assets/vendor/jquery/jquery.min.js"></script>-->
+
 <script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="assets/js/chat.js"></script>
 </body>
 
