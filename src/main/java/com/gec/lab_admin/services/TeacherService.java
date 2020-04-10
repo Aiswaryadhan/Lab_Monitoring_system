@@ -64,7 +64,7 @@ public class TeacherService {
 
     public List<Semester> getAllSemester() {
         List<Semester> standards=new ArrayList<>();
-        semesterRepository.findAll();
+        semesterRepository.findAll().forEach(standards::add);;
         return standards;
     }
 }
