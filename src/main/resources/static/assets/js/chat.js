@@ -1,4 +1,7 @@
 $(document).ready(function(){
+     var len;
+    var studId;
+var receiver;
      if ($.cookie("id") != null && $.cookie("subject") != null) {
                 var teacherId =$.cookie("id");
                 var sub= $.cookie("subject");
@@ -8,38 +11,106 @@ $(document).ready(function(){
                            success: function (data) {
 
                                         $("#teacher_name").text(data);
+                                        $("#receiverName").text(data);
                            }
                 });
                 $.ajax({
-                                           type: "POST",
-                                           url: 'http://localhost:8080/teacher/getStudName/'+sub,
-                                           success: function (data) {
+                           type: "POST",
+                           url: 'http://localhost:8080/teacher/getStudName',
+                           success: function (data) {
+                                            len = data.length;
+                                            var txt = "";
+                                            if(len > 0){
+                                                     for(var i=0;i!=len;i++){
+                                                      var arr=data[i].split(",");
+                                                      studId=arr[0];
+                                                      txt += "<tr><td>"+arr[0]+"</td><td>"+arr[1]+"</td></tr>";
+//                                                      alert(studId);
+                                                           var $containerDiv = $("<div></div>");
+                                                           $containerDiv.attr("id",studId);
+                                                           $(".contents").append($containerDiv);
+                                                           $("#"+studId).hide();
 
-                                                         var len = data.length;
-                                                         var txt = "";
-                                                         if(len > 0){
-                                                            for(var i=0;i!=len;i++){
-                                                                txt += "<tr><td>"+data[i]+"</td></tr>";
-                                                            }
-                                                            if(txt != ""){
-                                                                                $('#listStud').append(txt).removeClass("hidden");
-                                                                            }
-                                                         }
-                                           }
-                                });
+                                                           var $newDiv = $("<div></div>");
+                                                           $newDiv.attr("id","msgDiv"+studId);
 
-     }
+                                                           $newDiv.attr("style","height: 500px;width:500px;border: 1px solid black");
+                                                           $("#"+studId).append($newDiv);
+                                                           $("#msgDiv"+studId).hide();
+
+                                                           var $newBtn = $("<input />");
+                                                           $newBtn.attr("type","button");
+                                                           $newBtn.attr("id","btnClose"+studId);
+                                                           $newBtn.attr("value","close");
+                                                           $newBtn.click(close);
+                                                           $("#msgDiv"+studId).append($newBtn);
+//                                                           $("#btnClose"+studId).hide();
+
+                                                           var $newList = $("<ul></ul>");
+                                                           $newList.attr("id","messageArea"+studId);
+                                                           $("#msgDiv"+studId).append($newList);
+                                                           $newList.attr("style","list-style-type: none;background-color: #FFF;margin: 0;overflow: auto;overflow-y: scroll;padding: 0 20px 0px 20px;height: calc(100% - 150px)");
+//                                                           $("#messageArea"+studId).hide();
+
+
+                                                           var $newForm = $("<form></form>");
+                                                           $newForm.attr("id","messageForm"+studId);
+                                                           $newForm.attr("name","messageForm");
+                                                           $newForm.attr("nameForm","messageForm");
+                                                           $("#msgDiv"+studId).append($newForm);
+                                                           //$newDiv.attr("style"," padding: 20px;");
+//                                                           $("#messageForm"+studId).hide();
+
+                                                           var $newDiv1 = $("<div></div>");
+                                                           $newDiv1.attr("class","form-group");
+                                                           $newDiv1.attr("id","newDiv1"+studId);
+                                                           $("#msgDiv"+studId).append($newDiv1);
+//                                                           $("#newDiv1"+studId).hide();
+
+                                                           var $newDiv2 = $("<div></div>");
+                                                           $newDiv2.attr("class","input-group");
+                                                           $newDiv2.attr("id","newDiv2"+studId);
+                                                           $("#msgDiv"+studId).append($newDiv2);
+//                                                           $("#newDiv2"+studId).hide();
+
+                                                           var $text = $("<textarea></textarea>");
+                                                           $text.attr("id","message"+studId);
+                                                           $text.attr("placeholder","type message...");
+                                                           $text.attr("class","form-control");
+                                                           $("#msgDiv"+studId).append($text);
+//                                                           $("#message"+studId).hide();
+
+                                                           var $newBtn2 = $("<input />");
+                                                           $newBtn2.attr("type","button");
+                                                           $newBtn2.attr("id","btnSend"+studId);
+                                                           $newBtn2.attr("value","Send");
+                                                           $newBtn2.attr("class","primary");
+//                                                            $newBtn2.attr("onclick","Send()");
+                                                           $newBtn2.click(send);
+                                                           $("#msgDiv"+studId).append($newBtn2);
+                                                           $("#btnSend"+studId).attr('disabled',true);
+
+
+
+                                                     }
+                                                     if(txt != ""){
+                                                            $('#listStud').append(txt).removeClass("hidden");
+                                                     }
+                                            }
+                           }
+                });
+    }
+
      'use strict';
-    $("#msgDiv").hide();
      var usernamePage = document.querySelector('#username-page');
      var chatPage = document.querySelector('#chat-page');
      var chatList = document.querySelector('#list-container');
      var usernameForm = document.querySelector('#usernameForm');
      var messageForm = document.querySelector('#messageForm');
-     var messageInput = document.querySelector('#message');
+//     var messageInput = $('#message').val();
      var receiver = null;
-     var messageArea = document.querySelector('#messageArea');
-     var connectingElement = document.querySelector('.connecting');
+     //var messageArea = document.querySelector('#messageArea');
+//     var connectingElement = document.querySelector('.connecting');
 
      var stompClient = null;
      var username = null;
@@ -49,59 +120,46 @@ $(document).ready(function(){
          '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
      ];
 
-     $('#onlineStud').on( 'click', 'tr', function () {
-
-     	 				                                                   if ( $(this).hasClass('highlighted') )
-     																	     {
-     						                                                  $(this).removeClass('highlighted');
-//     																		  $('#btn_insert_publisher').attr('disabled', "disabled");
-     																		  }
-     					                                                   else
-     																	    {
-     																			$('tr.highlighted').removeClass('highlighted');
-     																			$(this).addClass('highlighted');
-     																			 var newDiv = $('<div class="listing listing_ad job"><h4><a>Some text</a></h4> </div>');
-                                                                                      //newDiv.style.background = "#000";
-                                                                                       $('body').append(newDiv);
-                                                                                    });
-
-     																		}
-     																	var tableData = $(this).children("td").map(function() {
-     																								return $(this).text();
-     																	}).get();
-
-     														receiver=tableData[0];
-     														 $("#recvr").text(receiver);
-                                                            $("#msgDiv").show();
-                                                                 username = $("#teacher_name").text();
-                                                                   // alert(username);
-                                                                    if(username) {
-                                                                        usernamePage.classList.add('hidden');
-                                                                        var socket = new SockJS('/javatechie');
-                                                                        stompClient = Stomp.over(socket);
-
-                                                                        stompClient.connect({}, onConnected, onError);
-                                                                    }
-                                                                    event.preventDefault();
 
 
-         //console.log( table.row( this ).data() );
-     									} );
+$('#onlineStud').on( 'click', 'tr', function () {
+
+                                if ( $(this).hasClass('highlighted') )
+     							{
+     						        $(this).removeClass('highlighted');
+     							}
+     					        else
+     							{
+     								$('tr.highlighted').removeClass('highlighted');
+     								$(this).addClass('highlighted');
+     							}
+     							var tableData = $(this).children("td").map(function() {
+     														                return $(this).text();
+     							}).get();
+                                receiver=tableData[1];
+                                studId=tableData[0];
+                                $("#"+studId).show();
+                                $("#msgDiv"+studId).show();
+                               $("#btnSend"+studId).attr('disabled',false);
 
 
+                                username = $("#teacher_name").text();
+                                connect();
 
-//$("#btn_connect").click(function() {
-//    username = $("#teacher_name").text();
-//   // alert(username);
-//    if(username) {
-//        usernamePage.classList.add('hidden');
-//        var socket = new SockJS('/javatechie');
-//        stompClient = Stomp.over(socket);
-//
-//        stompClient.connect({}, onConnected, onError);
-//    }
-//    event.preventDefault();
-//})
+                    });
+
+
+function connect() {
+
+    if(username) {
+                                           usernamePage.classList.add('hidden');
+                                           var socket = new SockJS('/javatechie');
+                                           stompClient = Stomp.over(socket);
+                                           stompClient.connect({}, onConnected, onError);
+                                  }
+}
+
+
 
 
 function onConnected() {
@@ -118,38 +176,47 @@ function onConnected() {
 
 
 function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+    alert("Error");
 }
 
 
-$("#btnSend").click(function(){
-    var messageContent = messageInput.value.trim();
-
+function send(){
+    var messageContent = $('#message'+studId).val();
+    alert(messageContent);
+    alert(receiver);
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
-            content: messageInput.value,
+            content: messageContent,
             receiver:receiver,
             type: 'CHAT'
         };
 
         stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-        messageInput.value = '';
+       $('#message'+studId).val('');
     }
     event.preventDefault();
-});
+}
 
-$("#btnClose").click(function(){
-   $("#msgDiv").hide();
-});
+function close(){
+ $("#"+studId).hide();
+                                $("#msgDiv"+studId).hide();
+//                                $("#btnClose"+studId).hide();
+//                                $("#messageArea"+studId).hide();
+//                                $("#messageForm"+studId).hide();
+//                                $("#newDiv1"+studId).hide();
+//                                $("#newDiv2"+studId).hide();
+//                                    $('#message'+studId).hide();
+$("#btnSend"+studId).attr('disabled',true);
+}
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+     alert("receved");
     if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
-    // alert("receved");
+
         var messageElement = document.createElement('li');
         if(message.type === 'CHAT') {
-       // alert("chat");
+       alert("chat");
             messageElement.classList.add('chat-message');
 
             var avatarElement = document.createElement('i');
@@ -170,8 +237,9 @@ function onMessageReceived(payload) {
         textElement.appendChild(messageText);
 
         messageElement.appendChild(textElement);
-        messageArea.appendChild(messageElement);
-        messageArea.scrollTop = messageArea.scrollHeight;
+        document.getElementById("messageArea"+studId).appendChild(messageElement);
+//        $("#messageArea").appendChild(messageElement);
+      document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
     }
 }
 

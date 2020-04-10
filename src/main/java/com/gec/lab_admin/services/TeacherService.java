@@ -52,6 +52,6 @@ public class TeacherService {
         return teacherRepository.getTeacherName(teacherId);
     }
 
-    public List<String> getStudentName(String subjectId) { return teacherRepository.getStudentName(subjectId);
+    public List<String> getStudentName() { return teacherRepository.getStudentName();
     }
 }

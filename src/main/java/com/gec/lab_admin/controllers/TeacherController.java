@@ -51,9 +51,9 @@ public class TeacherController {
         logger.info("finding teacher with id "+ teacherId);
         return teacherService.getTeacherName(teacherId);
     }
-    @RequestMapping("teacher/getStudName/{subjectId}")
-    public List<String> findStudent(@PathVariable String subjectId){
+    @RequestMapping("teacher/getStudName")
+    public List<String> findStudent(){
         logger.info("finding student");
-        return teacherService.getStudentName(subjectId);
+        return teacherService.getStudentName();
     }
 }

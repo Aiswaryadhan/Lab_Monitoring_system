@@ -336,6 +336,9 @@ html.fullscreen-bg #wrapper {
 #message{
 width:400px;
 }
+#error{
+    color:#ff0000;
+}
 #btnSend{
 width:400px;
 }

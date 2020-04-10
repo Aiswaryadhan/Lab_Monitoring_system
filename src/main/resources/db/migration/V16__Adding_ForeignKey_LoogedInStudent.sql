@@ -1,0 +1,1 @@
+alter table loggedInStudent ADD FOREIGN KEY(id) REFERENCES student(id);

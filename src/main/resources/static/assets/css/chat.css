@@ -12,6 +12,9 @@
     position: relative;
     height: 100%;
 }
+#chatBox{
+padding.left:30px;
+}
 
 .contents:after {
   content: "";

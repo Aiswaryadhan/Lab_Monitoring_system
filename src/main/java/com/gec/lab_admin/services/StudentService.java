@@ -37,6 +37,10 @@ public class StudentService {
         studentRepository.updateAttendance(subjectId,studentId);
     }
 
+    public void add(String id) {
+        studentRepository.insertLoggedStudent(id);
+    }
+
 //    public void update(Student sd, String studentID) {
 //        studentRepository.save(sd);
 //    }

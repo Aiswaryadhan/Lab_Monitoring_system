@@ -90,9 +90,9 @@ $(document).ready(function(){
 
                                 }
                                 else{
-                                         msg = "Invalid username and password!";
+                                        $('#error_cred').slideDown();
+                                        $('#error_cred').html('Incorrect username or password');
                                 }
-                                $("#message").html(msg);
                             }
                         });
             });//close of click

@@ -24,7 +24,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     String getTeacherName(String teacherId);
     @Query(
-            value = "select s.name from student s inner join attendance_record a on s.id=a.student_id where date=CURDATE() AND subject_id=:subjectId AND presence=1",
+            value = "select s.id,s.name from student s inner join loggedInStudent ls on s.id=ls.id",
             nativeQuery = true)
-    List<String> getStudentName(String subjectId);
+    List<String> getStudentName();
 }
