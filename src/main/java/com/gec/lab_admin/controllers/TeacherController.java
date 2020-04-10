@@ -62,5 +62,20 @@ public class TeacherController {
         logger.info("Returned semesters");
         return teacherService.getAllSemester();
     }
+    @RequestMapping("/semester/insert")
+    public void insertSem(@RequestBody Semester semester){
+        logger.info("Insert in semester table");
+        teacherService.insertSem(semester.getId(),semester.getName());
+    }
+    @RequestMapping("/semester/update/{semId}")
+    public void updateSem(@RequestBody Semester semester,@PathVariable Integer semId){
+        logger.info("Update semester table");
+        teacherService.updateSem(semester.getName(),semId);
+    }
+    @RequestMapping("/semester/delete/{semId}")
+    public void deleteSem(@PathVariable Integer semId){
+        logger.info("Deletion in semester table");
+        teacherService.deleteSem(semId);
+    }
 
 }

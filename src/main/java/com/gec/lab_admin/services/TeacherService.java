@@ -6,7 +6,9 @@ import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.SemesterRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
@@ -63,8 +65,18 @@ public class TeacherService {
 
 
     public List<Semester> getAllSemester() {
-        List<Semester> standards=new ArrayList<>();
-        semesterRepository.findAll();
-        return standards;
+        return (List<Semester>) semesterRepository.findAll();
+    }
+
+    public void insertSem(Integer id, String name) {
+        semesterRepository.insertSem(id,name);
+    }
+
+    public void updateSem(String name, Integer semId) {
+        semesterRepository.updateSem(name,semId);
+    }
+
+    public void deleteSem(Integer semId) {
+            semesterRepository.deleteSem(semId);
     }
 }

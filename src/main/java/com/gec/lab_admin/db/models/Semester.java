@@ -41,11 +41,11 @@ public class Semester {
         this.id = id;
     }
 
-    public String getSem() {
+    public String getName() {
         return name;
     }
 
-    public void setSem(String sem) {
-        this.name = sem;
+    public void setName(String name) {
+        this.name = name;
     }
 }

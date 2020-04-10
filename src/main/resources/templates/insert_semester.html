@@ -113,12 +113,13 @@
                         <h3 class="panel-title">Semester</h3>
                     </div>
                     <div class="panel-body">
-                        <input type="text" class="form-control" placeholder="Enter Semester">
+                        <div id="error_sem" class="error"></div>
+                        <input type="text" class="form-control" id="txtSem" placeholder="Enter Semester">
                         <br>
                         <p class="demo-button">
-                            <button type="button" class="btn btn-success"><i class="fa fa-check-circle"></i> Insert</button>
-                            <button type="button" class="btn btn-warning"><i class="ln lnr-pencil"></i> Update</button>
-                            <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
+                            <button type="button" class="btn btn-success" id="btnInsertSem"><i class="fa fa-check-circle"></i> Insert</button>
+                            <button type="button" class="btn btn-warning" id="btnUpdateSem"><i class="ln lnr-pencil"></i> Update</button>
+                            <button type="button" class="btn btn-danger" id="btnDeleteSem"><i class="fa fa-trash-o"></i> Delete</button>
                         </p>
                     </div>
                 </div>

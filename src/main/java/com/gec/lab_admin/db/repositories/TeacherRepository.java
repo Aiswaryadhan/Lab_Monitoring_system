@@ -27,4 +27,9 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "select s.id,s.name from student s inner join loggedInStudent ls on s.id=ls.id",
             nativeQuery = true)
     List<String> getStudentName();
+
+//    @Query(
+//            value = "insert into semester values(:id,:name)",
+//            nativeQuery = true)
+//    void insertSem(sem);
 }
