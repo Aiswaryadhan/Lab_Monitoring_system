@@ -7,9 +7,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 public class SemesterController {
-    SemesterService semesterService;
-    @RequestMapping("/insertSem")
-    public List<String> generateSemester() {
-        return semesterService.getSemester();
-    }
+
 }

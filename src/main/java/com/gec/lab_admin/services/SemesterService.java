@@ -15,8 +15,5 @@ public class SemesterService {
     @Autowired
     private SemesterRepository semesterRepository;
 
-    public List<String> getSemester() {
-        List<Semester> semesterList=new ArrayList<>();
-        return semesterRepository.getSemester();
-    }
+
 }

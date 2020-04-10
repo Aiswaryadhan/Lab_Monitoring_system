@@ -1,5 +1,6 @@
 package com.gec.lab_admin.controllers;
 
+import com.gec.lab_admin.db.models.Semester;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
@@ -56,4 +57,10 @@ public class TeacherController {
         logger.info("finding student");
         return teacherService.getStudentName();
     }
+    @RequestMapping("/semester/getAll")
+    public List<Semester> getAllSemester(){
+        logger.info("Returned semesters");
+        return teacherService.getAllSemester();
+    }
+
 }

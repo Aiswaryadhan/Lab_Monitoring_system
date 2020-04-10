@@ -1,13 +1,16 @@
 package com.gec.lab_admin.services;
 
+import antlr.ASTNULLType;
 import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
+import com.gec.lab_admin.db.repositories.SemesterRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Service
 public class TeacherService {
@@ -16,6 +19,9 @@ public class TeacherService {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private SemesterRepository semesterRepository;
 
 //    @PostConstruct
 //    public void testing(){
@@ -53,5 +59,12 @@ public class TeacherService {
     }
 
     public List<String> getStudentName() { return teacherRepository.getStudentName();
+    }
+
+
+    public List<Semester> getAllSemester() {
+        List<Semester> standards=new ArrayList<>();
+        semesterRepository.findAll();
+        return standards;
     }
 }
