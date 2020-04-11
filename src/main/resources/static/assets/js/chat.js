@@ -26,18 +26,19 @@ $(document).ready(function(){
                                                      for(var i=0;i!=len;i++){
                                                                 var arr=data[i].split(",");
                                                                 studId=arr[0];
+                                                                var name=arr[1];
                                                                 txt += "<tr><td>"+arr[0]+"</td><td>"+arr[1]+"</td></tr>";
                                                                 var $containerDiv = $("<div></div>");
                                                                 $containerDiv.attr("id",studId);
                                                                 $(".contents").append($containerDiv);
-                                                                $("#"+studId).hide();
+                                                                $("#"+studId).attr("class","hidden");
 
                                                                 var $newDiv = $("<div></div>");
                                                                 $newDiv.attr("id","msgDiv"+studId);
 
                                                                 $newDiv.attr("style","height: 500px;width:500px;border: 1px solid black");
                                                                 $("#"+studId).append($newDiv);
-                                                                $("#msgDiv"+studId).hide();
+//                                                                $("#msgDiv"+studId).hide();
 
                                                                 var $newBtn = $("<input />");
                                                                 $newBtn.attr("type","button");
@@ -45,6 +46,12 @@ $(document).ready(function(){
                                                                 $newBtn.attr("value","close");
                                                                 $newBtn.click(close);
                                                                 $("#msgDiv"+studId).append($newBtn);
+
+                                                                var $newSpan = $("<input />");
+                                                                $newSpan.attr("id","span"+studId);
+                                                                $newSpan.attr("value",name);
+                                                                $newSpan.attr("style","background-color:#00bfff");
+                                                                $("#msgDiv"+studId).append($newSpan);
 
                                                                 var $newList = $("<ul></ul>");
                                                                 $newList.attr("id","messageArea"+studId);
@@ -94,11 +101,11 @@ $(document).ready(function(){
     }
 
      'use strict';
-     var usernamePage = document.querySelector('#username-page');
-     var chatPage = document.querySelector('#chat-page');
-     var chatList = document.querySelector('#list-container');
-     var usernameForm = document.querySelector('#usernameForm');
-     var messageForm = document.querySelector('#messageForm');
+//     var usernamePage = document.querySelector('#username-page');
+//     var chatPage = document.querySelector('#chat-page');
+//     var chatList = document.querySelector('#list-container');
+//     var usernameForm = document.querySelector('#usernameForm');
+//     var messageForm = document.querySelector('#messageForm');
      var receiver = null;
      var stompClient = null;
      var username = null;
@@ -123,18 +130,26 @@ $(document).ready(function(){
      							var tableData = $(this).children("td").map(function() {
      														                return $(this).text();
      							}).get();
-                                receiver=tableData[1];
+     							receiver=tableData[1];
                                 studId=tableData[0];
                                 $("#"+studId).show();
                                 $("#msgDiv"+studId).show();
                                 $("#btnSend"+studId).attr('disabled',false);
+     							 if ( $('#'+studId).hasClass('hidden') ){
+                                     			 $('#'+studId).removeClass('hidden');
+                                 }
+                                 else{
+//                                     		$('#'+studId+'.hidden').removeClass('hidden');
+                                     		$('#'+studId).addClass('hidden');
+                                 }
+
 
 
     });
 
     function connect() {
                 if(username) {
-                                   usernamePage.classList.add('hidden');
+//                                   usernamePage.classList.add('hidden');
                                    var socket = new SockJS('/javatechie');
                                    stompClient = Stomp.over(socket);
                                    stompClient.connect({}, onConnected, onError);
@@ -172,7 +187,15 @@ $(document).ready(function(){
     function close(){
                     $("#"+studId).hide();
                     $("#msgDiv"+studId).hide();
-                    $("#btnSend"+studId).attr('disabled',true);
+//                    $("#btnSend"+studId).attr('disabled',true);
+                     if ( $(this).hasClass('highlighted') ){
+                         	$(this).removeClass('highlighted');
+                     }
+                     else{
+                         	$('tr.highlighted').removeClass('highlighted');
+                         	$(this).addClass('highlighted');
+                     }
+
     }
     function onMessageReceived(payload) {
                     var message = JSON.parse(payload.body);
@@ -191,13 +214,13 @@ $(document).ready(function(){
                                                                         var usernameText = document.createTextNode(message.sender);
                                                                         usernameElement.appendChild(usernameText);
                                                                         messageElement.appendChild(usernameElement);
+                                                                        var textElement = document.createElement('p');
+                                                                        var messageText = document.createTextNode(message.content);
+                                                                        textElement.appendChild(messageText);
+                                                                        messageElement.appendChild(textElement);
+                                                                        document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                        document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
                                                         }
-                                                        var textElement = document.createElement('p');
-                                                        var messageText = document.createTextNode(message.content);
-                                                        textElement.appendChild(messageText);
-                                                        messageElement.appendChild(textElement);
-                                                        document.getElementById("messageArea"+studId).appendChild(messageElement);
-                                                        document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
                     }
     }
 
