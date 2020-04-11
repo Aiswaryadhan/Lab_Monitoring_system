@@ -113,12 +113,16 @@
                         <h3 class="panel-title">Subject</h3>
                     </div>
                     <div class="panel-body">
-                        <input type="text" class="form-control" placeholder="Enter Subject">
+                        <div id="error_sub_id" class="error"></div>
+                        <input type="text" class="form-control" id="txtSubId" placeholder="Enter Subject Id">
+                        <br>
+                        <div id="error_sub_name" class="error"></div>
+                        <input type="text" class="form-control" id="txtSubName" placeholder="Enter Subject">
                         <br>
                         <p class="demo-button">
-                            <button type="button" class="btn btn-success"><i class="fa fa-check-circle"></i> Insert</button>
-                            <button type="button" class="btn btn-warning"><i class="ln lnr-pencil"></i> Update</button>
-                            <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
+                            <button type="button" class="btn btn-success" id="btnInsertSub"><i class="fa fa-check-circle"></i> Insert</button>
+                            <button type="button" class="btn btn-warning" id="btnUpdateSub"><i class="ln lnr-pencil"></i> Update</button>
+                            <button type="button" class="btn btn-danger" id="btnDeleteSub"><i class="fa fa-trash-o"></i> Delete</button>
                         </p>
                     </div>
                 </div>
@@ -135,26 +139,12 @@
                             <thead>
                             <tr>
                                 <th>Sl.No.</th>
+                                <th>Subject Id</th>
                                 <th>Subject</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Java</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>R Programming</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>C Programming</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Android</td>
-                            </tr>
+                            <tbody id="listSubject">
+
                             </tbody>
                         </table>
                     </div><!-- panel body-->
@@ -181,7 +171,7 @@
 <script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
-<script src="assets/js/teacher_dashboard.js"></script>
+<script src="assets/js/insert_subject.js"></script>
 </body>
 
 </html>

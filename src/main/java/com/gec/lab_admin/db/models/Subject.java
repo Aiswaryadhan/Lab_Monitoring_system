@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="subject")
-public class Subjects {
+public class Subject {
     @Id
     @Column(name="id")
     @Size(max = 10)
@@ -25,12 +25,12 @@ public class Subjects {
     @NotNull
     private String name;
 
-    public Subjects(String id, String name) {
+    public Subject(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Subjects(){
+    public Subject(){
 
     }
 
@@ -42,11 +42,11 @@ public class Subjects {
         this.id = id;
     }
 
-    public String getSubject() {
+    public String getName() {
         return name;
     }
 
-    public void setSubject(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

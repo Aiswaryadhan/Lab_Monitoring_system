@@ -712,6 +712,11 @@ fieldset[disabled] .btn {
 /********************
  * ELEMENTS
  ********************/
+
+ .highlighted{
+    background-color:yellow;
+ }
+
 .collapsing {
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;

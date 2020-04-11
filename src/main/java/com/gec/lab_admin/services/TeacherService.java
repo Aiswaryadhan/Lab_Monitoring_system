@@ -1,18 +1,14 @@
 package com.gec.lab_admin.services;
 
-import antlr.ASTNULLType;
 import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.SemesterRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
-import java.util.function.Consumer;
 
 @Service
 public class TeacherService {
@@ -32,7 +28,7 @@ public class TeacherService {
 
 
     public List<String> getSubjects(String teacher_id){
-        List<Subjects> subjectList=new ArrayList<>();
+        List<Subject> subjectList=new ArrayList<>();
         return teacherRepository.getSubjects(teacher_id);
     }
 
