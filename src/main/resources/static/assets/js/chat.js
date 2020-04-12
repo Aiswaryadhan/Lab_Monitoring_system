@@ -38,7 +38,6 @@ $(document).ready(function(){
 
                                                                 $newDiv.attr("style","height: 500px;width:500px;border: 1px solid black");
                                                                 $("#"+studId).append($newDiv);
-//                                                                $("#msgDiv"+studId).hide();
 
                                                                 var $newBtn = $("<input />");
                                                                 $newBtn.attr("type","button");
@@ -101,11 +100,6 @@ $(document).ready(function(){
     }
 
      'use strict';
-//     var usernamePage = document.querySelector('#username-page');
-//     var chatPage = document.querySelector('#chat-page');
-//     var chatList = document.querySelector('#list-container');
-//     var usernameForm = document.querySelector('#usernameForm');
-//     var messageForm = document.querySelector('#messageForm');
      var receiver = null;
      var stompClient = null;
      var username = null;

@@ -24,4 +24,9 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "insert into loggedInStudent values(:id)",
             nativeQuery = true)
     void insertLoggedStudent(String id);
+
+    @Query(
+            value = "select name from student where id=:studId",
+            nativeQuery = true)
+    String getStudName(String studId);
 }

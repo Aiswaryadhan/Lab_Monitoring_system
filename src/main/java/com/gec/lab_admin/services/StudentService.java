@@ -26,13 +26,6 @@ public class StudentService {
         return studentRepository.findById(studentId);
     }
 
-//    public void getAttendance(AttendanceRecord attendanceRecord,String studentId) {
-//        List<AttendanceRecord> studentList = studentRepository.getAttendance(studentId);
-//        attendanceRecord.setPresence(true);
-//        attendanceRepository.save(attendanceRecord);
-////        return null;
-//    }
-
     public void updateAttendance(String subjectId, String studentId) {
         studentRepository.updateAttendance(subjectId,studentId);
     }
@@ -41,8 +34,9 @@ public class StudentService {
         studentRepository.insertLoggedStudent(id);
     }
 
-//    public void update(Student sd, String studentID) {
-//        studentRepository.save(sd);
-//    }
+    public String getStudName(String studId) {
+        return studentRepository.getStudName(studId);
+    }
+
 
 }

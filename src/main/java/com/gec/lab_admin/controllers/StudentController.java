@@ -2,7 +2,6 @@ package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.LoggedStudent;
 import com.gec.lab_admin.db.models.Student;
-import com.gec.lab_admin.services.LoggedStudentService;
 import com.gec.lab_admin.services.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,23 +20,29 @@ public class StudentController {
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @RequestMapping(method = RequestMethod.POST,value = "/student/login")
-    public String login(@RequestBody Student student){
+    public Student login(@RequestBody Student student){
         Optional<Student> loggedInStudent = studentService.login(student.getId());
         if(loggedInStudent.isPresent()){
             if(loggedInStudent.get().getPassword().equals(student.getPassword())){
-                logger.info("succes");
+                logger.info("success");
                 studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 studentService.add(student.getId());
-                return "success";
+                System.out.println(loggedInStudent.get());
+                return loggedInStudent.get();
             }
             else{
                 logger.debug("wrong password");
-                return "wrong password";
+                return null;
             }
         }
         else{
             logger.error("wrong user name");
-            return "wrong user name";
+            return null;
         }
+    }
+
+    @RequestMapping("/student/getName/{studId}")
+    public String findStudent(@PathVariable String studId){
+        return studentService.getStudName(studId);
     }
 }
