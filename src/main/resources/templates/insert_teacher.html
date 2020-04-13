@@ -90,9 +90,9 @@
                             <ul class="nav">
 
                                 <li><a href="#" class="active"><i class="lnr lnr-users"></i><span>Teacher</span></a></li>
-                                <li><a href="insert_subject" ><i class="lnr lnr-book"></i><span>Subject</span></a></li>
-                                <li><a href="#" ><i class="lnr lnr-users"></i><span>Student</span></a></li>
-                                <li><a href="insert_semester" ><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
+                                <li><a href="subjects" ><i class="lnr lnr-book"></i><span>Subject</span></a></li>
+                                <li><a href="students" ><i class="lnr lnr-users"></i><span>Student</span></a></li>
+                                <li><a href="semesters" ><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
                             </ul>
                         </div>
                     </li>
@@ -113,11 +113,13 @@
                         <h3 class="panel-title">Teacher</h3>
                     </div>
                     <div class="panel-body">
-                        <input type="text" class="form-control" placeholder="Enter Teacher ID">
+                        <div id="error_teacher_id" class="error"></div>
+                        <input type="text" class="form-control" id="txtTeacherId" placeholder="Enter Teacher ID">
                         <br>
-                        <input type="text" class="form-control" placeholder="Enter Teacher Name">
+                        <div id="error_teacher_name" class="error"></div>
+                        <input type="text" class="form-control" id="txtTeacherName" placeholder="Enter Teacher Name">
                         <br>
-                        <select class="form-control">
+                        <select class="form-control" id="checkAdmin">
                             <option value="select">Select Subject</option>
                         </select>
                         <br>

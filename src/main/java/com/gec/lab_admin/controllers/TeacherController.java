@@ -1,6 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.Semester;
+import com.gec.lab_admin.db.models.Student;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
@@ -19,13 +20,17 @@ public class TeacherController {
     final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
     public static String LOGGED_IN_TEACHER_SUBJECT="";
-
+    public static String LOGGED_IN_TEACHER_NAME="";
+    public static String LOGGED_IN_TEACHER_ID="";
     @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
     public String login(@RequestBody Teacher teacher, @PathVariable String subjectId){
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
         if(loggedInTeacher.isPresent()){
             if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
                 LOGGED_IN_TEACHER_SUBJECT = subjectId;
+                LOGGED_IN_TEACHER_NAME=loggedInTeacher.get().getName();
+                LOGGED_IN_TEACHER_ID=loggedInTeacher.get().getId();
+                System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("succes");
                 return "success";
@@ -77,5 +82,6 @@ public class TeacherController {
         logger.info("Deletion in semester table");
         teacherService.deleteSem(semId);
     }
+
 
 }

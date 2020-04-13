@@ -7,13 +7,10 @@ $(document).ready(function(){
                 {
                       $('#error_user').slideDown();
                       $('#error_user').html('Please provide username');
-                      status = 1;
-                      return false;
                 }
                 else
                 {
                       $('#error_user').slideUp();
-                      status = 0;
                       $.ajax({
                                                                   type: "GET",
                                                                   url: 'http://localhost:8080/teacher/id/'+user,
@@ -24,10 +21,7 @@ $(document).ready(function(){
                                                                   success: function (data) {
 
                                                                   $('#sub').empty();
-                                                                  $('#sub').append("<option value=\"select\" id=\"user\">Select subject</option>");
-                                                                  $( "#selectsub" ).prop( "disabled", true );
-//                                                                  var id = data[i]['id'];
-//                                                                  var name = data[i]['subject'];
+                                                                  $('#sub').append("<option value=\"Select\" id=\"selectsub\">Select subject</option>");
                                                                   var i=0;
                                                                   for(i=0;i<data.length;i++) {
                                                                     var arr=data[i].split(",");
@@ -47,25 +41,55 @@ $(document).ready(function(){
                 {
                        $('#error_pass').slideDown();
                        $('#error_pass').html('Please provide password');
-                       status = 1;
-                       return false;
                 }
                 else
                 {
                        $('#error_pass').slideUp();
-                       status = 0;
+
 
                 }
            });
-//           $("sub").click(function(){
-//           alert("HHHH");
+           $("#selectsub").blur(function(){
+                            var sub = $('#selectsub').val();
+                            if(sub=='Select')
+                            {
+                                   $('#error_sub').slideDown();
+                                   $('#error_sub').html('Please select Subject');
+                            }
+                            else
+                            {
+                                   $('#error_sub').slideUp();
 
 
-//           });
+                            }
+           });
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
-                var selsub=$("#sub").val();
+                var selsub=$("#selectsub").val();
+
+                if(user==''){
+                      $('#error_user').slideDown();
+                      $('#error_user').html('Please provide username');
+                }
+                else{
+                      $('#error_user').slideUp();
+                }
+                if(pwd==''){
+                       $('#error_pass').slideDown();
+                       $('#error_pass').html('Please provide password');
+                }
+                else{
+                       $('#error_pass').slideUp();
+                }
+                if(sub=='Select'){
+                         $('#error_sub').slideDown();
+                         $('#error_sub').html('Please select Subject');
+                }
+                else{
+                         $('#error_sub').slideUp();
+                }
+
 
                 var logCred = {
                             'id': user,

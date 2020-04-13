@@ -30,4 +30,17 @@ public interface SubjectRepository extends CrudRepository <Subject,String>{
             value = "delete from subject where id=:subId",
             nativeQuery = true)
     void deleteSub(String subId);
+    @Transactional
+    @Modifying
+    @Query(
+            value = "insert into subject_sem values(:subject_id,:sem)",
+            nativeQuery = true)
+    void insertSubSem(String subject_id, Integer sem);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from subject_sem where subject_id=:subId",
+            nativeQuery = true)
+    void deleteSubSem(String subId);
 }

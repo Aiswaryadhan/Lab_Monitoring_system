@@ -10,13 +10,10 @@ $(document).ready(function(){
                     {
                           $('#error_sem').slideDown();
                           $('#error_sem').html('Please provide valid semester');
-                          status = 1;
-                          return false;
                     }
                     else
                     {
                           $('#error_sem').slideUp();
-                          status = 0;
                     }
     });
 
@@ -33,7 +30,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                     $("#error_sem").html("");
+                     $('#error_sem').slideUp();
                 }
 
                 return isValid;
@@ -67,8 +64,6 @@ $(document).ready(function(){
                     {
                           $('#error_sem').slideDown();
                           $('#error_sem').html('Please provide valid semester');
-                          status = 1;
-                          return false;
                     }
                     else
                     {
@@ -135,7 +130,7 @@ $(document).ready(function(){
              														                return $(this).text();
              							}).get();
 //                                        semVal=tableData[1];
-                                        $("#txtSem").val(tableData[1])
+                                        $("#txtSem").val(tableData[1]);
                                         semId=tableData[0];
                                         $("#btnInsertSem").prop('disabled',true);
                                         $("#btnUpdateSem").prop('disabled',false);
@@ -149,8 +144,6 @@ $(document).ready(function(){
                               {
                                     $('#error_sem').slideDown();
                                     $('#error_sem').html('Please provide valid semester');
-                                    status = 1;
-                                    return false;
                               }
                               else
                               {

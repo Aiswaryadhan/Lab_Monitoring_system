@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 @Table(name="subjectsem")
 public class SubjectSem {
 
@@ -17,7 +18,6 @@ public class SubjectSem {
 
     @Size(max = 11)
     @Column(name="sem")
-    @NotNull
     private Integer sem;
 
     public SubjectSem(){

@@ -25,8 +25,25 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             nativeQuery = true)
     void insertLoggedStudent(String id);
 
+    @Transactional
+    @Modifying
     @Query(
-            value = "select name from student where id=:studId",
+            value = "insert into student values(:id,:name,:id,:sem)",
             nativeQuery = true)
-    String getStudName(String studId);
+
+    void insertStud(String id, String name, Integer sem);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update student set name=:name,sem=:sem where id=:studId",
+            nativeQuery = true)
+    void updateStud(String name, Integer sem, String studId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from student where id=:studId",
+            nativeQuery = true)
+    void deleteStud(String studId);
 }

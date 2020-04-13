@@ -1,6 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.Semester;
+import com.gec.lab_admin.db.models.SubjectSem;
 import com.gec.lab_admin.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,4 +34,9 @@ public class SubjectController {
     public void deleteSub(@PathVariable String subId){
         subjectService.deleteSub(subId);
     }
+    @RequestMapping("/subjectSem/insert")
+    public void insertSubSem(@RequestBody SubjectSem subjectSem) {
+        subjectService.insertSubSem(subjectSem.getSubject_id(), subjectSem.getSem());
+    }
+
 }

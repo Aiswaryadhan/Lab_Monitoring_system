@@ -20,7 +20,7 @@ public class Teacher{
     @NotNull
     private String id;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Size(max = 30)
     @Column(name="name")
     @NotNull
@@ -31,7 +31,7 @@ public class Teacher{
     @NotNull
     private String password;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Size(max = 1)
     @Column(name="is_admin")
     private Boolean is_admin;

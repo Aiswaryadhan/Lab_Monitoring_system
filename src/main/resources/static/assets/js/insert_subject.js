@@ -2,23 +2,38 @@ $(document).ready(function(){
     var len;
     var subId;
     var subName;
+    var sem;
+    $("#sem").show();
     $("#txtSubId").prop('disabled',false);
     $("#btnInsertSub").prop('disabled',false);
     $("#btnUpdateSub").prop('disabled',true);
     $("#btnDeleteSub").prop('disabled',true);
+    $.ajax({
+                       type: "GET",
+                       url: 'http://localhost:8080/semester/getAll',
+                       success: function (data) {
+                                                   $('#sem').empty();
+                                                   $('#sem').append("<option value=\"select\" id=\"selectSem\">Select Semester</option>");
+                                                   var i=0;
+                                                   for(i=0;i<data.length;i++) {
+                                                    if(data[i].id){
+                                                          $('#sem').append("<option value=\"" +data[i].id+ "\">" +data[i].name+ "</option>");
+                                                          }
+                                                   }
+
+                       }
+
+        });
     $("#txtSubId").blur(function(){
                     subId = $('#txtSubId').val();
                     if(subId=='')
                     {
                           $('#error_sub_id').slideDown();
                           $('#error_sub_id').html('Please provide valid Id');
-                          status = 1;
-                          return false;
                     }
                     else
                     {
                           $('#error_sub_id').slideUp();
-                          status = 0;
                     }
     });
 
@@ -28,16 +43,24 @@ $(document).ready(function(){
                         {
                               $('#error_sub_name').slideDown();
                               $('#error_sub_name').html('Please provide valid Subject');
-                              status = 1;
-                              return false;
                         }
                         else
                         {
                               $('#error_sub_name').slideUp();
-                              status = 0;
                         }
-        });
-
+    });
+   $("#sem").blur(function(){
+                            subSem = $('#sem').val();
+                            if(subSem=='select')
+                            {
+                                  $('#error_sub_sem').slideDown();
+                                  $('#error_sub_sem').html('Please select semester');
+                            }
+                            else
+                            {
+                                  $('#error_sub_sem').slideUp();
+                            }
+     });
     $("#txtSubId").keypress(function (e) {
                 var keyCode = e.keyCode || e.which;
 
@@ -47,11 +70,12 @@ $(document).ready(function(){
                 //Validate TextBox value against the Regex.
                 var isValid = regex.test(String.fromCharCode(keyCode));
                 if (!isValid) {
+                    $('#error_sub_id').slideDown();
                     $("#error_sub_id").html("Only Alphabets and Numbers allowed.");
                 }
                 else
                 {
-                     $("#error_sub_id").html("");
+                     $('#error_sub_id').slideUp();
                 }
 
                 return isValid;
@@ -66,11 +90,12 @@ $(document).ready(function(){
                     //Validate TextBox value against the Regex.
                     var isValid = regex.test(String.fromCharCode(keyCode));
                     if (!isValid) {
+                        $('#error_sub_name').slideDown();
                         $("#error_sub_name").html("Only Alphabets and Numbers allowed.");
                     }
                     else
                     {
-                         $("#error_sub_name").html("");
+                         $('#error_sub_name').slideUp();
                     }
 
                     return isValid;
@@ -101,21 +126,23 @@ $(document).ready(function(){
     $("#btnInsertSub").click(function(){
         subId=$("#txtSubId").val();
         subName=$("#txtSubName").val();
+        subSem = $('#sem').val();
         if(subId==''){
                $('#error_sub_id').slideDown();
                $('#error_sub_id').html('Please provide valid ID');
-               status = 1;
-               return false;
         }
         else if(subName==''){
                $('#error_sub_name').slideDown();
                $('#error_sub_name').html('Please provide valid Subject');
-               status = 1;
-               return false;
+        }
+        else if(subSem=='select'){
+               $('#error_sub_sem').slideDown();
+               $('#error_sub_sem').html('Please select semester');
         }
         else{
                $('#error_sub_id').slideUp();
                $('#error_sub_name').slideUp();
+               $('#error_sub_sem').slideUp();
                status = 0;
                var subData = {
                                  'id': subId,
@@ -130,9 +157,7 @@ $(document).ready(function(){
                          },
                          data:aJson,
                          success: function (data) {
-                                       alert("Successfully Inserted");
-                                       $("#txtSubId").val('');
-                                       $("#txtSubName").val('');
+//                                       alert("Successfully Inserted");
                                        $("#listSubject tr").remove();
                                        $.ajax({
                                                    type: "GET",
@@ -158,6 +183,28 @@ $(document).ready(function(){
                          }
                });
 
+               var subSemData = {
+                                                'subject_id': subId,
+                                                'sem': subSem
+               };
+               var aJson = JSON.stringify(subSemData);
+                $.ajax({
+                                        type: "POST",
+                                        url: 'http://localhost:8080/subjectSem/insert',
+                                        headers: {
+                                                      "Content-Type": "application/json"
+                                        },
+                                        data:aJson,
+                                        success: function (data) {
+                                                      alert("Successfully Inserted");
+                                                      $("#txtSubId").val('');
+                                                      $("#txtSubName").val('');
+                                                      $("#sem").val('select');
+                                                      $("#listSubject tr").remove();
+
+                                        }
+                });
+
         }
     });
     $('#listSubject').on( 'click', 'tr', function () {
@@ -171,8 +218,9 @@ $(document).ready(function(){
                      		var tableData = $(this).children("td").map(function() {
                      														           return $(this).text();
                      		}).get();
-                            $("#txtSubName").val(tableData[2])
-                            $("#txtSubId").val(tableData[1])
+                     		$("#sem").hide();
+                            $("#txtSubName").val(tableData[2]);
+                            $("#txtSubId").val(tableData[1]);
                             $("#txtSubId").prop('disabled',true);
                             $("#btnInsertSub").prop('disabled',true);
                             $("#btnUpdateSub").prop('disabled',false);
@@ -181,20 +229,13 @@ $(document).ready(function(){
     $("#btnUpdateSub").click(function(){
                           subId=$("#txtSubId").val();
                           subName=$("#txtSubName").val();
-                          if(subId==''){
-                                         $('#error_sub_id').slideDown();
-                                         $('#error_sub_id').html('Please provide valid ID');
-                                         status = 1;
-                                         return false;
-                          }
-                          else if(subName==''){
+                          if(subName==''){
                                          $('#error_sub_name').slideDown();
                                          $('#error_sub_name').html('Please provide valid Subject');
                                          status = 1;
                                          return false;
                           }
                           else{
-                                         $('#error_sub_id').slideUp();
                                          $('#error_sub_name').slideUp();
                                          var semData = {
                                                             'name': subName
@@ -208,10 +249,8 @@ $(document).ready(function(){
                                                        },
                                                        data:aJson,
                                                        success: function (data) {
-                                                                                    alert("Updation Successful");
-                                                                                    $("#txtSubId").val('');
-                                                                                    $("#txtSubName").val('');
                                                                                     $("#txtSubId").prop('disabled',false);
+                                                                                    $("#sem").show();
                                                                                     $("#btnInsertSub").prop('disabled',false);
                                                                                     $("#btnUpdateSub").prop('disabled',true);
                                                                                     $("#btnDeleteSub").prop('disabled',true);
@@ -241,18 +280,20 @@ $(document).ready(function(){
                                                        }
 
                                          });
+
                           }
     });
     $("#btnDeleteSub").click(function(){
                     subId=$("#txtSubId").val();
                     subName=$("#txtSubName").val();
                     $.ajax({
-                               type: "POST",
-                               url: 'http://localhost:8080/subject/delete/'+subId,
+                              type: "POST",
+                              url: 'http://localhost:8080/subject/delete/'+subId,
                                success: function (data) {
                                                             alert("Deletion Successful");
                                                             $("#txtSubId").val('');
                                                             $("#txtSubName").val('');
+                                                            $("#sem").show();
                                                             $("#txtSubId").prop('disabled',false);
                                                             $("#btnInsertSub").prop('disabled',false);
                                                             $("#btnUpdateSub").prop('disabled',true);

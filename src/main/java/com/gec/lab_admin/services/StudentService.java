@@ -2,6 +2,7 @@ package com.gec.lab_admin.services;
 
 import com.gec.lab_admin.db.models.AttendanceRecord;
 import com.gec.lab_admin.db.models.Student;
+import com.gec.lab_admin.db.models.Subject;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,20 @@ public class StudentService {
         studentRepository.insertLoggedStudent(id);
     }
 
-    public String getStudName(String studId) {
-        return studentRepository.getStudName(studId);
+
+    public List<Student> getAllStudent() {
+        return (List<Student>) studentRepository.findAll();
     }
 
+    public void insertStud(String id, String name, Integer sem) {
+        studentRepository.insertStud(id,name,sem);
+    }
 
+    public void updateStud(String name, Integer sem, String studId) {
+        studentRepository.updateStud(name,sem,studId);
+    }
+
+    public void deleteStud(String studId) {
+        studentRepository.deleteStud(studId);
+    }
 }

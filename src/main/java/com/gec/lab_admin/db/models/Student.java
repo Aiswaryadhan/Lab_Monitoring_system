@@ -19,7 +19,6 @@ public class Student {
     @NotNull
     private String id;
 
-    @JsonIgnore
     @Size(max = 30)
     @Column(name="name")
     @NotNull
@@ -30,7 +29,6 @@ public class Student {
     @NotNull
     private String password;
 
-    @JsonIgnore
     @Size(max = 11)
     @Column(name="sem")
     @NotNull

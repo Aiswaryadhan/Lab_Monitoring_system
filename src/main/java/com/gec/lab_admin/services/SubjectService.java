@@ -1,7 +1,5 @@
 package com.gec.lab_admin.services;
 
-import com.gec.lab_admin.db.models.Semester;
-import com.gec.lab_admin.db.repositories.SemesterRepository;
 import com.gec.lab_admin.db.repositories.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,6 +28,14 @@ public class SubjectService {
     }
 
     public void deleteSub(String subId) {
+        subjectRepository.deleteSubSem(subId);
         subjectRepository.deleteSub(subId);
+
     }
+
+    public void insertSubSem(String subject_id, Integer sem) {
+        subjectRepository.insertSubSem(subject_id,sem);
+    }
+
+
 }

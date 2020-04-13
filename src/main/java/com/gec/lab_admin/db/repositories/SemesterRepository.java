@@ -31,4 +31,10 @@ public interface SemesterRepository extends CrudRepository<Semester,String> {
             value = "delete from semester where id=:semId",
             nativeQuery = true)
     void deleteSem(Integer semId);
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from subject_sem where sem=:semId",
+            nativeQuery = true)
+    void deleteSubSem(Integer semId);
 }

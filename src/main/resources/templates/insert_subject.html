@@ -90,9 +90,9 @@
                             <ul class="nav">
 
                                 <li><a href="#"><i class="lnr lnr-users"></i><span>Teacher</span></a></li>
-                                <li><a href="insert_subject" class="active"><i class="lnr lnr-book"></i><span>Subject</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-users"></i><span>Student</span></a></li>
-                                <li><a href="insert_semester" ><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
+                                <li><a href="subjects" class="active"><i class="lnr lnr-book"></i><span>Subject</span></a></li>
+                                <li><a href="students"><i class="lnr lnr-users"></i><span>Student</span></a></li>
+                                <li><a href="semesters" ><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
                             </ul>
                         </div>
                     </li>
@@ -119,6 +119,11 @@
                         <div id="error_sub_name" class="error"></div>
                         <input type="text" class="form-control" id="txtSubName" placeholder="Enter Subject">
                         <br>
+                        <div id="error_sub_sem" class="error"></div>
+                        <select class="form-control" id="sem">
+                            <option value="select" id="selectSem">Select Semester</option>
+                        </select>
+                        <br>
                         <p class="demo-button">
                             <button type="button" class="btn btn-success" id="btnInsertSub"><i class="fa fa-check-circle"></i> Insert</button>
                             <button type="button" class="btn btn-warning" id="btnUpdateSub"><i class="ln lnr-pencil"></i> Update</button>
@@ -135,7 +140,7 @@
                         <h3 class="panel-title">All Subjects</h3>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-striped">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>Sl.No.</th>

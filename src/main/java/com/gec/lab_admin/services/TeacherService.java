@@ -73,6 +73,8 @@ public class TeacherService {
     }
 
     public void deleteSem(Integer semId) {
+
+            semesterRepository.deleteSubSem(semId);
             semesterRepository.deleteSem(semId);
 
     }
