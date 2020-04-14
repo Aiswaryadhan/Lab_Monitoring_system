@@ -1,19 +1,22 @@
 $(document).ready(function(){
     var studId;
-    var receiver=null;
-    var username = null;
+    var receiver;
+    var username;
+    var teacherId;
     if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("studSem") !=null) && ($.cookie("teacherName") !=null) && ($.cookie("teacherId") !=null)){
-                var studId =$.cookie("studId");
+//                alert("iffff");
+                studId =$.cookie("studId");
                 var studName=$.cookie("studName");
                 var studSem=$.cookie("studSem");
                  receiver=$.cookie("teacherName");
-                var teacherId=$.cookie("teacherId");
+                receiver=$.cookie("teacherId");
                 $("#studName").text(studName);
-                username = studName;
+                username = studId;
+                alert(username);
                 connect();
     }
     'use strict';
-    var stompClient = null;
+    var stompClient;
 
     var colors = [
              '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -53,11 +56,6 @@ $(document).ready(function(){
              }
              event.preventDefault();
       });
-
-//         function close(){
-//                             $("#msgDiv").hide();
-//
-//         }
 
          function onMessageReceived(payload) {
               var message = JSON.parse(payload.body);

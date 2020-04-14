@@ -2,8 +2,10 @@ $(document).ready(function(){
     var len;
     var studId;
     var receiver;
+    var teacherId;
+    var username;
     if ($.cookie("id") != null && $.cookie("subject") != null) {
-                var teacherId =$.cookie("id");
+                teacherId =$.cookie("id");
                 var sub= $.cookie("subject");
                 $.ajax({
                            type: "POST",
@@ -12,11 +14,110 @@ $(document).ready(function(){
 
                                         $("#teacher_name").text(data);
                                         $("#receiverName").text(data);
-                                        username = $("#teacher_name").text();
+                                        username = teacherId;
                                         connect();
                            }
                 });
-                $.ajax({
+
+    }
+
+     'use strict';
+//     var receiver = null;
+//     var stompClient = null;
+//     var username = null;
+
+     var colors = [
+         '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+         '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+     ];
+
+
+
+    $('#onlineStud').on( 'click', 'tr', function () {
+                                if ( $(this).hasClass('highlighted') )
+     							{
+     						        $(this).removeClass('highlighted');
+     							}
+     					        else
+     							{
+     								$('tr.highlighted').removeClass('highlighted');
+     								$(this).addClass('highlighted');
+     							}
+     							var tableData = $(this).children("td").map(function() {
+     														                return $(this).text();
+     							}).get();
+     							receiver=tableData[0];
+                               var studName=tableData[1];
+                                $("#"+studId).show();
+                                $("#msgDiv"+studId).show();
+                                $("#btnSend"+studId).attr('disabled',false);
+     							 if ( $('#'+studId).hasClass('hidden') ){
+                                     			 $('#'+studId).removeClass('hidden');
+                                 }
+                                 else{
+//                                     		$('#'+studId+'.hidden').removeClass('hidden');
+                                     		$('#'+studId).addClass('hidden');
+                                 }
+
+
+
+    });
+
+    function connect() {
+                if(username) {
+//                                   usernamePage.classList.add('hidden');
+                                   var socket = new SockJS('/javatechie');
+                                   stompClient = Stomp.over(socket);
+                                   stompClient.connect({}, onConnected, onError);
+                }
+    }
+    function onConnected() {
+        // Subscribe to the Public Topic
+        stompClient.subscribe('/queue/public', onMessageReceived);
+
+        // Tell your username to the server
+        stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
+    }
+    function onError(error) {
+        alert("Error");
+    }
+
+
+    function send(){
+        var messageContent = $('#message'+studId).val();
+        alert(messageContent);
+        alert(receiver);
+        if(messageContent && stompClient) {
+                            var chatMessage = {
+                                        sender: username,
+                                        content: messageContent,
+                                        receiver:receiver,
+                                        type: 'CHAT'
+                            };
+                            stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                            $('#message'+studId).val('');
+        }
+        event.preventDefault();
+    }
+
+    function close(){
+                    $("#"+studId).hide();
+                    $("#msgDiv"+studId).hide();
+//                    $("#btnSend"+studId).attr('disabled',true);
+                     if ( $(this).hasClass('highlighted') ){
+                         	$(this).removeClass('highlighted');
+                     }
+                     else{
+                         	$('tr.highlighted').removeClass('highlighted');
+                         	$(this).addClass('highlighted');
+                     }
+
+    }
+    function onMessageReceived(payload) {
+            var message = JSON.parse(payload.body);
+            if(message.type === 'JOIN') {
+            $("#onlineStud tr").remove();
+                    $.ajax({
                            type: "POST",
                            url: 'http://localhost:8080/teacher/getStudName',
                            success: function (data) {
@@ -96,104 +197,8 @@ $(document).ready(function(){
                                                      }
                                             }
                            }
-                });
-    }
-
-     'use strict';
-     var receiver = null;
-     var stompClient = null;
-     var username = null;
-
-     var colors = [
-         '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-         '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-     ];
-
-
-
-    $('#onlineStud').on( 'click', 'tr', function () {
-                                if ( $(this).hasClass('highlighted') )
-     							{
-     						        $(this).removeClass('highlighted');
-     							}
-     					        else
-     							{
-     								$('tr.highlighted').removeClass('highlighted');
-     								$(this).addClass('highlighted');
-     							}
-     							var tableData = $(this).children("td").map(function() {
-     														                return $(this).text();
-     							}).get();
-     							receiver=tableData[1];
-                                studId=tableData[0];
-                                $("#"+studId).show();
-                                $("#msgDiv"+studId).show();
-                                $("#btnSend"+studId).attr('disabled',false);
-     							 if ( $('#'+studId).hasClass('hidden') ){
-                                     			 $('#'+studId).removeClass('hidden');
-                                 }
-                                 else{
-//                                     		$('#'+studId+'.hidden').removeClass('hidden');
-                                     		$('#'+studId).addClass('hidden');
-                                 }
-
-
-
-    });
-
-    function connect() {
-                if(username) {
-//                                   usernamePage.classList.add('hidden');
-                                   var socket = new SockJS('/javatechie');
-                                   stompClient = Stomp.over(socket);
-                                   stompClient.connect({}, onConnected, onError);
-                }
-    }
-    function onConnected() {
-        // Subscribe to the Public Topic
-        stompClient.subscribe('/queue/public', onMessageReceived);
-
-        // Tell your username to the server
-        stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
-    }
-    function onError(error) {
-        alert("Error");
-    }
-
-
-    function send(){
-        var messageContent = $('#message'+studId).val();
-        alert(messageContent);
-        alert(receiver);
-        if(messageContent && stompClient) {
-                            var chatMessage = {
-                                        sender: username,
-                                        content: messageContent,
-                                        receiver:receiver,
-                                        type: 'CHAT'
-                            };
-                            stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                            $('#message'+studId).val('');
-        }
-        event.preventDefault();
-    }
-
-    function close(){
-                    $("#"+studId).hide();
-                    $("#msgDiv"+studId).hide();
-//                    $("#btnSend"+studId).attr('disabled',true);
-                     if ( $(this).hasClass('highlighted') ){
-                         	$(this).removeClass('highlighted');
-                     }
-                     else{
-                         	$('tr.highlighted').removeClass('highlighted');
-                         	$(this).addClass('highlighted');
-                     }
-
-    }
-    function onMessageReceived(payload) {
-                    var message = JSON.parse(payload.body);
-                    alert("receved");
+                    });
+            }
                     if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                         var messageElement = document.createElement('li');
                                                         if(message.type === 'CHAT') {

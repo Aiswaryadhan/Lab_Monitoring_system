@@ -119,19 +119,19 @@
                         <div id="error_teacher_name" class="error"></div>
                         <input type="text" class="form-control" id="txtTeacherName" placeholder="Enter Teacher Name">
                         <br>
-                        <select class="form-control" id="checkAdmin">
-                            <option value="select">Select Subject</option>
+                        <select class="form-control" id="sub">
+                            <option value="select" id="selSub">Select Subject</option>
                         </select>
                         <br>
                         <label class="fancy-checkbox">
-                            <input type="checkbox">
+                            <input type="checkbox" id="checkAdmin">
                             <span>Admin</span>
                         </label>
                         <br>
                         <p class="demo-button">
-                            <button type="button" class="btn btn-success"><i class="fa fa-check-circle"></i> Insert</button>
-                            <button type="button" class="btn btn-warning"><i class="ln lnr-pencil"></i> Update</button>
-                            <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
+                            <button type="button" class="btn btn-success" id="btnInsertTeacher"><i class="fa fa-check-circle"></i> Insert</button>
+                            <button type="button" class="btn btn-warning" id="btnUpdateTeacher"><i class="ln lnr-pencil"></i> Update</button>
+                            <button type="button" class="btn btn-danger" id="btnDeleteTeacher"><i class="fa fa-trash-o"></i> Delete</button>
                         </p>
                     </div>
                 </div>
