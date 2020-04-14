@@ -26,6 +26,24 @@ public class WebController {
         return "login_page";
     }
 
+    @RequestMapping("/student_login")
+    //@ResponseBody
+    public String studentLogin() {
+        return "student_login";
+    }
+
+    @RequestMapping("/student_home")
+    //@ResponseBody
+    public String studentHome() {
+        return "student_home";
+    }
+
+    @RequestMapping("/student_doubts")
+    //@ResponseBody
+    public String studentDoubts() {
+        return "student_doubts";
+    }
+
     @RequestMapping("/home")
     //@ResponseBody
     public String home() {

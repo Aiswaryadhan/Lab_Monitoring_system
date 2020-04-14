@@ -49,7 +49,7 @@ $(document).ready(function(){
 
                 }
            });
-           $("#selectsub").blur(function(){
+           $("#sub").blur(function(){
                             var sub = $('#selectsub').val();
                             if(sub=='Select')
                             {
@@ -66,7 +66,7 @@ $(document).ready(function(){
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
-                var selsub=$("#selectsub").val();
+                var selsub=$("#sub").val();
 
                 if(user==''){
                       $('#error_user').slideDown();

@@ -26,7 +26,7 @@ public class StudentController {
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @RequestMapping(method = RequestMethod.POST,value = "/student/login")
-    public Student login(@RequestBody Student student){
+    public String login(@RequestBody Student student){
         Optional<Student> loggedInStudent = studentService.login(student.getId());
         if(loggedInStudent.isPresent()){
             if(loggedInStudent.get().getPassword().equals(student.getPassword())){
@@ -34,16 +34,19 @@ public class StudentController {
                 studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 studentService.add(student.getId());
                 System.out.println(loggedInStudent.get());
-                return loggedInStudent.get();
+                String name=loggedInStudent.get().getName();
+                int sem=loggedInStudent.get().getSem();
+                String res=name+","+sem;
+                return res;
             }
             else{
                 logger.debug("wrong password");
-                return null;
+                return "invalid";
             }
         }
         else{
             logger.error("wrong user name");
-            return null;
+            return "invalid";
         }
     }
 
