@@ -110,9 +110,6 @@
                         <h3 class="panel-title">Attendance</h3>
                     </div>
                     <div class="panel-body">
-                        <div id="error_stud_id" class="error"></div>
-                        <input type="text" class="form-control" id="txtStud" placeholder="Enter Student Id">
-                        <br>
 
                         <label for="startDt">From</label>
                         <div id="error_sDate_id" class="error"></div>
@@ -125,8 +122,8 @@
                             <button type="button" class="btn btn-success" id="btnCalcAttendance"><i class="fa fa-check-circle"></i>Find Percentage</button>
                             <button type="button" class="btn btn-success" id="btnReset"><i class="fa fa-check-circle"></i>Reset</button>
                         </p>
-                        <label for="percent" >Attendance Percentage:</label>
-                        <input type="text" id="percent" name="percent" class="form-control">
+<!--                        <label for="percent" >Attendance Percentage:</label>-->
+<!--                        <input type="text" id="percent" name="percent" class="form-control">-->
                         <br>
 
                     </div>
@@ -144,8 +141,11 @@
                             <thead>
                             <tr>
                                 <th>Sl.No.</th>
-                                <th>Date</th>
-                                <th>Presence</th>
+                                <th>Name</th>
+                                <th>Total Days</th>
+                                <th>Present Days</th>
+                                <th>Attendance Percentage</th>
+                                <th>Eligibility</th>
                             </tr>
                             </thead>
                             <tbody id="listAttendance">

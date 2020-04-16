@@ -25,10 +25,6 @@ public class AttendanceRecord {
     public  AttendanceRecord(){
 
     }
-//    public AttendanceRecord(AttendanceId attendanceId,boolean presence) {
-//        this.attendanceId=attendanceId;
-//        this.presence = presence;
-//    }
 
     public AttendanceRecord(AttendanceId attendanceId, boolean presence) {
         this.attendanceId = attendanceId;

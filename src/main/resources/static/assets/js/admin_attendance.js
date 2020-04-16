@@ -24,39 +24,7 @@ $(document).ready(function(){
                                  }
         });
     });
-    $("#txtStud").blur(function(){
-                        var studId = $('#txtStud').val();
-                        if(studId=='')
-                        {
-                              $('#error_stud_id').slideDown();
-                              $('#error_stud_id').html('Please provide valid Id');
-                        }
-                        else
-                        {
-                                        var studData = {
-                                            'id': studId
-                                        };
-                                        var aJson = JSON.stringify(studData);
-                                        $.ajax({
-                                                                 type: "POST",
-                                                                 url: 'http://localhost:8080/student/idCheck',
-                                                                 headers : {
-                                                                             "Content-Type" : "application/json"
-                                                                 },
-                                                                 data:aJson,
-                                                                 success: function (data) {
-                                                                    if(data=="failed"){
-                                                                        $('#error_stud_id').slideDown();
-                                                                        $('#error_stud_id').html('Please provide a valid Id');
-                                                                    }
-                                                                    else {
-                                                                        $('#error_stud_id').slideUp();
-                                                                    }
 
-                                                                 }
-                                        })
-                        }
-    });
     $("#startDt").blur(function(){
                                 var sDate = $('#startDt').val();
                                 if(sDate=='')
@@ -85,14 +53,9 @@ $(document).ready(function(){
                                     }
      });
      $("#btnCalcAttendance").click(function(){
-        studId = $('#txtStud').val();
         sDate = $('#startDt').val();
         eDate = $('#endDt').val();
-        if(studId==''){
-              $('#error_stud_id').slideDown();
-              $('#error_stud_id').html('Please provide valid Id');
-        }
-        else if(sDate==''){
+        if(sDate==''){
               $('#error_sDate_id').slideDown();
               $('#error_sDate_id').html('Enter a Valid Date');
         }
@@ -101,62 +64,62 @@ $(document).ready(function(){
               $('#error_eDate_id').html('Enter a Valid Date');
         }
         else{
-               $('#error_stud_id').slideUp();
                $('#error_sDate_id').slideUp();
                $('#error_eDate_id').slideUp();
                $.ajax({
                          type: "POST",
-                         url: 'http://localhost:8080/attendance/getCount/'+studId+'/'+sDate+'/'+eDate+'/'+sub,
+                         url: 'http://localhost:8080/attendance/generateReport/'+sDate+'/'+eDate+'/'+sub,
                          headers: {
                                        "Content-Type": "application/json"
                          },
                          success: function (data) {
-                                       $("#listAttendance tr").remove();
-                                       var count=data;
-                                       $.ajax({
-                                                         type: "POST",
-                                                         url: 'http://localhost:8080/attendance/getTotalCount/'+studId+'/'+sDate+'/'+eDate+'/'+sub,
-                                                         headers: {
-                                                                       "Content-Type": "application/json"
-                                                         },
-                                                         success: function (data) {
-                                                                       $("#listAttendance tr").remove();
-                                                                       var countTotal=data;
-                                                                       var percentage=(count/countTotal)*100;
-                                                                       $("#percent").val(percentage);
-                                                                        $.ajax({
-                                                                                type: "GET",
-                                                                                url: 'http://localhost:8080/attendance/getAll/'+studId+'/'+sDate+'/'+eDate+'/'+sub,
-                                                                                success: function (data) {
-                                                                                  len = data.length;
-                                                                                  var txt = "";
-                                                                                  if(len > 0){
-                                                                                            for(var i=0;i!=len;i++){
-                                                                                                 var arr=data[i].split(",");
-                                                                                                 var attendanceDate=arr[0];
-                                                                                                 var presence;
-                                                                                                 if(arr[1]=="true"){
-                                                                                                    presence="Present";
-                                                                                                 }
-                                                                                                 else{
-                                                                                                    presence="Absent";
-                                                                                                 }
-                                                                                                 txt += "<tr><td>"+(i+1)+"</td><td>"+attendanceDate+"</td><td>"+presence+"</td></tr>";
-                                                                                            }
-                                                                                            if(txt != ""){
-                                                                                                          $('#listAttendance').append(txt).removeClass("hidden");
-                                                                                            }
-                                                                                  }
-                                                                                  else
-                                                                                  {
-                                                                                       alert("Null");
-                                                                                  }
-                                                                                }
-
-                                                                        });
-                                                         }
-                                       });
+                                                      $("#listAttendance tr").remove();
+                                                      var len = data.length;
+                                                                  var txt = "";
+                                                                  if(len > 0){
+                                                                      for(var i=0;i!=len;i++){
+                                                                          if(data[i].courseid){
+                                                                              txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].name
+                                                                              +"</td><td>"+data[i].total_days+"</td><td>"+data[i].present_days+"</td><td>"+data[i].percentage+"</td></tr>";
+                                                                          }
+                                                                      }
+                                                                      if(txt != ""){
+//                                                                          $('#report').removeClass('hidden');
+                                                                          $('#listAttendance').append(txt).removeClass("hidden");
+                                                                      }
+                                                                  }
+//                                                      $.ajax({
+//                                                                  type: "GET",
+//                                                                  url: 'http://localhost:8080/attendance/getAll/'+studId+'/'+sDate+'/'+eDate+'/'+sub,
+//                                                                  success: function (data) {
+//                                                                                 len = data.length;
+//                                                                                 var txt = "";
+//                                                                                 if(len > 0){
+//                                                                                            for(var i=0;i!=len;i++){
+//                                                                                                 var arr=data[i].split(",");
+//                                                                                                 var attendanceDate=arr[0];
+//                                                                                                 var presence;
+//                                                                                                 if(arr[1]=="true"){
+//                                                                                                    presence="Present";
+//                                                                                                 }
+//                                                                                                 else{
+//                                                                                                    presence="Absent";
+//                                                                                                 }
+//                                                                                                 txt += "<tr><td>"+(i+1)+"</td><td>"+attendanceDate+"</td><td>"+presence+"</td></tr>";
+//                                                                                            }
+//                                                                                            if(txt != ""){
+//                                                                                                          $('#listAttendance').append(txt).removeClass("hidden");
+//                                                                                            }
+//                                                                                 }
+//                                                                                 else
+//                                                                                 {
+//                                                                                       alert("Null");
+//                                                                                 }
+//                                                                  }
+//
+//                                                      });
                          }
+
                });
 
         }

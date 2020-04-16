@@ -1,6 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.AttendanceRecord;
+import com.gec.lab_admin.db.models.AttendanceReport;
 import com.gec.lab_admin.db.models.Student;
 import com.gec.lab_admin.db.models.Teacher;
 import com.gec.lab_admin.services.AttendanceService;
@@ -17,12 +18,10 @@ import java.util.Optional;
 public class AttendanceController {
 //    @Autowired
 //    AttendanceService attendanceService;
+//    @Autowired
+//    AttendanceReport attendanceReport;
 //
 //    final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
-//    @RequestMapping("/student/getAttendanceRecords/{subjectid}")
-//    public List<Student> getAttendanceRecords(@PathVariable String subjectid) {
-//
-//    return null;
-//    }
+
 }

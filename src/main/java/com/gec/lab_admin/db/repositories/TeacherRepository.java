@@ -86,20 +86,20 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     void deleteLoggedInStudent(String studId);
 
-    @Query(
-            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
-            nativeQuery = true)
-    int getTotalCount(String studId, String sDate, String eDate,String sub);
-
-    @Query(
-            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and presence=1 and date between :sDate and :eDate",
-            nativeQuery = true)
-    int getCount(String studId, String sDate, String eDate, String sub);
-
-    @Query(
-            value = "select date,presence from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
-            nativeQuery = true)
-    List<String> getAllAttendance(String studId, String sDate, String eDate, String sub);
+//    @Query(
+//            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
+//            nativeQuery = true)
+//    int getTotalCount(String studId, String sDate, String eDate,String sub);
+//
+//    @Query(
+//            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and presence=1 and date between :sDate and :eDate",
+//            nativeQuery = true)
+//    int getCount(String studId, String sDate, String eDate, String sub);
+//
+//    @Query(
+//            value = "select date,presence from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
+//            nativeQuery = true)
+//    List<String> getAllAttendance(String studId, String sDate, String eDate, String sub);
 
 //    @Query(
 //            value = "insert into semester values(:id,:name)",

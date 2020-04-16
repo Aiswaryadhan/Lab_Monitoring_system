@@ -1,12 +1,14 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.*;
+import com.gec.lab_admin.services.AttendanceService;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,10 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
+    AttendanceReport attendanceReport;
+
+    @Autowired
+    AttendanceService attendanceService;
     final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
     public static String LOGGED_IN_TEACHER_SUBJECT="";
@@ -143,17 +149,29 @@ public class TeacherController {
         teacherService.deleteLoggedStudent(studId);
     }
 
-    @RequestMapping("/attendance/getTotalCount/{studId}/{sDate}/{eDate}/{sub}")
-    public int getTotalCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+//    @RequestMapping("/attendance/getTotalCount/{studId}/{sDate}/{eDate}/{sub}")
+//    public int getTotalCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+//
+//        return teacherService.getTotalCount(studId,sDate,eDate,sub);
+//    }
+//    @RequestMapping("/attendance/getCount/{studId}/{sDate}/{eDate}/{sub}")
+//    public int getCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+//        return teacherService.getCount(studId,sDate,eDate,sub);
+//    }
+//    @RequestMapping("/attendance/getAll/{studId}/{sDate}/{eDate}/{sub}")
+//    public List<String> getAllAttendance(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+//        return teacherService.getAllAttendance(studId,sDate,eDate,sub);
+//    }
+    @RequestMapping("/attendance/generateReport/{sDate}/{eDate}/{sub}")
+    public List<AttendanceReport> generateReport(@PathVariable String sDate, @PathVariable String eDate, @PathVariable String sub){
+        Integer totalDays=teacherService.getTotalDays(sDate,eDate,sub);
+        System.out.println("kkkk");
+        attendanceReport.setTotal_days(totalDays);
+        Integer k=attendanceReport.getTotal_days();
+        System.out.println("mmmm");
+        System.out.println(k);
+        List<AttendanceReport> reportList = teacherService.generateReport(sDate,eDate,sub,attendanceReport.getTotal_days());
+        return reportList;
+    }
 
-        return teacherService.getTotalCount(studId,sDate,eDate,sub);
-    }
-    @RequestMapping("/attendance/getCount/{studId}/{sDate}/{eDate}/{sub}")
-    public int getCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
-        return teacherService.getCount(studId,sDate,eDate,sub);
-    }
-    @RequestMapping("/attendance/getAll/{studId}/{sDate}/{eDate}/{sub}")
-    public List<String> getAllAttendance(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
-        return teacherService.getAllAttendance(studId,sDate,eDate,sub);
-    }
 }

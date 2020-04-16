@@ -1,12 +1,15 @@
 package com.gec.lab_admin.services;
 
 import com.gec.lab_admin.db.models.AttendanceRecord;
+import com.gec.lab_admin.db.models.AttendanceReport;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,11 +20,13 @@ public class AttendanceService {
 
     @Autowired
     private TeacherRepository teacherRepository;
-//
-//    public Optional<AttendanceRecord> insert(String subjectId) {
-//
-//        return attendanceRepository.findById(subjectId);
+
+//    public List<AttendanceReport> generateReport(String sub){
+//        List<AttendanceReport> reportList=new ArrayList<>();
+//        reportList.add(attendanceRepository.generateReport(studentid));
+//        return reportList;
 //    }
+
 
 }
 
