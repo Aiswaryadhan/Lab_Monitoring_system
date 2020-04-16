@@ -15,6 +15,21 @@ $(document).ready(function(){
                 alert(username);
                 connect();
     }
+
+    $("#studentLogout").click(function(){
+                $.removeCookie('studId');
+                $.removeCookie('studName');
+                $.removeCookie('studSem');
+                $.removeCookie('teacherName');
+                $.removeCookie('teacherId');
+                $.ajax({
+                                         type: "POST",
+                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                                         success: function (data) {
+
+                                         }
+                });
+    });
     'use strict';
     var stompClient;
 

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Subject Details</title>
+    <title>Attendance</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -28,7 +28,7 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="brand">
-            <p style="color:#2F4F4F;font-family:Brush Script MT, Brush Script Std, cursive;font-size:large"><b><i>Lab Monitoring System</i></b></p>
+            <h5><b><span>Lab Monitoring System</span></b></h5>
         </div>
         <div class="container-fluid">
             <!--            <div class="navbar-btn">-->
@@ -43,20 +43,20 @@
 
             <div id="navbar-menu">
                 <ul class="nav navbar-nav navbar-right">
-<!--                    <li class="dropdown">-->
-<!--                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">-->
-<!--                            <i class="lnr lnr-alarm"></i>-->
-<!--                            <span class="badge bg-danger" id="num">5</span>-->
-<!--                        </a>-->
-<!--                        <ul class="dropdown-menu notifications">-->
-<!--                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>-->
-<!--                            <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>-->
-<!--                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>-->
-<!--                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>-->
-<!--                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>-->
-<!--                            <li><a href="#" class="more">See all notifications</a></li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
+                    <!--                    <li class="dropdown">-->
+                    <!--                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">-->
+                    <!--                            <i class="lnr lnr-alarm"></i>-->
+                    <!--                            <span class="badge bg-danger" id="num">5</span>-->
+                    <!--                        </a>-->
+                    <!--                        <ul class="dropdown-menu notifications">-->
+                    <!--                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>-->
+                    <!--                            <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>-->
+                    <!--                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>-->
+                    <!--                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>-->
+                    <!--                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>-->
+                    <!--                            <li><a href="#" class="more">See all notifications</a></li>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span id="teacher_name"></span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
@@ -78,18 +78,18 @@
             <nav>
                 <ul class="nav">
                     <li><a href="home" class=""><i class="lnr lnr-home"></i> <span>Home</span></a></li>
-                    <li><a href="#" class=""><i class="lnr lnr-chart-bars"></i> <span>Attendance</span></a></li>
+                    <li><a href="" class="active"><i class="lnr lnr-chart-bars"></i> <span>Attendance</span></a></li>
                     <li><a href="monitor" class=""><i class="lnr lnr-screen"></i> <span>Student Monitoring</span></a></li>
                     <li><a href="#" class=""><i class="lnr lnr-inbox"></i> <span>Task Evaluation</span></a></li>
                     <li>
                         <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-database"></i> <span>Add Details</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                        <div id="subPages" class="active ">
+                        <div id="subPages" class="collapse ">
                             <ul class="nav">
 
                                 <li><a href="teachers"><i class="lnr lnr-users"></i><span>Teacher</span></a></li>
-                                <li><a href="subjects" class="active"><i class="lnr lnr-book"></i><span>Subject</span></a></li>
+                                <li><a href="subjects"><i class="lnr lnr-book"></i><span>Subject</span></a></li>
                                 <li><a href="students"><i class="lnr lnr-users"></i><span>Student</span></a></li>
-                                <li><a href="semesters" ><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
+                                <li><a href="semesters"><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
                             </ul>
                         </div>
                     </li>
@@ -107,25 +107,28 @@
                 <!-- PANEL NO CONTROLS -->
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Subject</h3>
+                        <h3 class="panel-title">Attendance</h3>
                     </div>
                     <div class="panel-body">
-                        <div id="error_sub_id" class="error"></div>
-                        <input type="text" class="form-control" id="txtSubId" placeholder="Enter Subject Id">
+                        <div id="error_stud_id" class="error"></div>
+                        <input type="text" class="form-control" id="txtStud" placeholder="Enter Student Id">
                         <br>
-                        <div id="error_sub_name" class="error"></div>
-                        <input type="text" class="form-control" id="txtSubName" placeholder="Enter Subject">
-                        <br>
-                        <div id="error_sub_sem" class="error"></div>
-                        <select class="form-control" id="sem">
-                            <option value="select" id="selectSem">Select Semester</option>
-                        </select>
+
+                        <label for="startDt">From</label>
+                        <div id="error_sDate_id" class="error"></div>
+                        <input type="date" id="startDt" name="startDt" class="form-control">
+                        <label for="startDt" >To</label>
+                        <div id="error_eDate_id" class="error"></div>
+                        <input type="date" id="endDt" name="endDt" class="form-control">
                         <br>
                         <p class="demo-button">
-                            <button type="button" class="btn btn-success" id="btnInsertSub"><i class="fa fa-check-circle"></i> Insert</button>
-                            <button type="button" class="btn btn-warning" id="btnUpdateSub"><i class="ln lnr-pencil"></i> Update</button>
-                            <button type="button" class="btn btn-danger" id="btnDeleteSub"><i class="fa fa-trash-o"></i> Delete</button>
+                            <button type="button" class="btn btn-success" id="btnCalcAttendance"><i class="fa fa-check-circle"></i>Find Percentage</button>
+                            <button type="button" class="btn btn-success" id="btnReset"><i class="fa fa-check-circle"></i>Reset</button>
                         </p>
+                        <label for="percent" >Attendance Percentage:</label>
+                        <input type="text" id="percent" name="percent" class="form-control">
+                        <br>
+
                     </div>
                 </div>
                 <!-- END PANEL NO CONTROLS -->
@@ -134,19 +137,18 @@
                 <!-- PANEL NO CONTROLS -->
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">All Subjects</h3>
+                        <h3 class="panel-title">Attendance Sheet</h3>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>Sl.No.</th>
-                                <th>Subject Id</th>
-                                <th>Subject</th>
-                                <th>Semester</th>
+                                <th>Date</th>
+                                <th>Presence</th>
                             </tr>
                             </thead>
-                            <tbody id="listSubject">
+                            <tbody id="listAttendance">
 
                             </tbody>
                         </table>
@@ -175,7 +177,7 @@
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
 <script type = "text/javascript" src = "http://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
-<script src="assets/js/insert_subject.js"></script>
+<script src="assets/js/admin_attendance.js"></script>
 </body>
 
 </html>

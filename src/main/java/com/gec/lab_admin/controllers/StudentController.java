@@ -68,6 +68,17 @@ public class StudentController {
     public void insertStud(@RequestBody Student student) {
         studentService.insertStud(student.getId(), student.getName(),student.getSem());
     }
+    @RequestMapping("/student/idCheck")
+    public String idCheck(@RequestBody Student student) {
+        Optional<Student> loggedInStudent = studentService.login(student.getId());
+        if(loggedInStudent.isPresent()){
+            return "success";
+        }
+        else{
+            return "failed";
+        }
+
+    }
     @RequestMapping("/student/update/{studId}")
     public void updateStud(@RequestBody Student student,@PathVariable String studId) {
         studentService.updateStud(student.getName(),student.getSem(),studId);

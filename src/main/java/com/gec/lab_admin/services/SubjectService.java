@@ -7,6 +7,7 @@ import com.gec.lab_admin.db.models.Subject;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectService {
@@ -38,4 +39,15 @@ public class SubjectService {
     }
 
 
+    public List<String> getSubSem() {
+        return subjectRepository.getSubSem();
+    }
+
+    public void updateSubSem(Integer sem, String subId) {
+            subjectRepository.updateSubSem(sem,subId);
+    }
+
+    public Optional<Subject> idCheck(String id) {
+        return subjectRepository.findById(id);
+    }
 }

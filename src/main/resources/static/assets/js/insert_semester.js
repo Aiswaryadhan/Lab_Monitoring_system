@@ -1,6 +1,31 @@
 $(document).ready(function(){
     var len;
     var semId;
+    if ($.cookie("id") != null && $.cookie("subject") != null) {
+                    var teacherId =$.cookie("id");
+                    var sub= $.cookie("subject");
+                    $.ajax({
+                               type: "POST",
+                               url: 'http://localhost:8080/teacher/getName/'+teacherId,
+                               success: function (data) {
+
+                                            $("#teacher_name").text(data);
+                               }
+                    });
+
+    }
+
+    $("#adminLogout").click(function(){
+            $.removeCookie('id');
+            $.removeCookie('subject');
+            $.ajax({
+                                     type: "POST",
+                                     url: 'http://localhost:8080/loggedStudent/delete',
+                                     success: function (data) {
+
+                                     }
+            });
+        });
     $("#btnInsertSem").prop('disabled',false);
     $("#btnUpdateSem").prop('disabled',true);
     $("#btnDeleteSem").prop('disabled',true);

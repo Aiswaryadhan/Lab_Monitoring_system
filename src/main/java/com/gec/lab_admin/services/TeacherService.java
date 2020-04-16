@@ -78,4 +78,56 @@ public class TeacherService {
             semesterRepository.deleteSem(semId);
 
     }
+
+    public List<String> getTeacherDetails() {
+        return teacherRepository.getTeacherDetails();
+    }
+
+    public void insertSem(String id, String name, Boolean is_admin) {
+        teacherRepository.insertTeacher(id,name,is_admin);
+    }
+    public void updateTeacher(String name, Boolean is_admin, String teacherId) {
+        teacherRepository.updateTeacher(name,is_admin,teacherId);
+    }
+    public void insertTeacherSub(String teacher_id, String subject_id) {
+        teacherRepository.insertTeacherSub(teacher_id,subject_id);
+    }
+
+
+    public void updateTeacherSub(String subject_id, String teacherId) {
+        teacherRepository.updateTeacherSub(subject_id,teacherId);
+    }
+
+    public void deleteTeacher(String teacherId) {
+        teacherRepository.deleteById(teacherId);
+    }
+
+    public void deleteTeacherSub(String teacherId) {
+        teacherRepository.deleteTeacherSub(teacherId);
+    }
+
+    public void deleteLoggedStud() {
+        teacherRepository.deleteLoggesStud();
+    }
+
+    public void deleteLoggedStudent(String studId) {
+        teacherRepository.deleteLoggedInStudent(studId);
+
+    }
+
+    public Optional<Teacher> idCheck(String id) {
+        return teacherRepository.findById(id);
+    }
+
+    public int getTotalCount(String studId, String sDate, String eDate,String sub) {
+        return teacherRepository.getTotalCount(studId,sDate,eDate,sub);
+    }
+
+    public int getCount(String studId, String sDate, String eDate, String sub) {
+        return teacherRepository.getCount(studId,sDate,eDate,sub);
+    }
+
+    public List<String> getAllAttendance(String studId, String sDate, String eDate, String sub) {
+        return teacherRepository.getAllAttendance(studId,sDate,eDate,sub);
+    }
 }

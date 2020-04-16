@@ -8,6 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import com.gec.lab_admin.db.models.Subject;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface SubjectRepository extends CrudRepository <Subject,String>{
 
     @Transactional
@@ -43,4 +45,16 @@ public interface SubjectRepository extends CrudRepository <Subject,String>{
             value = "delete from subject_sem where subject_id=:subId",
             nativeQuery = true)
     void deleteSubSem(String subId);
+
+    @Query(
+            value = "select s.*,ss.sem from subject s, subject_sem ss where s.id=ss.subject_id;",
+            nativeQuery = true)
+    List<String> getSubSem();
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update subject_sem set sem=:sem where subject_id=:subId",
+            nativeQuery = true)
+    void updateSubSem(Integer sem, String subId);
 }

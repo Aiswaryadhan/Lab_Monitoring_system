@@ -21,21 +21,19 @@ $(document).ready(function(){
                 });
 
     }
-  $("#adminLogout").click(function(){
-        $.removeCookie('id');
-        $.removeCookie('subject');
-        $.ajax({
-                                 type: "POST",
-                                 url: 'http://localhost:8080/loggedStudent/delete',
-                                 success: function (data) {
+      $("#teacherLogout").click(function(){
+            $.removeCookie('id');
+            $.removeCookie('subject');
+            $.ajax({
+                                     type: "POST",
+                                     url: 'http://localhost:8080/loggedStudent/delete',
+                                     success: function (data) {
 
-                                 }
-        });
-    });
+                                     }
+            });
+      })
+
      'use strict';
-//     var receiver = null;
-//     var stompClient = null;
-//     var username = null;
 
      var colors = [
          '#2196F3', '#32c787', '#00BCD4', '#ff5652',

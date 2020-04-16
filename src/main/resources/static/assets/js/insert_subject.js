@@ -3,6 +3,31 @@ $(document).ready(function(){
     var subId;
     var subName;
     var sem;
+    if ($.cookie("id") != null && $.cookie("subject") != null) {
+                    var teacherId =$.cookie("id");
+                    var sub= $.cookie("subject");
+                    $.ajax({
+                               type: "POST",
+                               url: 'http://localhost:8080/teacher/getName/'+teacherId,
+                               success: function (data) {
+
+                                            $("#teacher_name").text(data);
+                               }
+                    });
+
+         }
+
+        $("#adminLogout").click(function(){
+            $.removeCookie('id');
+            $.removeCookie('subject');
+            $.ajax({
+                                     type: "POST",
+                                     url: 'http://localhost:8080/loggedStudent/delete',
+                                     success: function (data) {
+
+                                     }
+            });
+        });
     $("#sem").show();
     $("#txtSubId").prop('disabled',false);
     $("#btnInsertSub").prop('disabled',false);
@@ -33,7 +58,27 @@ $(document).ready(function(){
                     }
                     else
                     {
-                          $('#error_sub_id').slideUp();
+                            var subData = {
+                                                   'id': subId
+                            };
+                            var aJson = JSON.stringify(subData);
+                            $.ajax({
+                                       type: "POST",
+                                       url: 'http://localhost:8080/subject/idCheck',
+                                       headers : {
+                                                      "Content-Type" : "application/json"
+                                       },
+                                       data:aJson,
+                                       success: function (data) {
+                                                      if(data=="success"){
+                                                                        $('#error_sub_id').slideDown();
+                                                                        $('#error_sub_id').html('Id Already allotted');
+                                                      }
+                                                      else {
+                                                                 $('#error_sub_id').slideUp();
+                                                      }
+                                       }
+                            })
                     }
     });
 
@@ -103,14 +148,17 @@ $(document).ready(function(){
 
     $.ajax({
                type: "GET",
-               url: 'http://localhost:8080/subject/getAll',
+               url: 'http://localhost:8080/subject/getSubSem',
                success: function (data) {
                                            len = data.length;
                                            var txt = "";
                                            if(len > 0){
                                                      for(var i=0;i!=len;i++){
-                                                          if(data[i].id)
-                                                          txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td></tr>";
+                                                          var arr=data[i].split(",");
+                                                          var id=arr[0];
+                                                          var name=arr[1];
+                                                          var sem=arr[2];
+                                                          txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+sem+"</td></tr>";
                                                      }
                                                      if(txt != ""){
                                                                    $('#listSubject').append(txt).removeClass("hidden");
@@ -160,26 +208,31 @@ $(document).ready(function(){
 //                                       alert("Successfully Inserted");
                                        $("#listSubject tr").remove();
                                        $.ajax({
-                                                   type: "GET",
-                                                   url: 'http://localhost:8080/subject/getAll',
-                                                   success: function (data) {
-                                                                                 len = data.length;
-                                                                                 var txt = "";
-                                                                                 if(len > 0){
-                                                                                                 for(var i=0;i!=len;i++){
-                                                                                                        if(data[i].id)
-                                                                                                          txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td></tr>";
-                                                                                                 }
-                                                                                                 if(txt != ""){
-                                                                                                                $('#listSubject').append(txt).removeClass("hidden");
-                                                                                                 }
-                                                                                 }
-                                                                                 else
-                                                                                {
-                                                                                        alert("Null");
-                                                                                }
-                                                   }
+                                                      type: "GET",
+                                                      url: 'http://localhost:8080/subject/getSubSem',
+                                                      success: function (data) {
+                                                                                  len = data.length;
+                                                                                  var txt = "";
+                                                                                  if(len > 0){
+                                                                                            for(var i=0;i!=len;i++){
+                                                                                                 var arr=data[i].split(",");
+                                                                                                 var id=arr[0];
+                                                                                                 var name=arr[1];
+                                                                                                 var sem=arr[2];
+                                                                                                 txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+sem+"</td></tr>";
+                                                                                            }
+                                                                                            if(txt != ""){
+                                                                                                          $('#listSubject').append(txt).removeClass("hidden");
+                                                                                            }
+                                                                                  }
+                                                                                  else
+                                                                                  {
+                                                                                       alert("Null");
+                                                                                  }
+                                                      }
+
                                        });
+
                          }
                });
 
@@ -200,7 +253,6 @@ $(document).ready(function(){
                                                       $("#txtSubId").val('');
                                                       $("#txtSubName").val('');
                                                       $("#sem").val('select');
-                                                      $("#listSubject tr").remove();
 
                                         }
                 });
@@ -218,9 +270,9 @@ $(document).ready(function(){
                      		var tableData = $(this).children("td").map(function() {
                      														           return $(this).text();
                      		}).get();
-                     		$("#sem").hide();
                             $("#txtSubName").val(tableData[2]);
                             $("#txtSubId").val(tableData[1]);
+                            $('#sem').val(tableData[3])
                             $("#txtSubId").prop('disabled',true);
                             $("#btnInsertSub").prop('disabled',true);
                             $("#btnUpdateSub").prop('disabled',false);
@@ -229,14 +281,20 @@ $(document).ready(function(){
     $("#btnUpdateSub").click(function(){
                           subId=$("#txtSubId").val();
                           subName=$("#txtSubName").val();
+                          subSem = $('#sem').val();
                           if(subName==''){
                                          $('#error_sub_name').slideDown();
                                          $('#error_sub_name').html('Please provide valid Subject');
                                          status = 1;
                                          return false;
                           }
+                          else if(subSem=='select'){
+                                             $('#error_sub_sem').slideDown();
+                                             $('#error_sub_sem').html('Please select semester');
+                          }
                           else{
                                          $('#error_sub_name').slideUp();
+                                         $('#error_sub_sem').slideUp();
                                          var semData = {
                                                             'name': subName
                                          };
@@ -249,37 +307,59 @@ $(document).ready(function(){
                                                        },
                                                        data:aJson,
                                                        success: function (data) {
-                                                                                    $("#txtSubId").prop('disabled',false);
-                                                                                    $("#sem").show();
-                                                                                    $("#btnInsertSub").prop('disabled',false);
-                                                                                    $("#btnUpdateSub").prop('disabled',true);
-                                                                                    $("#btnDeleteSub").prop('disabled',true);
+
                                                                                     $("#listSubject tr").remove();
                                                                                     $.ajax({
-                                                                                                 type: "GET",
-                                                                                                 url: 'http://localhost:8080/subject/getAll',
-                                                                                                 success: function (data) {
-                                                                                                                               len = data.length;
-                                                                                                                               var txt = "";
-                                                                                                                               if(len > 0){
-                                                                                                                                                for(var i=0;i!=len;i++){
-                                                                                                                                                                     if(data[i].id)
-                                                                                                                                                                          txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td></tr>";
-                                                                                                                                                }
-                                                                                                                                                if(txt != ""){
-                                                                                                                                                                $('#listSubject').append(txt).removeClass("hidden");
-                                                                                                                                                }
-                                                                                                                               }
-                                                                                                                               else
-                                                                                                                               {
-                                                                                                                                    alert("Null");
-                                                                                                                               }
-                                                                                                   }
-
+                                                                                               type: "GET",
+                                                                                               url: 'http://localhost:8080/subject/getSubSem',
+                                                                                               success: function (data) {
+                                                                                                                         len = data.length;
+                                                                                                                         var txt = "";
+                                                                                                                         if(len > 0){
+                                                                                                                                    for(var i=0;i!=len;i++){
+                                                                                                                                               var arr=data[i].split(",");
+                                                                                                                                               var id=arr[0];
+                                                                                                                                               var name=arr[1];
+                                                                                                                                               var sem=arr[2];
+                                                                                                                                               txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+sem+"</td></tr>";
+                                                                                                                                    }
+                                                                                                                                    if(txt != ""){
+                                                                                                                                                     $('#listSubject').append(txt).removeClass("hidden");
+                                                                                                                                    }
+                                                                                                                         }
+                                                                                                                         else
+                                                                                                                         {
+                                                                                                                            alert("Null");
+                                                                                                                         }
+                                                                                               }
                                                                                     });
+
                                                        }
 
                                          });
+                                         var subSemData = {
+                                                                                         'sem': subSem
+                                                        };
+                                                        var aJson = JSON.stringify(subSemData);
+                                                         $.ajax({
+                                                                                 type: "POST",
+                                                                                 url: 'http://localhost:8080/subjectSem/update/'+subId,
+                                                                                 headers: {
+                                                                                               "Content-Type": "application/json"
+                                                                                 },
+                                                                                 data:aJson,
+                                                                                 success: function (data) {
+                                                                                               alert("Successfully Updated");
+                                                                                               $("#txtSubId").prop('disabled',false);
+                                                                                               $("#txtSubId").val('');
+                                                                                               $("#txtSubName").val('');
+                                                                                               $("#sem").val('select');
+                                                                                               $("#btnInsertSub").prop('disabled',false);
+                                                                                               $("#btnUpdateSub").prop('disabled',true);
+                                                                                               $("#btnDeleteSub").prop('disabled',true);
+
+                                                                                 }
+                                                         });
 
                           }
     });
@@ -300,25 +380,28 @@ $(document).ready(function(){
                                                             $("#btnDeleteSub").prop('disabled',true);
                                                             $("#listSubject tr").remove();
                                                             $.ajax({
-                                                                       type: "GET",
-                                                                       url: 'http://localhost:8080/subject/getAll',
-                                                                       success: function (data) {
-                                                                                                       len = data.length;
-                                                                                                       var txt = "";
-                                                                                                       if(len > 0){
-                                                                                                                     for(var i=0;i!=len;i++){
-                                                                                                                                      if(data[i].id)
-                                                                                                                                           txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td></tr>";
-                                                                                                                     }
-                                                                                                                     if(txt != ""){
-                                                                                                                                      $('#listSubject').append(txt).removeClass("hidden");
-                                                                                                                     }
-                                                                                                       }
-                                                                                                       else{
-                                                                                                               alert("Null");
-                                                                                                       }
-                                                                       }
-
+                                                                        type: "GET",
+                                                                        url: 'http://localhost:8080/subject/getSubSem',
+                                                                        success: function (data) {
+                                                                                                     len = data.length;
+                                                                                                     var txt = "";
+                                                                                                     if(len > 0){
+                                                                                                                   for(var i=0;i!=len;i++){
+                                                                                                                                var arr=data[i].split(",");
+                                                                                                                                var id=arr[0];
+                                                                                                                                var name=arr[1];
+                                                                                                                                var sem=arr[2];
+                                                                                                                                txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+sem+"</td></tr>";
+                                                                                                                   }
+                                                                                                                   if(txt != ""){
+                                                                                                                           $('#listSubject').append(txt).removeClass("hidden");
+                                                                                                                   }
+                                                                                                     }
+                                                                                                     else
+                                                                                                     {
+                                                                                                        alert("Null");
+                                                                                                     }
+                                                                        }
                                                             });
                                }
                     });

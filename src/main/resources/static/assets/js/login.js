@@ -106,11 +106,17 @@ $(document).ready(function(){
                             success : function(data) {
                                 var msg = "";
                                 //alert("Hello");
-                                //alert(data);
-                                if(data == "success"){
+                                alert(data);
+                                if(data == "successtrue"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);
                                                             window.location.replace("http://localhost:8080/home");
+
+                                }
+                                else if(data == "successfalse"){
+                                                            $.cookie("id", user);
+                                                            $.cookie("subject", selsub);
+                                                            window.location.replace("http://localhost:8080/teacherDashboard");
 
                                 }
                                 else{

@@ -1,14 +1,13 @@
 package com.gec.lab_admin.controllers;
 
-import com.gec.lab_admin.db.models.Semester;
-import com.gec.lab_admin.db.models.Student;
-import com.gec.lab_admin.db.models.Teacher;
+import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +21,7 @@ public class TeacherController {
     public static String LOGGED_IN_TEACHER_SUBJECT="";
     public static String LOGGED_IN_TEACHER_NAME="";
     public static String LOGGED_IN_TEACHER_ID="";
+    public static Boolean LOGGED_IN_TEACHER_ADMIN;
     @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
     public String login(@RequestBody Teacher teacher, @PathVariable String subjectId){
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
@@ -30,10 +30,11 @@ public class TeacherController {
                 LOGGED_IN_TEACHER_SUBJECT = subjectId;
                 LOGGED_IN_TEACHER_NAME=loggedInTeacher.get().getName();
                 LOGGED_IN_TEACHER_ID=loggedInTeacher.get().getId();
+                LOGGED_IN_TEACHER_ADMIN=loggedInTeacher.get().getIs_admin();
                 System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
-                logger.info("succes");
-                return "success";
+                logger.info("success");
+                return "success"+LOGGED_IN_TEACHER_ADMIN;
             }
             else{
                 logger.debug("wrong password");
@@ -46,6 +47,22 @@ public class TeacherController {
         }
     }
 
+    @RequestMapping("/teacher/idCheck")
+    public String idCheck(@RequestBody Teacher teacher) {
+        Optional<Teacher> sub = teacherService.idCheck(teacher.getId());
+        if(sub.isPresent()){
+            return "success";
+        }
+        else{
+            return "failed";
+        }
+
+    }
+
+//    @RequestMapping("/teacher/id/{teacher_id}")
+//    public List<String> generateSubject(@PathVariable String teacher_id) {
+//        return teacherService.getSubjects(teacher_id);
+//    }
 
     @RequestMapping("/teacher/id/{teacher_id}")
     public List<String> generateSubject(@PathVariable String teacher_id) {
@@ -61,6 +78,41 @@ public class TeacherController {
     public List<String> findStudent(){
         logger.info("finding student");
         return teacherService.getStudentName();
+    }
+    @RequestMapping("teacher_details/getAll")
+    public List<String> findTeacherDetails(){
+        return teacherService.getTeacherDetails();
+    }
+
+    @RequestMapping("/teacher/insert")
+    public void insertTeacher(@RequestBody Teacher teacher){
+        logger.info("Insert in teacher table");
+        teacherService.insertSem(teacher.getId(),teacher.getName(),teacher.getIs_admin());
+    }
+    @RequestMapping("/teacher/update/{teacherId}")
+    public void updateTeacher(@RequestBody Teacher teacher,@PathVariable String teacherId){
+        logger.info("Update teacher table");
+        teacherService.updateTeacher(teacher.getName(),teacher.getIs_admin(),teacherId);
+    }
+    @RequestMapping("/teacher/delete/{teacherId}")
+    public void deleteTeacher(@PathVariable String teacherId){
+        logger.info("Delete teacher table");
+        teacherService.deleteTeacher(teacherId);
+    }
+    @RequestMapping("/teacherSub/insert")
+    public void insertTeacherSub(@RequestBody TeacherSubject teacherSubject){
+        logger.info("Insert in teachersub table");
+        teacherService.insertTeacherSub(teacherSubject.getTeacher_id(),teacherSubject.getSubject_id());
+    }
+    @RequestMapping("/teacherSub/update/{teacherId}")
+    public void updateTeacherSub(@RequestBody TeacherSubject teacherSubject,@PathVariable String teacherId){
+        logger.info("Update teacherSubject table");
+        teacherService.updateTeacherSub(teacherSubject.getSubject_id(),teacherId);
+    }
+    @RequestMapping("/teacherSub/delete/{teacherId}")
+    public void deleteTeacherSub(@PathVariable String teacherId){
+        logger.info("Delete teacherSub table");
+        teacherService.deleteTeacherSub(teacherId);
     }
     @RequestMapping("/semester/getAll")
     public List<Semester> getAllSemester(){
@@ -82,6 +134,26 @@ public class TeacherController {
         logger.info("Deletion in semester table");
         teacherService.deleteSem(semId);
     }
+    @RequestMapping("/loggedStudent/delete")
+    public void deleteLoggedStud(){
+        teacherService.deleteLoggedStud();
+    }
+    @RequestMapping("/loggedStudent/delete/{studId}")
+    public void deleteLoggedStudent(@PathVariable String studId){
+        teacherService.deleteLoggedStudent(studId);
+    }
 
+    @RequestMapping("/attendance/getTotalCount/{studId}/{sDate}/{eDate}/{sub}")
+    public int getTotalCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
 
+        return teacherService.getTotalCount(studId,sDate,eDate,sub);
+    }
+    @RequestMapping("/attendance/getCount/{studId}/{sDate}/{eDate}/{sub}")
+    public int getCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+        return teacherService.getCount(studId,sDate,eDate,sub);
+    }
+    @RequestMapping("/attendance/getAll/{studId}/{sDate}/{eDate}/{sub}")
+    public List<String> getAllAttendance(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
+        return teacherService.getAllAttendance(studId,sDate,eDate,sub);
+    }
 }

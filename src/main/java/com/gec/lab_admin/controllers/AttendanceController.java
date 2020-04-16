@@ -15,10 +15,10 @@ import java.util.Optional;
 
 @RestController
 public class AttendanceController {
-    @Autowired
-    AttendanceService attendanceService;
-
-    final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
+//    @Autowired
+//    AttendanceService attendanceService;
+//
+//    final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
 //    @RequestMapping("/student/getAttendanceRecords/{subjectid}")
 //    public List<Student> getAttendanceRecords(@PathVariable String subjectid) {

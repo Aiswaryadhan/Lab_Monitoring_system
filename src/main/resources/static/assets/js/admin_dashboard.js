@@ -11,6 +11,17 @@ $(document).ready(function(){
                            }
                 });
 
-            }
+     }
 
+    $("#adminLogout").click(function(){
+        $.removeCookie('id');
+        $.removeCookie('subject');
+        $.ajax({
+                                 type: "POST",
+                                 url: 'http://localhost:8080/loggedStudent/delete',
+                                 success: function (data) {
+
+                                 }
+        });
+    });
 });//close of document ready

@@ -50,10 +50,22 @@ public class WebController {
         return "admin_dashboard";
     }
 
+    @RequestMapping("/attendance")
+    //@ResponseBody
+    public String attendance() {
+        return "admin_attendance";
+    }
+
     @RequestMapping("/teacherDashboard")
     //@ResponseBody
     public String teacherDashboard() {
         return "teacher_dashboard";
+    }
+
+    @RequestMapping("/teacherMonitor")
+    //@ResponseBody
+    public String teacherMonitor() {
+        return "teacher_monitor";
     }
 
     @RequestMapping("/semesters")

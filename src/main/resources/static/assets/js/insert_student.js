@@ -3,6 +3,29 @@ $(document).ready(function(){
     var studId;
     var studName;
     var studSem;
+    if ($.cookie("id") != null && $.cookie("subject") != null) {
+                    var teacherId =$.cookie("id");
+                    var sub= $.cookie("subject");
+                    $.ajax({
+                               type: "POST",
+                               url: 'http://localhost:8080/teacher/getName/'+teacherId,
+                               success: function (data) {
+
+                                            $("#teacher_name").text(data);
+                               }
+                    });
+    }
+    $("#adminLogout").click(function(){
+            $.removeCookie('id');
+            $.removeCookie('subject');
+            $.ajax({
+                                     type: "POST",
+                                     url: 'http://localhost:8080/loggedStudent/delete',
+                                     success: function (data) {
+
+                                     }
+            });
+    });
     $("#txtStudId").prop('disabled',false);
     $("#btnInsertStudent").prop('disabled',false);
     $("#btnUpdateStudent").prop('disabled',true);
@@ -33,7 +56,28 @@ $(document).ready(function(){
                     }
                     else
                     {
-                          $('#error_stud_id').slideUp();
+                                    var studData = {
+                                        'id': studId
+                                    };
+                                    var aJson = JSON.stringify(studData);
+                                    $.ajax({
+                                                             type: "POST",
+                                                             url: 'http://localhost:8080/student/idCheck',
+                                                             headers : {
+                                                                         "Content-Type" : "application/json"
+                                                             },
+                                                             data:aJson,
+                                                             success: function (data) {
+                                                                if(data=="success"){
+                                                                    $('#error_stud_id').slideDown();
+                                                                    $('#error_stud_id').html('Id Already allotted');
+                                                                }
+                                                                else {
+                                                                    $('#error_stud_id').slideUp();
+                                                                }
+
+                                                             }
+                                    })
                     }
     });
 
