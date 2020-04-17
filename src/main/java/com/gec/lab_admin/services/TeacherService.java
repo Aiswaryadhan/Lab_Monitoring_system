@@ -1,5 +1,6 @@
 package com.gec.lab_admin.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.db.repositories.AttendanceRepository;
 import com.gec.lab_admin.db.repositories.SemesterRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -21,10 +23,7 @@ public class TeacherService {
     @Autowired
     private SemesterRepository semesterRepository;
 
-//    @PostConstruct
-//    public void testing(){
-//        this.populateAttendanceRegister("sub01");
-//    }
+    ObjectMapper mapper = new ObjectMapper();
 
 
     public List<String> getSubjects(String teacher_id){
@@ -120,9 +119,12 @@ public class TeacherService {
     }
 
     public List<AttendanceReport>  generateReports(String sDate, String eDate, String sub,Integer totalDays) {
-        List<AttendanceReport> reportList=new ArrayList<>();
-        reportList.add((AttendanceReport) attendanceRepository.generateReports(sDate,eDate,sub,totalDays));
-        return reportList;
+        List<AttendanceReport> attendanceReportList = new ArrayList<>();
+        List<Map> objectArrayList = attendanceRepository.generateReports(sDate, eDate, sub, totalDays);
+        for ( Map obj: objectArrayList ) {
+            attendanceReportList.add(mapper.convertValue(obj, AttendanceReport.class));
+        }
+        return attendanceReportList;
     }
 
 
