@@ -1,10 +1,10 @@
 package com.gec.lab_admin.db.models;
 
 public class AttendanceReport {
-    private String name;
-    private Integer total_days;
-    private Integer present_days;
-    private Float percentage;
+    public String name;
+    public Integer total_days;
+    public Integer present_days;
+    public Float percentage;
 //    private Boolean eligibility;
 
     public AttendanceReport(String name, Integer total_days, Integer present_days, Float percentage) {

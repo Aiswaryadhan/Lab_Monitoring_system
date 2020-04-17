@@ -119,22 +119,13 @@ public class TeacherService {
         return teacherRepository.findById(id);
     }
 
-//    public int getTotalCount(String studId, String sDate, String eDate,String sub) {
-//        return teacherRepository.getTotalCount(studId,sDate,eDate,sub);
-//    }
-//
-//    public int getCount(String studId, String sDate, String eDate, String sub) {
-//        return teacherRepository.getCount(studId,sDate,eDate,sub);
-//    }
-//
-//    public List<String> getAllAttendance(String studId, String sDate, String eDate, String sub) {
-//        return teacherRepository.getAllAttendance(studId,sDate,eDate,sub);
-//    }
-    public List<AttendanceReport> generateReport(String sDate, String eDate, String sub,Integer totalDays) {
+    public List<AttendanceReport>  generateReports(String sDate, String eDate, String sub,Integer totalDays) {
         List<AttendanceReport> reportList=new ArrayList<>();
-        reportList.add(attendanceRepository.generateReport(sDate,eDate,sub,totalDays));
+        reportList.add((AttendanceReport) attendanceRepository.generateReports(sDate,eDate,sub,totalDays));
         return reportList;
     }
+
+
 
     public Integer getTotalDays(String sDate, String eDate, String sub) {
         return attendanceRepository.getTotalDays(sDate,eDate,sub);

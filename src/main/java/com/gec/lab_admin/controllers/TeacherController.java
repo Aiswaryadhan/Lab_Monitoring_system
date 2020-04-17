@@ -18,7 +18,7 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-    AttendanceReport attendanceReport;
+    AttendanceReport attendanceReport=new AttendanceReport();
 
     @Autowired
     AttendanceService attendanceService;
@@ -149,28 +149,15 @@ public class TeacherController {
         teacherService.deleteLoggedStudent(studId);
     }
 
-//    @RequestMapping("/attendance/getTotalCount/{studId}/{sDate}/{eDate}/{sub}")
-//    public int getTotalCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
-//
-//        return teacherService.getTotalCount(studId,sDate,eDate,sub);
-//    }
-//    @RequestMapping("/attendance/getCount/{studId}/{sDate}/{eDate}/{sub}")
-//    public int getCount(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
-//        return teacherService.getCount(studId,sDate,eDate,sub);
-//    }
-//    @RequestMapping("/attendance/getAll/{studId}/{sDate}/{eDate}/{sub}")
-//    public List<String> getAllAttendance(@PathVariable String studId, @PathVariable String sDate, @PathVariable String eDate,@PathVariable String sub){
-//        return teacherService.getAllAttendance(studId,sDate,eDate,sub);
-//    }
+
     @RequestMapping("/attendance/generateReport/{sDate}/{eDate}/{sub}")
     public List<AttendanceReport> generateReport(@PathVariable String sDate, @PathVariable String eDate, @PathVariable String sub){
         Integer totalDays=teacherService.getTotalDays(sDate,eDate,sub);
-        System.out.println("kkkk");
+        System.out.println("got total days");
         attendanceReport.setTotal_days(totalDays);
         Integer k=attendanceReport.getTotal_days();
-        System.out.println("mmmm");
         System.out.println(k);
-        List<AttendanceReport> reportList = teacherService.generateReport(sDate,eDate,sub,attendanceReport.getTotal_days());
+        List<AttendanceReport> reportList = teacherService.generateReports(sDate,eDate,sub,attendanceReport.getTotal_days());
         return reportList;
     }
 
