@@ -8,10 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.StrictMath.round;
 
 @RestController
 public class TeacherController {
@@ -158,6 +161,19 @@ public class TeacherController {
         Integer k=attendanceReport.getTotal_days();
         System.out.println(k);
         List<AttendanceReport> reportList = teacherService.generateReports(sDate,eDate,sub,attendanceReport.getTotal_days());
+        reportList.forEach(attendanceReport -> {
+           Integer t_days=attendanceReport.getTotal_days();
+           Integer p_days=attendanceReport.getPresent_days();
+           float percent=((float)p_days/(float)t_days)*100;
+            double m= Math.round(percent*100.0)/100.0;
+            attendanceReport.setPercentage((float) m);
+            if(m<75){
+                attendanceReport.setEligibility(false);
+            }
+            else{
+                attendanceReport.setEligibility(true);
+            }
+        });
         return reportList;
     }
 

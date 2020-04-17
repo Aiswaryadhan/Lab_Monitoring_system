@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $("#tblAttendance").hide();
      if ($.cookie("id") != null && $.cookie("subject") != null) {
                 var teacherId =$.cookie("id");
                 var sub= $.cookie("subject");
@@ -73,61 +74,53 @@ $(document).ready(function(){
                                        "Content-Type": "application/json"
                          },
                          success: function (data) {
-                                                      $("#listAttendance tr").remove();
-                                                      var len = data.length;
-                                                                  var txt = "";
-                                                                  if(len > 0){
-                                                                      for(var i=0;i!=len;i++){
-                                                                          if(data[i].courseid){
-                                                                              txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].name
-                                                                              +"</td><td>"+data[i].total_days+"</td><td>"+data[i].present_days+"</td><td>"+data[i].percentage+"</td></tr>";
-                                                                          }
-                                                                      }
-                                                                      if(txt != ""){
-//                                                                          $('#report').removeClass('hidden');
-                                                                          $('#listAttendance').append(txt).removeClass("hidden");
-                                                                      }
-                                                                  }
-//                                                      $.ajax({
-//                                                                  type: "GET",
-//                                                                  url: 'http://localhost:8080/attendance/getAll/'+studId+'/'+sDate+'/'+eDate+'/'+sub,
-//                                                                  success: function (data) {
-//                                                                                 len = data.length;
-//                                                                                 var txt = "";
-//                                                                                 if(len > 0){
-//                                                                                            for(var i=0;i!=len;i++){
-//                                                                                                 var arr=data[i].split(",");
-//                                                                                                 var attendanceDate=arr[0];
-//                                                                                                 var presence;
-//                                                                                                 if(arr[1]=="true"){
-//                                                                                                    presence="Present";
-//                                                                                                 }
-//                                                                                                 else{
-//                                                                                                    presence="Absent";
-//                                                                                                 }
-//                                                                                                 txt += "<tr><td>"+(i+1)+"</td><td>"+attendanceDate+"</td><td>"+presence+"</td></tr>";
-//                                                                                            }
-//                                                                                            if(txt != ""){
-//                                                                                                          $('#listAttendance').append(txt).removeClass("hidden");
-//                                                                                            }
-//                                                                                 }
-//                                                                                 else
-//                                                                                 {
-//                                                                                       alert("Null");
-//                                                                                 }
-//                                                                  }
-//
-//                                                      });
+                                        $("#listAttendance tr").remove();
+                                        var len = data.length;
+                                        var txt = "";
+                                        if(len > 0){
+                                                for(var i=0;i!=len;i++){
+                                                               if(data[i].name){
+                                                                var eligibility;
+                                                                if(data[i].eligibility==true){
+                                                                    eligibility="Eligible";
+                                                                }
+                                                                else{
+                                                                    eligibility="Not Eligible";
+                                                                }
+                                                                        txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].name
+                                                                            +"</td><td>"+data[i].total_days+"</td><td>"+data[i].present_days+"</td><td>"+data[i].percentage+"</td><td>"+eligibility+"</td></tr>";
+                                                               }
+                                                }
+                                                if(txt != ""){
+                                                            $("#tblAttendance").show();
+                                                              $('#listAttendance').append(txt).removeClass("hidden");
+                                                }
+                                        }
+
                          }
 
                });
 
         }
     });
+      $("#btnExport").click(function(){
+              html2canvas($('#tblAttn')[0], {
+                              onrendered: function (canvas) {
+                                  var data = canvas.toDataURL();
+                                  var docDefinition = {
+                                      content: [{
+                                          image: data,
+                                          width: 500
+                                      }]
+                                  };
+                                  pdfMake.createPdf(docDefinition).download("Table.pdf");
+                              }
+                          });
+
+        });
     $("#btnReset").click(function(){
-          $('#txtStud').val('');
+    $("#tblAttendance").hide();
           $('#startDt').val('');
           $('#endDt').val('');
-          $("#percent").val('');
     });
 });//close of document ready

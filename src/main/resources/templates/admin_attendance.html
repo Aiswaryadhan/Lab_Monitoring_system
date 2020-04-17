@@ -103,58 +103,62 @@
     <div class="main">
         <!-- MAIN CONTENT -->
         <div class="main-content">
-            <div class="col-md-6">
+            <div class="rows">
+                <div class="col-md-6">
                 <!-- PANEL NO CONTROLS -->
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attendance</h3>
-                    </div>
-                    <div class="panel-body">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Attendance</h3>
+                        </div>
+                        <div class="panel-body">
 
-                        <label for="startDt">From</label>
-                        <div id="error_sDate_id" class="error"></div>
-                        <input type="date" id="startDt" name="startDt" class="form-control">
-                        <label for="startDt" >To</label>
-                        <div id="error_eDate_id" class="error"></div>
-                        <input type="date" id="endDt" name="endDt" class="form-control">
-                        <br>
-                        <p class="demo-button">
-                            <button type="button" class="btn btn-success" id="btnCalcAttendance"><i class="fa fa-check-circle"></i>Find Percentage</button>
-                            <button type="button" class="btn btn-success" id="btnReset"><i class="fa fa-check-circle"></i>Reset</button>
-                        </p>
-<!--                        <label for="percent" >Attendance Percentage:</label>-->
-<!--                        <input type="text" id="percent" name="percent" class="form-control">-->
-                        <br>
-
+                            <label for="startDt">From</label>
+                            <div id="error_sDate_id" class="error"></div>
+                            <input type="date" id="startDt" name="startDt" class="form-control">
+                            <label for="startDt" >To</label>
+                            <div id="error_eDate_id" class="error"></div>
+                            <input type="date" id="endDt" name="endDt" class="form-control">
+                            <br>
+                            <p class="demo-button">
+                                <button type="button" class="btn btn-success" id="btnCalcAttendance"><i class="fa fa-check-circle"></i>Find Percentage</button>
+                                <button type="button" class="btn btn-danger" id="btnReset"><i class="fa fa-check-circle"></i>Reset</button>
+                            </p>
+                            <br>
+                        </div>
                     </div>
                 </div>
-                <!-- END PANEL NO CONTROLS -->
             </div>
-            <div class="col-md-6">
-                <!-- PANEL NO CONTROLS -->
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attendance Sheet</h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>Sl.No.</th>
-                                <th>Name</th>
-                                <th>Total Days</th>
-                                <th>Present Days</th>
-                                <th>Attendance Percentage</th>
-                                <th>Eligibility</th>
-                            </tr>
-                            </thead>
-                            <tbody id="listAttendance">
-
-                            </tbody>
-                        </table>
-                    </div><!-- panel body-->
-                </div><!-- Panel -->
                 <!-- END PANEL NO CONTROLS -->
+            <div class="rows">
+                <div class="col-md-12">
+                    <!-- PANEL NO CONTROLS -->
+                    <div class="panel" id="tblAttendance">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Attendance Sheet</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="tblAttn" >
+                                <thead>
+                                    <tr>
+                                        <th>Sl.No.</th>
+                                        <th>Name</th>
+                                        <th>Total Days</th>
+                                        <th>Present Days</th>
+                                        <th>Attendance Percentage</th>
+                                        <th>Eligibility</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listAttendance">
+
+                                </tbody>
+                            </table>
+                            <p class="demo-button">
+                                <button type="button" class="btn btn-primary" id="btnExport"><i class="fa fa-check-circle"></i>Export</button>
+                            </p>
+                        </div><!-- panel body-->
+                    </div><!-- Panel -->
+                    <!-- END PANEL NO CONTROLS -->
+                </div>
             </div>
         </div>
     </div>
@@ -176,6 +180,9 @@
 <script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
 <script type = "text/javascript" src = "http://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script src="assets/js/admin_attendance.js"></script>
 </body>

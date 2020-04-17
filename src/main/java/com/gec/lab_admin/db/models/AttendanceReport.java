@@ -1,18 +1,18 @@
 package com.gec.lab_admin.db.models;
 
 public class AttendanceReport {
-    public String name;
-    public Integer total_days;
-    public Integer present_days;
-    public Float percentage;
-//    private Boolean eligibility;
+    private String name;
+    private Integer total_days;
+    private Integer present_days;
+    private Float percentage;
+    private Boolean eligibility;
 
-    public AttendanceReport(String name, Integer total_days, Integer present_days, Float percentage) {
+    public AttendanceReport(String name, Integer total_days, Integer present_days, Float percentage,Boolean eligibility) {
         this.name = name;
         this.total_days = total_days;
         this.present_days = present_days;
         this.percentage = percentage;
-//        this.eligibility = eligibility;
+        this.eligibility = eligibility;
     }
 
     public AttendanceReport() {
@@ -50,11 +50,11 @@ public class AttendanceReport {
         this.percentage = percentage;
     }
 
-//    public Boolean getEligibility() {
-//        return eligibility;
-//    }
-//
-//    public void setEligibility(Boolean eligibility) {
-//        this.eligibility = eligibility;
-//    }
+    public Boolean getEligibility() {
+        return eligibility;
+    }
+
+    public void setEligibility(Boolean eligibility) {
+        this.eligibility = eligibility;
+    }
 }
