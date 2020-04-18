@@ -102,6 +102,12 @@ public class WebController {
     public String studentMonitor() {
         return "student_monitoring";
     }
+    @RequestMapping("/teacher_attendance")
+    //@ResponseBody
+    public String teacherAttendance() {
+        return "teacher_attendance";
+    }
+
 
 
 }

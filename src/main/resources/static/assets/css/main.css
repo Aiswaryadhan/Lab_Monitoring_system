@@ -173,9 +173,15 @@ html.fullscreen-bg #wrapper {
     background-color: #fafafa; }
   .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
     background-color: #f8f8f8; }
+
+    #header{
+          font-family: Georgia, Times, "Times New Roman", serif; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px;
+          color: #0000ff;
+    }
+
   .navbar-default .brand {
     float: left;
-    padding: 30px 39px;
+    padding: 20px 39px;
     background-color: #fff; }
   @media screen and (max-width: 1024px) {
     .navbar-default .brand {
@@ -375,7 +381,7 @@ ul.notifications > li {
 .sidebar {
   z-index: 9; }
   .sidebar .nav > li > a {
-    padding: 18px 30px;
+    padding: 20px 30px;
     color: #AEB7C2;
     border-left: 5px solid transparent; }
     .sidebar .nav > li > a:hover, .sidebar .nav > li > a:focus, .sidebar .nav > li > a.active {
