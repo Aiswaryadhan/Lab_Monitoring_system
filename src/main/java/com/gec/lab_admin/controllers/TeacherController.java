@@ -6,9 +6,19 @@ import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -177,4 +187,61 @@ public class TeacherController {
         return reportList;
     }
 
+    @RequestMapping(value = "/uploadFile/{studId}/{sub}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> uploadFile(
+            @RequestParam("uploadfile") MultipartFile uploadfile,@PathVariable String studId,@PathVariable String sub) {
+//        System.out.println(studId);
+
+        try {
+            // Get the filename and build the local file path (be sure that the
+            // application have write permissions on such directory)
+            String filename = uploadfile.getOriginalFilename();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String today =format.format(new Date());
+
+            String PATH = "/home/aiswarya/";
+            String directoryName0 = PATH.concat("Students");
+            File directory0 = new File(directoryName0);
+            System.out.println(directory0);
+            if (!directory0.exists())
+                directory0.mkdir();
+
+            String PATH0 = "/home/aiswarya/Students/";
+            String directoryName = PATH0.concat(studId);
+            File directory1 = new File(directoryName);
+            System.out.println(directory1);
+            if (!directory1.exists())
+                directory1.mkdir();
+
+            String PATH1 = "/home/aiswarya/Students/"+studId+"/";
+            String directoryName1 = PATH1.concat(sub);
+            File directory2 = new File(directoryName1);
+            System.out.println(directory2);
+            if (!directory2.exists())
+                directory2.mkdir();
+
+            String PATH2 = "/home/aiswarya/Students/"+studId+"/"+sub+"/";
+            String directoryName2 = PATH2.concat(today);
+            File directory3 = new File(directoryName2);
+            System.out.println(directory3);
+            if (!directory3.exists())
+                directory3.mkdir();
+
+            String directory = "/home/aiswarya/Students/"+studId+"/"+sub+"/"+today+"/";
+            String filepath = Paths.get(directory, filename).toString();
+
+            // Save the file locally
+            BufferedOutputStream stream =
+                    new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+            stream.write(uploadfile.getBytes());
+            stream.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    } // method uploadFile
 }

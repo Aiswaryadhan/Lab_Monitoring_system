@@ -43,6 +43,11 @@ public class WebController {
     public String studentDoubts() {
         return "student_doubts";
     }
+    @RequestMapping("/file_upload")
+    //@ResponseBody
+    public String fileUpload() {
+        return "student_file_upload";
+    }
 
     @RequestMapping("/home")
     //@ResponseBody

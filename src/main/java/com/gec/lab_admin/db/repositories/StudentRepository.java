@@ -33,6 +33,7 @@ public interface StudentRepository extends CrudRepository<Student,String> {
 
     void insertStud(String id, String name, Integer sem);
 
+
     @Transactional
     @Modifying
     @Query(

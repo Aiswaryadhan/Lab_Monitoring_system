@@ -65,6 +65,7 @@ $(document).ready(function(){
                                                                             var dataTeacher=data.split(",");
                                                                             $.cookie("teacherName", dataTeacher[0]);
                                                                             $.cookie("teacherId", dataTeacher[1]);
+                                                                            $.cookie("teacherSub", dataTeacher[2]);
                                                                        }
                                                                        else{
                                                                             alert("Teacher is not logged in !")

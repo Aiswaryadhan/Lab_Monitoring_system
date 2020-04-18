@@ -40,6 +40,7 @@ public class SubjectController {
     {
         return subjectService.getSubSem();
     }
+
     @RequestMapping("/subject/insert")
     public void insertSub(@RequestBody Subject subject) {
         subjectService.insertSub(subject.getId(), subject.getName());
