@@ -10,6 +10,7 @@ $(document).ready(function(){
                 }
                 else
                 {
+                      $('#error_cred').slideUp();
                       $('#error_user').slideUp();
                       $.ajax({
                                                                   type: "GET",
@@ -44,13 +45,14 @@ $(document).ready(function(){
                 }
                 else
                 {
+                       $('#error_cred').slideUp();
                        $('#error_pass').slideUp();
 
 
                 }
            });
            $("#sub").blur(function(){
-                            var sub = $('#selectsub').val();
+                            var sub = $('#sub').val();
                             if(sub=='Select')
                             {
                                    $('#error_sub').slideDown();
@@ -82,7 +84,7 @@ $(document).ready(function(){
                 else{
                        $('#error_pass').slideUp();
                 }
-                if(sub=='Select'){
+                if(selsub=='Select'){
                          $('#error_sub').slideDown();
                          $('#error_sub').html('Please select Subject');
                 }
@@ -106,7 +108,7 @@ $(document).ready(function(){
                             success : function(data) {
                                 var msg = "";
                                 //alert("Hello");
-                                alert(data);
+//                                alert(data);
                                 if(data == "successtrue"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);

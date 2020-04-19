@@ -170,7 +170,7 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                        }
                                        else
                                        {
-                                             alert("Null");
+                                             alert("Empty List");
                                        }
               }
     });
@@ -243,7 +243,7 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                                                  }
                                                                  else
                                                                  {
-                                                                       alert("Null");
+                                                                       alert("Empty List");
                                                                  }
                                         }
                                     });
@@ -262,20 +262,22 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                               "Content-Type": "application/json"
                               },
                               data:aJson,
+
                               success: function (data) {
-                                                f=1;
+//                                                f=1;
                               }
+
+
                     });
                 }
-                if(f==1)
-                {
+
                         alert("Successfully Inserted");
                         $('#txtTeacherId').val('');
                         $('#txtTeacherName').val('');
                         $('#sub').val('select');
                         $('#checkAdmin').prop('checked',false);
-                }
         }
+
     });
     $('#listTeacher').on( 'click', 'tr', function () {
                                     if ( $(this).hasClass('highlighted') ){
@@ -297,7 +299,8 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                     $('#txtTeacherId').val(tableData[1]);
                                     $('#txtTeacherName').val(tableData[2]);
                                     teacherAdmin1=tableData[3];
-                                     if(teacherAdmin1==true) {
+//                                    alert(teacherAdmin1);
+                                     if(teacherAdmin1=="true") {
                                                 $('#checkAdmin').prop('checked',true);
                                      }
                                      else{
@@ -372,7 +375,7 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                                                                   }
                                                                                   else
                                                                                   {
-                                                                                      alert("Null");
+                                                                                      alert("Empty list");
                                                                                   }
                                                     }
                                           });
@@ -402,14 +405,10 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                               },
                                               data:aJson,
                                               success: function (data) {
-                                                                     f=1;
-                                                                     alert(f);
                                               }
                                     });
                 }
-                alert(f);
-                if(f==1)
-                {
+
                      alert("Successfully Updated");
                      $('#txtTeacherId').val('');
                      $('#txtTeacherName').val('');
@@ -419,7 +418,7 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                      $("#btnInsertTeacher").prop('disabled',false);
                      $("#btnUpdateTeacher").prop('disabled',true);
                      $("#btnDeleteTeacher").prop('disabled',true);
-                }
+
           }
     });
 
@@ -455,7 +454,7 @@ if ($.cookie("id") != null && $.cookie("subject") != null) {
                                                                                       }
                                                                                       else
                                                                                       {
-                                                                                          alert("Null");
+                                                                                          alert("Empty list");
                                                                                       }
                                                         }
                                               });

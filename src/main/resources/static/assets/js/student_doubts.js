@@ -3,16 +3,18 @@ $(document).ready(function(){
     var receiver;
     var username;
     var teacherId;
+    var studName;
+    var teacherName;
     if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("studSem") !=null) && ($.cookie("teacherName") !=null) && ($.cookie("teacherId") !=null)){
 //                alert("iffff");
                 studId =$.cookie("studId");
-                var studName=$.cookie("studName");
+                studName=$.cookie("studName");
+                teacherName=$.cookie("teacherName");
                 var studSem=$.cookie("studSem");
-                 receiver=$.cookie("teacherName");
                 receiver=$.cookie("teacherId");
                 $("#studName").text(studName);
                 username = studId;
-                alert(username);
+                alert(receiver);
                 connect();
     }
 
@@ -53,7 +55,7 @@ $(document).ready(function(){
              stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
      }
      function onError(error) {
-             alert("Error");
+             alert("Teacher disconnected!..");
      }
       $('#btnSend').click(function(){
              var messageContent = $('#message').val();
@@ -74,29 +76,31 @@ $(document).ready(function(){
 
          function onMessageReceived(payload) {
               var message = JSON.parse(payload.body);
-              alert("receved");
               if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
-                    var messageElement = document.createElement('li');
-                    if(message.type === 'CHAT') {
-                          alert("chat");
-                          messageElement.classList.add('chat-message');
-                          var avatarElement = document.createElement('i');
-                          var avatarText = document.createTextNode(message.sender[0]);
-                          avatarElement.appendChild(avatarText);
-                          avatarElement.style['background-color'] = getAvatarColor(message.sender);
-                          messageElement.appendChild(avatarElement);
-                          var usernameElement = document.createElement('span');
-                          var usernameText = document.createTextNode(message.sender);
-                          usernameElement.appendChild(usernameText);
-                          messageElement.appendChild(usernameElement);
-                          var textElement = document.createElement('p');
-                          var messageText = document.createTextNode(message.content);
-                          textElement.appendChild(messageText);
-                          messageElement.appendChild(textElement);
-                          document.getElementById("messageArea").appendChild(messageElement);
-                          document.getElementById("messageArea").scrollTop = document.getElementById("messageArea").scrollHeight;
-                    }
-              }
+                                                                                         if(message.type === 'CHAT') {
+                                                                                         var messageElement = document.createElement('li');
+                                                                                               alert("chat");
+                                                                                               messageElement.classList.add('chat-message');
+                                                                                               var avatarElement = document.createElement('i');
+                                                                                               avatarElement.setAttribute("class", "avtr");
+                                                                                               var avatarText = document.createTextNode(message.sender[0]);
+                                                                                               avatarElement.appendChild(avatarText);
+                                                                                               avatarElement.style['background-color'] = getAvatarColor(message.sender);
+                                                                                               messageElement.appendChild(avatarElement);
+                                                                                               var usernameElement = document.createElement('span');
+                                                                                               var usernameText = document.createTextNode(message.sender);
+                                                                                               usernameElement.appendChild(usernameText);
+                                                                                               messageElement.appendChild(usernameElement);
+                                                                                               var textElement = document.createElement('p');
+                                                                                               var messageText = document.createTextNode(message.content);
+                                                                                               textElement.appendChild(messageText);
+                                                                                               messageElement.appendChild(textElement);
+                                                                                               document.getElementById("messageArea").appendChild(messageElement);
+                                                                                               document.getElementById("messageArea").scrollTop = document.getElementById("messageArea").scrollHeight;
+                                                                                         }
+                                                       }
+
+
          }
     function getAvatarColor(messageSender) {
                 var hash = 0;

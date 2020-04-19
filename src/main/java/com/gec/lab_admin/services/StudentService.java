@@ -51,4 +51,9 @@ public class StudentService {
     public void deleteStud(String studId) {
         studentRepository.deleteStud(studId);
     }
+
+    public void updateStudSem() {
+        studentRepository.updateStudSem();
+
+    }
 }

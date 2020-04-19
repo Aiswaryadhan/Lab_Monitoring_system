@@ -93,6 +93,10 @@ public class StudentController {
     public void updateStud(@RequestBody Student student,@PathVariable String studId) {
         studentService.updateStud(student.getName(),student.getSem(),studId);
     }
+    @RequestMapping("/student/updateSem")
+    public void updateStudSem() {
+        studentService.updateStudSem();
+    }
     @RequestMapping("/student/delete/{studId}")
     public void deleteStud(@PathVariable String studId){
         studentService.deleteStud(studId);

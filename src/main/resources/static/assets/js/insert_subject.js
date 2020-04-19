@@ -166,7 +166,7 @@ $(document).ready(function(){
                                            }
                                            else
                                            {
-                                                alert("Null");
+                                                alert("Empty Set !...");
                                            }
                }
 
@@ -227,7 +227,7 @@ $(document).ready(function(){
                                                                                   }
                                                                                   else
                                                                                   {
-                                                                                       alert("Null");
+                                                                                       alert("Empty Set !...");
                                                                                   }
                                                       }
 
@@ -329,7 +329,7 @@ $(document).ready(function(){
                                                                                                                          }
                                                                                                                          else
                                                                                                                          {
-                                                                                                                            alert("Null");
+                                                                                                                            alert("Empty Set !...");
                                                                                                                          }
                                                                                                }
                                                                                     });
@@ -399,7 +399,7 @@ $(document).ready(function(){
                                                                                                      }
                                                                                                      else
                                                                                                      {
-                                                                                                        alert("Null");
+                                                                                                        alert("Empty Set !...");
                                                                                                      }
                                                                         }
                                                             });

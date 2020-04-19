@@ -47,4 +47,11 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "delete from student where id=:studId",
             nativeQuery = true)
     void deleteStud(String studId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update student set sem=sem+1",
+            nativeQuery = true)
+    void updateStudSem();
 }

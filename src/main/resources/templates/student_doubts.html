@@ -92,18 +92,42 @@
         <div class="main-content">
             <div class="col-md-6">
                 <div class="contents">
-                    <div id="msgDiv" style="height:500px;width:500px;border:1px solid black">
-                        <ul id="messageArea" style="list-style-type: none;background-color: #FFF;margin: 0;overflow: auto;overflow-y: scroll;padding: 0 20px 0px 20px;height: calc(100% - 150px)">
 
-                        </ul>
-                        <form id="messageForm">
-                            <div class="input-group">
-                                <textarea id="message" class="form-control" placeholder="type message"></textarea>
-                                <input type="button" id="btnSend" value="send" class="primary"/>
+
+                    <section class="msger">
+                        <header class="msger-header">
+                            <div class="msger-header-title">
+                                <i class="fas fa-comment-alt"></i> Chat
                             </div>
-                        </form>
 
-                    </div>
+                        </header>
+
+                        <main class="msger-chat">
+                            <ul id="messageArea" style="list-style-type: none;background-color: #FFF;margin: 0;overflow: auto;overflow-y: scroll;padding: 0 20px 0px 20px;height: calc(100% - 10px)">
+
+                            </ul>
+                        </main>
+
+                        <form id="messageForm" class="msger-inputarea">
+                            <input type="text" id="message" class="msger-input" placeholder="Enter your message...">
+                            <button type="submit" id="btnSend" class="msger-send-btn">Send</button>
+                        </form>
+                    </section>
+
+
+
+<!--                    <div id="msgDiv" style="height:500px;width:500px;border:1px solid black">-->
+<!--                        <ul id="messageArea" style="list-style-type: none;background-color: #FFF;margin: 0;overflow: auto;overflow-y: scroll;padding: 0 20px 0px 20px;height: calc(100% - 150px)">-->
+
+<!--                        </ul>-->
+<!--                        <form id="messageForm">-->
+<!--                            <div class="input-group">-->
+<!--                                <textarea id="message" class="form-control" placeholder="type message"></textarea>-->
+<!--                                <input type="button" id="btnSend" value="send" class="primary"/>-->
+<!--                            </div>-->
+<!--                        </form>-->
+
+<!--                    </div>-->
 
 
                 </div>

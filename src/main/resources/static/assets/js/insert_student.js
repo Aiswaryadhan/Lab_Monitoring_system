@@ -168,6 +168,19 @@ $(document).ready(function(){
                }
 
     });
+    $('#search_field').on('keyup',function() {
+      var value = $(this).val();
+      var patt =new RegExp(value,"i");
+      $('#listStudent').find('tr').each(function() {
+        if (!($(this).find('td').text().search(patt) >= 0)) {
+          $(this).not('.myHead').hide();
+        }
+        if (($(this).find('td').text().search(patt) >= 0)) {
+          $(this).show();
+        }
+      });
+    });
+
     $("#btnInsertStudent").click(function(){
         studId = $('#txtStudId').val();
         studName = $('#txtStudName').val();
@@ -253,6 +266,44 @@ $(document).ready(function(){
                                 $("#btnInsertStudent").prop('disabled',true);
                                 $("#btnUpdateStudent").prop('disabled',false);
                                 $("#btnDeleteStudent").prop('disabled',false);
+    });
+    $("#btnSem").click(function(){
+       var res= confirm("Are you sure to upgrade Semester?");
+       if(res==true){
+            $.ajax({
+                     type: "POST",
+                     url: 'http://localhost:8080/student/updateSem',
+                     headers: {
+                                 "Content-Type": "application/json"
+                     },
+                     success: function (data) {
+                        alert("Semester upgraded!...");
+                        $("#listStudent tr").remove();
+                        $.ajax({
+                                  type: "GET",
+                                  url: 'http://localhost:8080/student/getAll',
+                                  success: function (data) {
+                                                             len = data.length;
+                                                             var txt = "";
+                                                             if(len > 0){
+                                                                      for(var i=0;i!=len;i++){
+                                                                                   if(data[i].id)
+                                                                                      txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+                                                                      }
+                                                                      if(txt != ""){
+                                                                                  $('#listStudent').append(txt).removeClass("hidden");
+                                                                      }
+                                                             }
+                                                             else
+                                                             {
+                                                                   alert("Empty set");
+                                                             }
+                                  }
+                        });
+                     }
+            });
+
+       }
     });
     $("#btnUpdateStudent").click(function(){
                               studId = $('#txtStudId').val();
