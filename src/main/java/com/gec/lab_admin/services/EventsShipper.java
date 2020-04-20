@@ -13,8 +13,8 @@ public class EventsShipper {
     @Autowired
     ActivemqProducerService activemqProducerService;
 
-    @Autowired
-    EventSimulator eventSimulator;
+//    @Autowired
+//    EventSimulator eventSimulator;
 
     ArrayList<Object> eventsArray = new ArrayList<Object>();
 
@@ -22,7 +22,7 @@ public class EventsShipper {
 
 
     public boolean isLoaded(){
-        if(eventsArray.size()>5)return true;
+        if(eventsArray.size()>0)return true;
         else return false;
     }
 
