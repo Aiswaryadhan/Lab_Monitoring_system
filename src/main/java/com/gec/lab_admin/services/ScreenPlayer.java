@@ -11,54 +11,51 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Lazy
 @Component
 public class ScreenPlayer extends JLabel implements Serializable {
 
     @Autowired
-    transient EventsShipper shipper;
+    EventsShipper shipper;
 
-    transient private Image img;
+    private Image img;
 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public Rectangle screenRect = new Rectangle(0, 0, screenSize.width, screenSize.height);
+    private Rectangle oldScreenRect = new Rectangle(-1, -1, -1, -1);
 
-    transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    transient public Rectangle screenRect = new Rectangle(0, 0, screenSize.width, screenSize.height);
-    transient private Rectangle oldScreenRect = new Rectangle(-1, -1, -1, -1);
+    private KeyAdapter keyAdapter;
+    private MouseAdapter mouseAdapter;
+    private MouseWheelListener mouseWheelListener;
+    private MouseMotionAdapter mouseMotionAdapter;
 
-    transient private KeyAdapter keyAdapter;
-    transient private MouseAdapter mouseAdapter;
-    transient private MouseWheelListener mouseWheelListener;
-    transient private MouseMotionAdapter mouseMotionAdapter;
+    Map<Integer, Boolean> keyEvent = new HashMap<>();
 
     public void init() {
 
-//        keyAdapter = new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e){
-////                addEvent(e);
-////                try {
-//////                    System.out.println(ZipUtility.objecToByteArray(e));
-////                } catch (IOException ex) {
-////                    ex.printStackTrace();
-////                }
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent e){
-////                addEvent(e);
-////                try {
-////                    System.out.println(ZipUtility.objecToByteArray(e));
-////                } catch (IOException ex) {
-////                    System.out.println(str);
-////                    ex.printStackTrace();
-////                }
-//            }
-//        };
+        keyAdapter = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e){
+                shipper.incrementLoad(5);
+                keyEvent.put(e.getKeyCode(), true);
+                addEvent(keyEvent);
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e){
+                shipper.incrementLoad(5);
+                keyEvent.put(e.getKeyCode(), false);
+                addEvent(keyEvent);
+            }
+        };
 
         mouseWheelListener = new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
+                shipper.incrementLoad(3);
                 addEvent(e);
             }
         };
@@ -66,11 +63,13 @@ public class ScreenPlayer extends JLabel implements Serializable {
         mouseMotionAdapter = new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
+                shipper.incrementLoad(1);
                 addEvent(e);
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                shipper.incrementLoad(4);
                 addEvent(e);
             }
         };
@@ -79,11 +78,13 @@ public class ScreenPlayer extends JLabel implements Serializable {
         {
             @Override
             public void mousePressed(MouseEvent e) {
+                shipper.incrementLoad(5);
                 addEvent(e);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                shipper.incrementLoad(5);
                 addEvent(e);
             }
         };
@@ -96,10 +97,10 @@ public class ScreenPlayer extends JLabel implements Serializable {
     }
 
         public void addAdapters() {
-//        addKeyListener(keyAdapter);
+        addKeyListener(keyAdapter);
         addMouseWheelListener(mouseWheelListener);
         addMouseMotionListener(mouseMotionAdapter);
-        addMouseListener(mouseAdapter);   
+        addMouseListener(mouseAdapter);
         System.out.println("addAdapters executed");
     }
      
@@ -115,6 +116,7 @@ public class ScreenPlayer extends JLabel implements Serializable {
 //        System.out.println("recorded new event");
         shipper.addObject(object);
         shipper.ship();
+        keyEvent.clear();
     }
 
 
