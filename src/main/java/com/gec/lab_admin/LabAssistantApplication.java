@@ -31,19 +31,22 @@ public class LabAssistantApplication {
 	@Value("${spring.activemq.broker-url}")
 	private String activeMQUrl;
 
-	@Bean // Serialize message content to json using TextMessage
+	@Bean
 	public MessageConverter jacksonJmsMessageConverter() {
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-//		converter.setTargetType(TrayIcon.MessageType.);
+		converter.setTargetType(MessageType.TEXT);
 		converter.setTypeIdPropertyName("_type");
 		return converter;
 	}
+
 	public static void main(String[] args) {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(LabAssistantApplication.class);
 
 		builder.headless(false);
 		ConfigurableApplicationContext context = builder.run(args);
 	}
+
+
 
 	@Bean
 	JmsListenerContainerFactory<?> activeMQContainerFactory(@Qualifier("activeMQ") ConnectionFactory connectionFactory) throws JMSException {

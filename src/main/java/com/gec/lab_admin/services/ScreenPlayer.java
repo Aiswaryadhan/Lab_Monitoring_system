@@ -33,29 +33,28 @@ public class ScreenPlayer extends JLabel implements Serializable {
 
     public void init() {
 
-        keyAdapter = new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e){
-//                addEvent(e);
-                try {
-                    System.out.println(ZipUtility.objecToByteArray(e));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e){
-//                addEvent(e);
-                String str = "initial valuet";
-                try {
-                    System.out.println(ZipUtility.objecToByteArray(e));
-                } catch (IOException ex) {
-                    System.out.println(str);
-                    ex.printStackTrace();
-                }
-            }
-        };
+//        keyAdapter = new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e){
+////                addEvent(e);
+////                try {
+//////                    System.out.println(ZipUtility.objecToByteArray(e));
+////                } catch (IOException ex) {
+////                    ex.printStackTrace();
+////                }
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent e){
+////                addEvent(e);
+////                try {
+////                    System.out.println(ZipUtility.objecToByteArray(e));
+////                } catch (IOException ex) {
+////                    System.out.println(str);
+////                    ex.printStackTrace();
+////                }
+//            }
+//        };
 
         mouseWheelListener = new MouseWheelListener() {
             @Override
@@ -97,7 +96,7 @@ public class ScreenPlayer extends JLabel implements Serializable {
     }
 
         public void addAdapters() {
-        addKeyListener(keyAdapter); 
+//        addKeyListener(keyAdapter);
         addMouseWheelListener(mouseWheelListener);
         addMouseMotionListener(mouseMotionAdapter);
         addMouseListener(mouseAdapter);   
@@ -114,8 +113,8 @@ public class ScreenPlayer extends JLabel implements Serializable {
     
     public void addEvent(Object object){
 //        System.out.println("recorded new event");
-//        shipper.addObject(object);
-//        shipper.ship();
+        shipper.addObject(object);
+        shipper.ship();
     }
 
 

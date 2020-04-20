@@ -13,6 +13,9 @@ public class EventsShipper {
     @Autowired
     ActivemqProducerService activemqProducerService;
 
+    @Autowired
+    EventSimulator eventSimulator;
+
     ArrayList<Object> eventsArray = new ArrayList<Object>();
 
     int i=0;
@@ -24,15 +27,9 @@ public class EventsShipper {
     }
 
     public void ship(){
+        System.out.println(eventsArray.size());
         if(isLoaded()){
             try {
-
-//                ArrayList sendObjects;
-//                synchronized(eventsArray){
-//                    sendObjects = eventsArray;
-//                }
-
-
                 ArrayList SendObjects;
                 synchronized(eventsArray){
                     SendObjects = eventsArray;
@@ -40,11 +37,14 @@ public class EventsShipper {
                 }
 
                 i++;
+                System.out.println(i);
                 activemqProducerService.send(ZipUtility.objecToByteArray(SendObjects));
+//                eventSimulator.updateData(ZipUtility.objecToByteArray(SendObjects));
+//                activemqProducerService.send(SendObjects);
                 eventsArray.clear();
                 System.out.println("sent " + i + "messages");
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
