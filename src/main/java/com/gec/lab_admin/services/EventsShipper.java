@@ -13,16 +13,17 @@ public class EventsShipper {
     @Autowired
     ActivemqProducerService activemqProducerService;
 
-//    @Autowired
-//    EventSimulator eventSimulator;
-
     ArrayList<Object> eventsArray = new ArrayList<Object>();
 
-    int i=0;
+    public static final Integer THRESHOLD = 5;
+    private Integer currentLoad = 0;
 
+    public void incrementLoad(Integer increment){
+        currentLoad+=increment;
+    }
 
     public boolean isLoaded(){
-        if(eventsArray.size()>0)return true;
+        if(currentLoad>=THRESHOLD)return true;
         else return false;
     }
 
@@ -36,13 +37,9 @@ public class EventsShipper {
                     eventsArray = new ArrayList<Object>();
                 }
 
-                i++;
-                System.out.println(i);
                 activemqProducerService.send(ZipUtility.objecToByteArray(SendObjects));
-//                eventSimulator.updateData(ZipUtility.objecToByteArray(SendObjects));
-//                activemqProducerService.send(SendObjects);
+                currentLoad = 0;
                 eventsArray.clear();
-                System.out.println("sent " + i + "messages");
 
             } catch (Exception e) {
                 e.printStackTrace();
