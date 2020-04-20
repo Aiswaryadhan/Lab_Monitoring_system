@@ -102,7 +102,7 @@ public class ScreenPlayer extends JFrame {
         g.drawImage(img, 0, 0, screenRect.width, screenRect.height, this);
     }
 
-    public void setScteenRect(Rectangle rect) {
+    public void setScreenRect(Rectangle rect) {
         screenRect = rect;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.JmsListenerContainerFactory;
@@ -35,57 +36,8 @@ public class LabAssistantApplication {
 	private String activeMQUrl;
 
 	public static void main(String[] args)throws Exception {
-
-		try {
-			Thread.sleep(120);
-			Robot r = new Robot();
-
-			// It saves screenshot to desired path
-			String path = "screenshot.jpg";
-
-			// Used to get ScreenSize and capture image
-			Rectangle capture =
-					new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-			BufferedImage Image = r.createScreenCapture(capture);
-			ImageIO.write(Image, "jpg", new File(path));
-			System.out.println("Screenshot saved");
-		}
-		catch (AWTException | IOException | InterruptedException ex) {
-			System.out.println(ex);
-		}
-
-
-
-		EventSimulator eventSimulator = new EventSimulator();
-
-		ScreenPlayer frame = new ScreenPlayer();
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-
-		ImageIcon icon = new ImageIcon("screenshot.jpg");
-		Image image = icon.getImage();
-
-		frame.UpdateScreen(image);
-		frame.screenRect = new Rectangle(0, 0, screenSize.width, screenSize.height);
-		frame.UpdateScreen(image);
-
-		TimerTask task = new TimerTask() {
-			public void run() {
-				try {
-					System.out.println("started simulation");
-					frame.removeAdapters();
-					eventSimulator.updateData(frame.eventArrayList);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-
-		Timer timer = new Timer();
-
-		long delay = 20000L;
-		timer.schedule(task, delay);
-
+		SpringApplicationBuilder builder = new SpringApplicationBuilder(LabAssistantApplication.class);
+		builder.headless(false).run(args);
 //		SpringApplication.run(LabAssistantApplication.class, args);
 	}
 

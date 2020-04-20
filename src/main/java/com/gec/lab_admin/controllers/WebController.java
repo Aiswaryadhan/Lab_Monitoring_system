@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class WebController {
 
 
-    @Autowired
+//    @Autowired
     ScreenPlayer screenPlayer;
 
     @RequestMapping("/")

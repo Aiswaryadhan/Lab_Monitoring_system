@@ -14,15 +14,16 @@ public class ActivemqProducerService {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-
+    private ScreenCapture screenCapture;
     private static final Logger LOGGER = LoggerFactory.getLogger(ActivemqProducerService.class);
-
+    byte[] data=screenCapture.updateData();
     @PostConstruct
-    public void test(){
-        this.send("sample message");
+
+    public void init(){
+        this.send(data);
     }
 
-    public void send(String message) {
+    public void send(byte[] message) {
         LOGGER.info("sending message='{}'", message);
         jmsTemplate.convertAndSend("sample_queue", message);
     }
