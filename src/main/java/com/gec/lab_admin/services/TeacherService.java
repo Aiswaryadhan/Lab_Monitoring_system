@@ -118,7 +118,7 @@ public class TeacherService {
         return teacherRepository.findById(id);
     }
 
-    public List<AttendanceReport>  generateReports(String sDate, String eDate, String sub,Integer totalDays) {
+    public List<AttendanceReport> generateReports(String sDate, String eDate, String sub,Integer totalDays) {
         List<AttendanceReport> attendanceReportList = new ArrayList<>();
         List<Map> objectArrayList = attendanceRepository.generateReports(sDate, eDate, sub, totalDays);
         for ( Map obj: objectArrayList ) {
@@ -131,5 +131,9 @@ public class TeacherService {
 
     public Integer getTotalDays(String sDate, String eDate, String sub) {
         return attendanceRepository.getTotalDays(sDate,eDate,sub);
+    }
+
+    public Integer getSubCount(String sub) {
+        return teacherRepository.getSubCount(sub);
     }
 }

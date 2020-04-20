@@ -93,6 +93,10 @@ public class TeacherController {
         logger.info("finding teacher with id "+ teacherId);
         return teacherService.getTeacherName(teacherId);
     }
+    @RequestMapping("/teacher/getCount/{sub}")
+    public Integer getSubCount(@PathVariable String sub) {
+        return teacherService.getSubCount(sub);
+    }
     @RequestMapping("teacher/getStudName")
     public List<String> findStudent(){
         logger.info("finding student");

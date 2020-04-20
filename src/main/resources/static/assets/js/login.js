@@ -92,40 +92,51 @@ $(document).ready(function(){
                          $('#error_sub').slideUp();
                 }
 
-
-                var logCred = {
-                            'id': user,
-                            'password': pwd
-                        };
-                         var aJson = JSON.stringify(logCred);
                 $.ajax({
-                            type : "POST",
-                            url : 'http://localhost:8080/login/'+selsub,
-                            headers : {
-                                "Content-Type" : "application/json"
-                            },
-                             data:aJson,
-                            success : function(data) {
-                                var msg = "";
-                                //alert("Hello");
-//                                alert(data);
-                                if(data == "successtrue"){
+                          type : "POST",
+                          url : 'http://localhost:8080/teacher/getCount/'+selsub,
+                          headers : {
+                                        "Content-Type" : "application/json"
+                          },
+                          success : function(data) {
+                                            if(data==0){
+                                                var logCred = {
+                                                                'id': user,
+                                                                'password': pwd
+                                                };
+                                                var aJson = JSON.stringify(logCred);
+                                                $.ajax({
+                                                    type : "POST",
+                                                    url : 'http://localhost:8080/login/'+selsub,
+                                                    headers : {
+                                                        "Content-Type" : "application/json"
+                                                    },
+                                                    data:aJson,
+                                                    success : function(data) {
+                                                        var msg = "";
+                                                        if(data == "successtrue"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);
                                                             window.location.replace("http://localhost:8080/home");
 
-                                }
-                                else if(data == "successfalse"){
+                                                        }
+                                                        else if(data == "successfalse"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);
                                                             window.location.replace("http://localhost:8080/teacherDashboard");
 
-                                }
-                                else{
-                                        $('#error_cred').slideDown();
-                                        $('#error_cred').html('Incorrect username or password');
-                                }
-                            }
-                        });
+                                                        }
+                                                        else{
+                                                            $('#error_cred').slideDown();
+                                                            $('#error_cred').html('Incorrect username or password');
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            else{
+                                                       alert("Today's Session is Over!")
+                                            }
+                          }
+                });
             });//close of click
 });//close of document ready

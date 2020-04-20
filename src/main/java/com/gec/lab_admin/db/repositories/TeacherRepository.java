@@ -86,6 +86,11 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     void deleteLoggedInStudent(String studId);
 
+    @Query(
+            value = "select count(date) from attendance_record where date=CURDATE() and subject_id=:sub",
+            nativeQuery = true)
+    Integer getSubCount(String sub);
+
 //    @Query(
 //            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
 //            nativeQuery = true)

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ import static com.gec.lab_admin.controllers.TeacherController.LOGGED_IN_TEACHER_
 public class StudentController {
     @Autowired
     StudentService studentService;
-//    LoggedStudentService loggedStudentService;
+    //    LoggedStudentService loggedStudentService;
     LoggedStudent loggedStudent;
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
@@ -54,8 +53,8 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.POST, value = "/student/getTeacherName")
     public String getTeacherName() {
 
-        if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null && TeacherController.LOGGED_IN_TEACHER_SUBJECT!=null) {
-            String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID+","+TeacherController.LOGGED_IN_TEACHER_SUBJECT;
+        if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null) {
+            String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID;
             return res;
         } else {
             return "null";
@@ -68,15 +67,6 @@ public class StudentController {
     @RequestMapping("/student/insert")
     public void insertStud(@RequestBody Student student) {
         studentService.insertStud(student.getId(), student.getName(),student.getSem());
-        String PATH = "/home/aiswarya/";
-        String directoryName = PATH.concat(student.getId());
-
-        File directory = new File(directoryName);
-        if (! directory.exists()){
-            directory.mkdir();
-            // If you require it to make the entire directory path including parents,
-            // use directory.mkdirs(); here instead.
-        }
     }
     @RequestMapping("/student/idCheck")
     public String idCheck(@RequestBody Student student) {
@@ -89,13 +79,13 @@ public class StudentController {
         }
 
     }
+    @RequestMapping("/student/getCount/{user}/{sub}")
+    public Integer getCount(@PathVariable String user,@PathVariable String sub) {
+        return studentService.getCount(user,sub);
+    }
     @RequestMapping("/student/update/{studId}")
     public void updateStud(@RequestBody Student student,@PathVariable String studId) {
         studentService.updateStud(student.getName(),student.getSem(),studId);
-    }
-    @RequestMapping("/student/updateSem")
-    public void updateStudSem() {
-        studentService.updateStudSem();
     }
     @RequestMapping("/student/delete/{studId}")
     public void deleteStud(@PathVariable String studId){

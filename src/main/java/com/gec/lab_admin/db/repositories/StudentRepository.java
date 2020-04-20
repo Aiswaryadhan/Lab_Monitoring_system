@@ -1,14 +1,10 @@
 package com.gec.lab_admin.db.repositories;
 
-import com.gec.lab_admin.db.models.AttendanceRecord;
 import com.gec.lab_admin.db.models.Student;
-import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 public interface StudentRepository extends CrudRepository<Student,String> {
     @Transactional
@@ -33,7 +29,6 @@ public interface StudentRepository extends CrudRepository<Student,String> {
 
     void insertStud(String id, String name, Integer sem);
 
-
     @Transactional
     @Modifying
     @Query(
@@ -48,10 +43,8 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             nativeQuery = true)
     void deleteStud(String studId);
 
-    @Transactional
-    @Modifying
     @Query(
-            value = "update student set sem=sem+1",
+            value = "select count(s.id)as c from student s inner join subject_sem ss where s.sem=ss.sem and subject_id=:sub and s.id=:studId",
             nativeQuery = true)
-    void updateStudSem();
+    Integer getCount(String studId, String sub);
 }

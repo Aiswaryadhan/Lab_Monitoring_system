@@ -35,60 +35,66 @@ $(document).ready(function(){
             $('#submit').click(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
-
-                var logCred = {
-                            'id': user,
-                            'password': pwd
-                        };
-                         var aJson = JSON.stringify(logCred);
+                var sub=$.cookie("subject");
                 $.ajax({
-                            type : "POST",
-                            url : 'http://localhost:8080/student/login',
-                            headers : {
-                                "Content-Type" : "application/json"
-                            },
-                             data:aJson,
-                            success : function(data) {
-                                if(data != "invalid"){
+                          type : "POST",
+                          url : 'http://localhost:8080/student/getCount/'+user+'/'+sub,
+                          headers : {
+                                        "Content-Type" : "application/json"
+                          },
+                          success : function(data) {
+                                            if(data==1){
+                                                var logCred = {
+                                                            'id': user,
+                                                            'password': pwd
+                                                };
+                                                var aJson = JSON.stringify(logCred);
+                                                $.ajax({
+                                                        type : "POST",
+                                                        url : 'http://localhost:8080/student/login',
+                                                        headers : {
+                                                                "Content-Type" : "application/json"
+                                                        },
+                                                        data:aJson,
+                                                        success : function(data) {
+                                                        if(data != "invalid"){
+                                                                            $('#error_cred').slideUp();
+                                                                            $.ajax({
+                                                                                    type : "POST",
+                                                                                    url : 'http://localhost:8080/student/getTeacherName',
+                                                                                    headers : {
+                                                                                            "Content-Type" : "application/json"
+                                                                                    },
+                                                                                    data:aJson,
+                                                                                    success : function(data) {
+                                                                                           if(data != "null"){
+                                                                                                var dataTeacher=data.split(",");
+                                                                                                $.cookie("teacherName", dataTeacher[0]);
+                                                                                                $.cookie("teacherId", dataTeacher[1]);
+                                                                                           }
+                                                                                           else{
+                                                                                                alert("Teacher is not logged in !")
+                                                                                           }
+                                                                                    }
+                                                                            });
+                                                                            var arr=data.split(",");
+                                                                            $.cookie("studName",arr[0]);
+                                                                            $.cookie("studSem",arr[1]);
+                                                                            $.cookie("studId", user);
+                                                                            window.location.replace("http://localhost:8080/student_home");
+                                                        }
+                                                        else{
+                                                                $('#error_cred').slideDown();
+                                                                $('#error_cred').html('Incorrect username or password');
+                                                        }
+                                                        }
+                                                });
+                                            }
+                                            else{
+                                                alert("You are not allowed to attend this session!")
+                                            }
+                          }
+                });
 
-                                       $('#error_cred').slideUp();
-
-                                       $.ajax({
-                                                                   type : "POST",
-                                                                   url : 'http://localhost:8080/student/getTeacherName',
-                                                                   headers : {
-                                                                       "Content-Type" : "application/json"
-                                                                   },
-                                                                    data:aJson,
-                                                                   success : function(data) {
-                                                                       if(data != "null"){
-                                                                            var dataTeacher=data.split(",");
-                                                                            $.cookie("teacherName", dataTeacher[0]);
-                                                                            $.cookie("teacherId", dataTeacher[1]);
-                                                                            $.cookie("teacherSub", dataTeacher[2]);
-                                                                       }
-                                                                       else{
-                                                                            alert("Teacher is not logged in !")
-                                                                       }
-
-                                                                   }
-                                                               });
-
-                                       var arr=data.split(",");
-                                       $.cookie("studName",arr[0]);
-                                       $.cookie("studSem",arr[1]);
-                                       $.cookie("studId", user);
-                                       window.location.replace("http://localhost:8080/student_home");
-
-
-
-                                }
-                                else{
-                                   $('#error_cred').slideDown();
-                                   $('#error_cred').html('Incorrect username or password');
-                                }
-
-                            }
-                        });
             });//close of click
 });//close of document ready

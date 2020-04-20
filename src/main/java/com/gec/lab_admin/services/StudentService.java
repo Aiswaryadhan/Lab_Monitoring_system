@@ -52,8 +52,7 @@ public class StudentService {
         studentRepository.deleteStud(studId);
     }
 
-    public void updateStudSem() {
-        studentRepository.updateStudSem();
-
+    public Integer getCount(String studId, String sub) {
+        return studentRepository.getCount(studId,sub);
     }
 }
