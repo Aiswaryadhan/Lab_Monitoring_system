@@ -63,7 +63,6 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "update student set sem=sem+1",
             nativeQuery = true)
     void updateSem();
-
     @Query(
             value = "select name from student where id=:sender",
             nativeQuery = true)
@@ -96,5 +95,4 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             nativeQuery = true)
     List<String> getAllSites(String loggedInTeacherSubject);
 
-//    Integer getAttendance(String sub, String studId);
 }

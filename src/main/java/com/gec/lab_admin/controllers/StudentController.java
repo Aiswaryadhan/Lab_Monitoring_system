@@ -137,6 +137,7 @@ public class StudentController {
         studentService.deleteFinal();
     }
 
+
     @RequestMapping("/student/getName/{sender}")
     public String findStudent(@PathVariable String sender){
         logger.info("finding student");
