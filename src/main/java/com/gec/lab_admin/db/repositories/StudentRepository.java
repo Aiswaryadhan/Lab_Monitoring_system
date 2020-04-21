@@ -47,4 +47,18 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "select count(s.id)as c from student s inner join subject_sem ss where s.sem=ss.sem and subject_id=:sub and s.id=:studId",
             nativeQuery = true)
     Integer getCount(String studId, String sub);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from student where sem>=6",
+            nativeQuery = true)
+    void deleteFinal();
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update student set sem=sem+1",
+            nativeQuery = true)
+    void updateSem();
 }

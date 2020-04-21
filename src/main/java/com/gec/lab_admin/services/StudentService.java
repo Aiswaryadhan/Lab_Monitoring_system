@@ -55,4 +55,14 @@ public class StudentService {
     public Integer getCount(String studId, String sub) {
         return studentRepository.getCount(studId,sub);
     }
+
+    public void deleteFinal() {
+        studentRepository.deleteFinal();
+
+    }
+
+    public void upDateSem() {
+        studentRepository.updateSem();
+    }
+
 }

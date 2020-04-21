@@ -3,6 +3,7 @@ $(document).ready(function(){
     var studId;
     var studName;
     var studSem;
+    $("#finals").hide();
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     var teacherId =$.cookie("id");
                     var sub= $.cookie("subject");
@@ -156,6 +157,7 @@ $(document).ready(function(){
                                                      for(var i=0;i!=len;i++){
                                                           if(data[i].id)
                                                           txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
                                                      }
                                                      if(txt != ""){
                                                                    $('#listStudent').append(txt).removeClass("hidden");
@@ -230,6 +232,7 @@ $(document).ready(function(){
                                                                                             for(var i=0;i!=len;i++){
                                                                                                  if(data[i].id)
                                                                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
                                                                                             }
                                                                                             if(txt != ""){
                                                                                                           $('#listStudent').append(txt).removeClass("hidden");
@@ -289,7 +292,9 @@ $(document).ready(function(){
                                                                       for(var i=0;i!=len;i++){
                                                                                    if(data[i].id)
                                                                                       txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
                                                                       }
+
                                                                       if(txt != ""){
                                                                                   $('#listStudent').append(txt).removeClass("hidden");
                                                                       }
@@ -300,11 +305,55 @@ $(document).ready(function(){
                                                              }
                                   }
                         });
-                     }
+                     },
+                    error: function (){
+                                          $('#finals').show();
+
+                    }
             });
 
        }
     });
+    $("#btnFinal").click(function(){
+           var res= confirm("Are you sure to Delete Final year student details?");
+           if(res==true){
+                $.ajax({
+                         type: "POST",
+                         url: 'http://localhost:8080/student/deleteFinal',
+                         headers: {
+                                     "Content-Type": "application/json"
+                         },
+                         success: function (data) {
+                            alert("Deleted final years!...");
+                            $('#finals').hide();
+                            $("#listStudent tr").remove();
+                            $.ajax({
+                                      type: "GET",
+                                      url: 'http://localhost:8080/student/getAll',
+                                      success: function (data) {
+                                                                 len = data.length;
+                                                                 var txt = "";
+                                                                 if(len > 0){
+                                                                          for(var i=0;i!=len;i++){
+                                                                                       if(data[i].id)
+                                                                                          txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
+                                                                          }
+                                                                          if(txt != ""){
+                                                                                      $('#listStudent').append(txt).removeClass("hidden");
+                                                                          }
+                                                                 }
+                                                                 else
+                                                                 {
+                                                                       alert("Empty set");
+                                                                 }
+                                      }
+                            });
+                         }
+                });
+
+           }
+        });
     $("#btnUpdateStudent").click(function(){
                               studId = $('#txtStudId').val();
                               studName = $('#txtStudName').val();
@@ -353,6 +402,7 @@ $(document).ready(function(){
                                                                                                                                         for(var i=0;i!=len;i++){
                                                                                                                                                          if(data[i].id)
                                                                                                                                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
                                                                                                                                         }
                                                                                                                                         if(txt != ""){
                                                                                                                                                 $('#listStudent').append(txt).removeClass("hidden");
@@ -399,6 +449,7 @@ $(document).ready(function(){
                                                                                       for(var i=0;i!=len;i++){
                                                                                                 if(data[i].id)
                                                                                                    txt += "<tr><td>"+(i+1)+"</td><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].sem+"</td></tr>";
+
                                                                                       }
                                                                                       if(txt != ""){
                                                                                                $('#listStudent').append(txt).removeClass("hidden");
