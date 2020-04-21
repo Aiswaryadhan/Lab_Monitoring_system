@@ -92,4 +92,12 @@ public class StudentController {
         studentService.deleteStud(studId);
     }
 
+    @RequestMapping("/student/updateSem")
+    public void updateSem(){
+        studentService.upDateSem();
+    }
+    @RequestMapping("/student/deleteFinal")
+    public void deleteFinal(){
+        studentService.deleteFinal();
+    }
 }

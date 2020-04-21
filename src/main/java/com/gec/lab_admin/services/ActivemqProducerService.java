@@ -49,12 +49,4 @@ public class ActivemqProducerService {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-//    public void send(Object object) {
-//        try {
-//            System.out.println("writing " + objectMapper.writeValueAsString(object));
-//            jmsTemplate.convertAndSend("events_queue", objectMapper.writeValueAsString(object));
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
