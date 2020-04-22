@@ -38,9 +38,8 @@ public class EventsShipper {
 
                 i++;
                 System.out.println(i);
+//                System.out.println(SendObjects);
                 activemqProducerService.send(ZipUtility.objecToByteArray(SendObjects));
-//                eventSimulator.updateData(ZipUtility.objecToByteArray(SendObjects));
-//                activemqProducerService.send(SendObjects);
                 eventsArray.clear();
                 System.out.println("sent " + i + "messages");
 
