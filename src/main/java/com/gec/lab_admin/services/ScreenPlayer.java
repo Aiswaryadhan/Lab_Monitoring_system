@@ -125,18 +125,17 @@ public class ScreenPlayer extends JLabel implements Serializable {
         g.drawImage(img, 0, 0, screenRect.width, screenRect.height, this);
     }
 
-    public void UpdateScreen(byte[] data) {
+    public void updateScreen(byte[] data) {
         if (!screenRect.equals(oldScreenRect)) {
             oldScreenRect = screenRect;
             setSize(screenRect.getSize());
             setPreferredSize(screenRect.getSize());
         }
-
         img = ImageUtility.read(data);
         repaint();
     }
 
-    public void UpdateScreen(Image data) {
+    public void updateScreen(Image data) {
         if (!screenRect.equals(oldScreenRect)) {
             oldScreenRect = screenRect;
             setSize(screenRect.getSize());

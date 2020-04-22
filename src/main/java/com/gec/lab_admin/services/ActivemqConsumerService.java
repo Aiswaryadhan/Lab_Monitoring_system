@@ -1,7 +1,6 @@
 package com.gec.lab_admin.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gec.lab_admin.utilities.ImageUtility;
 import com.gec.lab_admin.utilities.ZipUtility;
 import org.apache.activemq.Message;
 import org.slf4j.Logger;
@@ -10,13 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.jms.BytesMessage;
+import java.util.ArrayList;
 
 @Service
 public class ActivemqConsumerService {
 
     @Autowired
     ScreenPlayer screenPlayer;
+
+    @Autowired
+    ViewerFrame viewerFrame;
+
     Logger logger = LoggerFactory.getLogger(com.gec.lab_admin.services.ActivemqConsumerService.class);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(com.gec.lab_admin.services.ActivemqConsumerService.class);
@@ -24,30 +29,31 @@ public class ActivemqConsumerService {
 
     ObjectMapper mapper = new ObjectMapper();
 
+    @PostConstruct
+    public void init(){
+        viewerFrame.init();
+    }
+
     @JmsListener(destination = "image_queue", containerFactory = "activeMQContainerFactory")
     public void processMessage(Message message) throws Exception {
+
+
 
         if (message instanceof BytesMessage) {
             BytesMessage bytesMessage = (BytesMessage) message;
             int messageLength = new Long(bytesMessage.getBodyLength()).intValue();
-            byte[] textBytes = new byte[messageLength];
-            bytesMessage.readBytes(textBytes, messageLength);
+            byte[] dataBytes = new byte[messageLength];
+            bytesMessage.readBytes(dataBytes, messageLength);
 
-            screenPlayer.UpdateScreen((byte[]) ZipUtility.byteArrayToObject(textBytes));
+            Object object = ZipUtility.byteArrayToObject(dataBytes);
+            if(object instanceof ArrayList) {
+                for ( Object obj : (ArrayList) object ) {
+                    if (obj instanceof byte[]) {
+                        logger.info("found buffered stream image");
+                        screenPlayer.updateScreen((byte[]) obj);
+                    }
+                }
+            }
         }
-
-
-
-//        Object obj = mapper.readValue(message, Object.class);
-//        eventSimulator.updateData(obj);
-
-
-//        if (message instanceof BytesMessage) {
-//            BytesMessage bytesMessage = (BytesMessage) message;
-//            byte[] data = new byte[(int) bytesMessage.getBodyLength()];
-//            bytesMessage.readBytes(data);
-//            logger.info("Message received {}", new String(data));
-//            eventSimulator.updateData(ZipUtility.byteArrayToObject(data));
-//        }
     }
 }
