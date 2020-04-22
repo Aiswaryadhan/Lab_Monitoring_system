@@ -13,6 +13,9 @@ import javax.annotation.PostConstruct;
 import javax.jms.BytesMessage;
 import java.util.ArrayList;
 
+import javax.jms.BytesMessage;
+
+
 @Service
 public class ActivemqConsumerService {
 
@@ -29,6 +32,7 @@ public class ActivemqConsumerService {
 
     ObjectMapper mapper = new ObjectMapper();
 
+
     @PostConstruct
     public void init(){
         viewerFrame.init();
@@ -36,8 +40,6 @@ public class ActivemqConsumerService {
 
     @JmsListener(destination = "image_queue", containerFactory = "activeMQContainerFactory")
     public void processMessage(Message message) throws Exception {
-
-
 
         if (message instanceof BytesMessage) {
             BytesMessage bytesMessage = (BytesMessage) message;
