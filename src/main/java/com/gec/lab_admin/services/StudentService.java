@@ -65,4 +65,7 @@ public class StudentService {
         studentRepository.updateSem();
     }
 
+    public String getStudentName(String sender) {
+        return studentRepository.getStudName(sender);
+    }
 }

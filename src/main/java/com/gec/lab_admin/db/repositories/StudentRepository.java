@@ -61,4 +61,9 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "update student set sem=sem+1",
             nativeQuery = true)
     void updateSem();
+
+    @Query(
+            value = "select name from student where id=:sender",
+            nativeQuery = true)
+    String getStudName(String sender);
 }

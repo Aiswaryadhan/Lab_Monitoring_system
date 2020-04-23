@@ -74,25 +74,20 @@ $(document).ready(function(){
                       $('#error_user').slideDown();
                       $('#error_user').html('Please provide username');
                 }
-                else{
-                      $('#error_user').slideUp();
-                }
-                if(pwd==''){
+                else if(pwd==''){
                        $('#error_pass').slideDown();
                        $('#error_pass').html('Please provide password');
                 }
-                else{
-                       $('#error_pass').slideUp();
-                }
-                if(selsub=='Select'){
+                else if(selsub=='Select'){
                          $('#error_sub').slideDown();
                          $('#error_sub').html('Please select Subject');
                 }
                 else{
                          $('#error_sub').slideUp();
-                }
+                         $('#error_user').slideUp();
+                          $('#error_pass').slideUp();
 
-                $.ajax({
+                    $.ajax({
                           type : "POST",
                           url : 'http://localhost:8080/teacher/getCount/'+selsub,
                           headers : {
@@ -137,6 +132,7 @@ $(document).ready(function(){
                                                        alert("Today's Session is Over!")
                                             }
                           }
-                });
+                    });
+                }
             });//close of click
 });//close of document ready

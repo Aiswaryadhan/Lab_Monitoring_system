@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -55,7 +54,7 @@ public class TeacherService {
         return teacherRepository.getTeacherName(teacherId);
     }
 
-    public List<String> getStudentName() { return teacherRepository.getStudentName();
+    public String getStudentName(String sender) { return teacherRepository.getStudentName(sender);
     }
 
 
