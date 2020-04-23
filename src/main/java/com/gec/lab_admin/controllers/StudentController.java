@@ -68,6 +68,23 @@ public class StudentController {
     public void insertStud(@RequestBody Student student) {
         studentService.insertStud(student.getId(), student.getName(),student.getSem());
     }
+
+    @RequestMapping("/student/upload/{studId}/{teacherSub}/{filename}")
+    public void insertFiles(@PathVariable String studId,@PathVariable String teacherSub,@PathVariable String filename) {
+        studentService.insertFiles(studId,teacherSub,filename);
+        System.out.println("Inserted into files!!");
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value ="/student/getUploadDetails/{studId}/{teacherSub}")
+    public List<String> studDisplayFiles(@PathVariable String studId,@PathVariable String teacherSub) {
+       return studentService.studDisplayFiles(studId,teacherSub);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value ="/teacher/getFiles/{sub}")
+    public List<String> adminDisplayFiles(@PathVariable String sub) {
+        return studentService.adminDisplayFiles(sub);
+    }
+
     @RequestMapping("/student/idCheck")
     public String idCheck(@RequestBody Student student) {
         Optional<Student> loggedInStudent = studentService.login(student.getId());

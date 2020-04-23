@@ -57,6 +57,7 @@ $(document).ready(function(){
                                                         },
                                                         data:aJson,
                                                         success : function(data) {
+
                                                         if(data != "invalid"){
                                                                             $('#error_cred').slideUp();
                                                                             $.ajax({

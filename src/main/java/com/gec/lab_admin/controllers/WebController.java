@@ -55,6 +55,12 @@ public class WebController {
         return "admin_dashboard";
     }
 
+    @RequestMapping("/files_received")
+    //@ResponseBody
+    public String filesReceived() {
+        return "admin_files";
+    }
+
     @RequestMapping("/attendance")
     //@ResponseBody
     public String attendance() {
@@ -71,6 +77,12 @@ public class WebController {
     //@ResponseBody
     public String teacherMonitor() {
         return "teacher_monitor";
+    }
+
+    @RequestMapping("/teacher_files_received")
+    //@ResponseBody
+    public String teacherFiles() {
+        return "teacher_files";
     }
 
     @RequestMapping("/semesters")

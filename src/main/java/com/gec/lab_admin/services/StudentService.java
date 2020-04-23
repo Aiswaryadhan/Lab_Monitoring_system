@@ -68,4 +68,16 @@ public class StudentService {
     public String getStudentName(String sender) {
         return studentRepository.getStudName(sender);
     }
+
+    public void insertFiles(String studId, String teacherSub,String filename) {
+        studentRepository.insertFiles(studId,teacherSub,filename);
+    }
+
+    public List<String> studDisplayFiles(String studId, String teacherSub) {
+        return studentRepository.studDisplayFiles(studId,teacherSub);
+    }
+
+    public List<String> adminDisplayFiles(String sub) {
+        return studentRepository.adminDisplayFiles(sub);
+    }
 }

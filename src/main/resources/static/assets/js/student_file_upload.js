@@ -5,7 +5,7 @@ $(document).ready(function(){
 //    alert($.cookie("studId"));
 //    alert($.cookie("subject"));
     var txt = "";
-    var i=1;
+//    var i=1;
     $("#tblFiles").hide();
     if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("teacherSub") !=null) ){
                 studId =$.cookie("studId");
@@ -41,7 +41,7 @@ $(document).ready(function(){
         $('#error_input').slideUp();
         $("#listFiles tr").remove();
         var filename = $('input[type=file]').val().split('\\').pop();
-//        alert(filename);
+        if(filename!=''){
             $.ajax({
                 url: "http://localhost:8080/uploadFile/"+studId+'/'+teacherSub,
                 type: "POST",
@@ -51,18 +51,63 @@ $(document).ready(function(){
                 contentType: false,
                 cache: false,
                 success: function () {
+//                alert("success");
+                $.ajax({
+                                url: "http://localhost:8080/student/upload/"+studId+'/'+teacherSub+'/'+filename,
+                                type: "POST",
+                                success: function () {
+//                                            alert("success");
+                                            $.ajax({
+                                                url: "http://localhost:8080/student/getUploadDetails/"+studId+'/'+teacherSub,
+                                                type: "POST",
+                                                success: function (data) {
+                                                     len = data.length;
+                                                     var txt = "";
+                                                     if(len > 0){
+                                                                 for(var i=0;i!=len;i++){
+                                                                                   var arr=data[i].split(",");
+                                                                                   var date=arr[0];
+                                                                                   alert(date);
+                                                                                   var file_name=arr[1];
+                                                                                   alert(file_name);
+                                                                                   txt += "<tr><td>"+(i+1)+"</td><td>"+date+"</td><td>"+file_name+"</td></tr>";
+
+                                                                 }
+                                                                 alert(txt);
+                                                                 if(txt != ""){
+                                                                          $('#listFiles').append(txt).removeClass("hidden");
+                                                                          $("#tblFiles").show();
+                                                                 }
+                                                     }
+                                                     else
+                                                     {
+                                                       alert("Empty List");
+                                                }
+                                                },
+
+                                });
+                                },
+
+                });
                     alert("Uploaded successfully...");
-                    txt += "<tr><td>"+i+"</td><td>"+filename+"</td></tr>";
-                    $("#tblFiles").show();
-                     $('#upload-file-input').val('');
-                    $('#listFiles').append(txt);
-                    i++;
+
+//                    txt += "<tr><td>"+i+"</td><td>"+filename+"</td></tr>";
+
+//                     $('#upload-file-input').val('');
+//                    $('#listFiles').append(txt);
+//                    i++;
                 },
                 error: function () {
                      $('#error_input').slideDown();
-                     $('#error_input').html('Maximum file size exceeded!...');
+                     $('#error_input').html('Maximum file size of 3MB exceeded!...');
                 }
             });
+        }
+        else
+        {
+            $('#error_input').slideDown();
+                                 $('#error_input').html('Please select a file');
+        }
 
     } // function uploadFile
 });//close of document ready
