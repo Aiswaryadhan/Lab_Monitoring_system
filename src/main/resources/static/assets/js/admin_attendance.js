@@ -25,6 +25,12 @@ $(document).ready(function(){
                                  }
         });
     });
+ window.addEventListener("beforeunload", function (e) {
+   var confirmationMessage = "Are you sure?";
+
+   (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+   return confirmationMessage;                            //Webkit, Safari, Chrome
+ });
 
     $("#startDt").blur(function(){
                                 var sDate = $('#startDt').val();

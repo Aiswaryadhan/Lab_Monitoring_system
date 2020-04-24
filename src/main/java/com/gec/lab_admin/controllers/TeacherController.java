@@ -88,7 +88,7 @@ public class TeacherController {
         return teacherService.getSubjects(teacher_id);
     }
 
-    @RequestMapping("teacher/getName/{teacherId}")
+    @RequestMapping("/teacher/getName/{teacherId}")
     public String findTeacher(@PathVariable String teacherId){
         logger.info("finding teacher with id "+ teacherId);
         return teacherService.getTeacherName(teacherId);
@@ -98,12 +98,12 @@ public class TeacherController {
         return teacherService.getSubCount(sub);
     }
 
-    @RequestMapping("teacher/getStudName/{sender}")
+    @RequestMapping("/teacher/getStudName/{sender}")
     public String findStudent(@PathVariable String sender){
         logger.info("finding student");
         return teacherService.getStudentName(sender);
     }
-    @RequestMapping("teacher_details/getAll")
+    @RequestMapping("/teacher_details/getAll")
     public List<String> findTeacherDetails(){
         return teacherService.getTeacherDetails();
     }
@@ -162,8 +162,13 @@ public class TeacherController {
     public void deleteLoggedStud(){
         teacherService.deleteLoggedStud();
     }
+
     @RequestMapping("/loggedStudent/delete/{studId}")
     public void deleteLoggedStudent(@PathVariable String studId){
+       Integer diff= teacherService.getTimeDiff(studId);
+       if(diff<45){
+           teacherService.updateLogoutAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, studId);
+       }
         teacherService.deleteLoggedStudent(studId);
     }
 

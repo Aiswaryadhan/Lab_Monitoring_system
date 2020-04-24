@@ -13,6 +13,11 @@ $(document).ready(function(){
 
      }
 
+    $(window).on('beforeunload',function(){
+      return '';
+    });
+
+
     $("#adminLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');

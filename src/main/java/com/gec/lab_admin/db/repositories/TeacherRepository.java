@@ -91,6 +91,18 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     Integer getSubCount(String sub);
 
+    @Query(
+            value = "select TIMESTAMPDIFF(MINUTE,time,NOW()) from loggedInStudent where id=:studId",
+            nativeQuery = true)
+    Integer getTimeDiff(String studId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update attendance_record set presence=0 where student_id=:studId AND date=CURDATE() AND subject_id=:loggedInTeacherSubject",
+            nativeQuery = true)
+    void updateLogoutAttendance(String loggedInTeacherSubject, String studId);
+
 //    @Query(
 //            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
 //            nativeQuery = true)

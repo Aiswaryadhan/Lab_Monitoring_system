@@ -19,7 +19,7 @@ public interface StudentRepository extends CrudRepository<Student,String> {
     @Transactional
     @Modifying
     @Query(
-            value = "insert into loggedInStudent values(:id)",
+            value = "insert into loggedInStudent values(:id,NOW())",
             nativeQuery = true)
     void insertLoggedStudent(String id);
 

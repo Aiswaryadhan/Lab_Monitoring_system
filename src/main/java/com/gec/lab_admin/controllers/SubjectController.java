@@ -57,6 +57,7 @@ public class SubjectController {
     public void deleteSub(@PathVariable String subId){
         subjectService.deleteSub(subId);
     }
+
     @RequestMapping("/subjectSem/insert")
     public void insertSubSem(@RequestBody SubjectSem subjectSem) {
         subjectService.insertSubSem(subjectSem.getSubject_id(), subjectSem.getSem());

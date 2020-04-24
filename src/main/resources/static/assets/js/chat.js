@@ -96,12 +96,15 @@ $(document).ready(function(){
                     $('#mainDiv').addClass('hidden');
     }
     function onMessageReceived(payload) {
-            var message = JSON.parse(payload.body);
-//            sender=message.sender;
-            if(message.type === 'JOIN') {
+         var message = JSON.parse(payload.body);
+         if(message.type === 'JOIN') {
+            if((message.sender).startsWith("fc")){
+                return true;
+            }
+            else{
                 $.ajax({
                            type: "POST",
-                           url: 'http://localhost:8080/teacher/getStudName/'+message.sender,
+                           url: "http://localhost:8080/teacher/getStudName/"+message.sender,
                            success: function (data) {
                                             len = data.length;
                                             var txt = "";
@@ -178,6 +181,7 @@ $(document).ready(function(){
                            }
                 });
             }
+           }
            if(message.type === 'CHAT') {
 //                            alert("chatzzz");
 //                            alert("user"+username);

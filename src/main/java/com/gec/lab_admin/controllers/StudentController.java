@@ -55,6 +55,7 @@ public class StudentController {
 
         if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null && TeacherController.LOGGED_IN_TEACHER_SUBJECT!=null) {
             String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID+","+TeacherController.LOGGED_IN_TEACHER_SUBJECT;
+            logger.info(res);
             return res;
         } else {
             return "null";
@@ -119,7 +120,7 @@ public class StudentController {
         studentService.deleteFinal();
     }
 
-    @RequestMapping("student/getName/{sender}")
+    @RequestMapping("/student/getName/{sender}")
     public String findStudent(@PathVariable String sender){
         logger.info("finding student");
         return studentService.getStudentName(sender);

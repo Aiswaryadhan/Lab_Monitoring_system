@@ -135,4 +135,12 @@ public class TeacherService {
     public Integer getSubCount(String sub) {
         return teacherRepository.getSubCount(sub);
     }
+
+    public Integer getTimeDiff(String studId) {
+        return teacherRepository.getTimeDiff(studId);
+    }
+
+    public void updateLogoutAttendance(String loggedInTeacherSubject, String studId) {
+        teacherRepository.updateLogoutAttendance(loggedInTeacherSubject,studId);
+    }
 }
