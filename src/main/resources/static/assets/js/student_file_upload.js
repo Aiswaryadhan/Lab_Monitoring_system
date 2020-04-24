@@ -7,9 +7,9 @@ $(document).ready(function(){
     var txt = "";
     var i=1;
     $("#tblFiles").hide();
-    if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("subject") !=null) ){
+    if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("teacherSub") !=null) ){
                 studId =$.cookie("studId");
-                teacherSub=$.cookie("subject");
+                teacherSub=$.cookie("teacherSub");
                 var studName=$.cookie("studName");
                 var studSem=$.cookie("studSem");
 //                teacherSub=$.cookie("subject");
@@ -22,8 +22,6 @@ $(document).ready(function(){
                 $.removeCookie('studId');
                 $.removeCookie('studName');
                 $.removeCookie('studSem');
-                $.removeCookie('teacherName');
-                $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
                                          url: 'http://localhost:8080/loggedStudent/delete/'+studId,

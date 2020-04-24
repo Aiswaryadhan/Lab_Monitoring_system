@@ -53,8 +53,8 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.POST, value = "/student/getTeacherName")
     public String getTeacherName() {
 
-        if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null) {
-            String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID;
+        if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null && TeacherController.LOGGED_IN_TEACHER_SUBJECT!=null) {
+            String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID+","+TeacherController.LOGGED_IN_TEACHER_SUBJECT;
             return res;
         } else {
             return "null";
@@ -96,8 +96,15 @@ public class StudentController {
     public void updateSem(){
         studentService.upDateSem();
     }
+
     @RequestMapping("/student/deleteFinal")
     public void deleteFinal(){
         studentService.deleteFinal();
+    }
+
+    @RequestMapping("student/getName/{sender}")
+    public String findStudent(@PathVariable String sender){
+        logger.info("finding student");
+        return studentService.getStudentName(sender);
     }
 }

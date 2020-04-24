@@ -28,9 +28,9 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     String getTeacherName(String teacherId);
     @Query(
-            value = "select s.id,s.name from student s inner join loggedInStudent ls on s.id=ls.id",
+            value = "select s.id,s.name from student s inner join loggedInStudent ls on s.id=ls.id and s.id=:sender",
             nativeQuery = true)
-    List<String> getStudentName();
+    String getStudentName(String sender);
 
     @Query(
             value = "select t.id,t.name,t.is_admin,GROUP_CONCAT(s.name SEPARATOR ';')as subjects,GROUP_CONCAT(s.id SEPARATOR ';')as subject_ids from teacher t,teacher_subject ts,subject s where t.id=ts.teacher_id && ts.subject_id=s.id group by t.id",
