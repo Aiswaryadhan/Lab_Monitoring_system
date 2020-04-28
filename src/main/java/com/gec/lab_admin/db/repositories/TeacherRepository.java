@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,41 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "update attendance_record set presence=0 where student_id=:studId AND date=CURDATE() AND subject_id=:loggedInTeacherSubject",
             nativeQuery = true)
     void updateLogoutAttendance(String loggedInTeacherSubject, String studId);
+
+    @Query(
+            value = "select count(id) from student",
+            nativeQuery = true)
+    Integer getStudNum();
+
+    @Query(
+            value = "select name from subject where id=:sub ",
+            nativeQuery = true)
+    String getSubName(String sub);
+
+    @Query(
+            value = "select count(*) from loggedInStudent",
+            nativeQuery = true)
+    Integer getOnlineStud();
+
+    @Query(
+            value = "select CURDATE()",
+            nativeQuery = true)
+    String getTime();
+
+    @Query(
+            value = "select count(id) from teacher",
+            nativeQuery = true)
+    Integer getTeacherNum();
+
+    @Query(
+            value = "select count(*) from files_uploaded where subject_id=:sub and DATE(datetime) = CURDATE()",
+            nativeQuery = true)
+    Integer getFiles(String sub);
+
+    @Query(
+            value = "select count(st.id) from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
+            nativeQuery = true)
+    Integer getTeacherSub(String sub);
 
 //    @Query(
 //            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",

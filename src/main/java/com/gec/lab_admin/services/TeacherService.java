@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -142,5 +143,34 @@ public class TeacherService {
 
     public void updateLogoutAttendance(String loggedInTeacherSubject, String studId) {
         teacherRepository.updateLogoutAttendance(loggedInTeacherSubject,studId);
+    }
+
+    public Integer getStudNo() {
+       return teacherRepository.getStudNum();
+    }
+
+    public String getSubName(String sub) {
+        return teacherRepository.getSubName(sub);
+    }
+
+    public Integer getOnlineStud() {
+        return teacherRepository.getOnlineStud();
+
+    }
+
+    public String getTime() {
+        return teacherRepository.getTime();
+    }
+
+    public Integer getTeacherNum() {
+        return teacherRepository.getTeacherNum();
+    }
+
+    public Integer getFiles(String sub) {
+        return teacherRepository.getFiles(sub);
+    }
+
+    public Integer getTeacherStudNo(String sub) {
+        return teacherRepository.getTeacherSub(sub);
     }
 }

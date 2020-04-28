@@ -80,4 +80,9 @@ public class StudentService {
     public List<String> adminDisplayFiles(String sub) {
         return studentRepository.adminDisplayFiles(sub);
     }
+
+    public Integer getFiles(String sub,String studId) {
+        return studentRepository.getFiles(sub,studId);
+    }
+
 }

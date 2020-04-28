@@ -85,4 +85,11 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "select f.datetime,f.file_name,s.name from files_uploaded f inner join student s on f.student_id=s.id where f.subject_id=:sub order by f.datetime desc",
             nativeQuery = true)
     List<String> adminDisplayFiles(String sub);
+
+    @Query(
+            value = "select count(*) from files_uploaded where student_id=:studId and subject_id=:sub",
+            nativeQuery = true)
+    Integer getFiles(String sub,String studId);
+
+//    Integer getAttendance(String sub, String studId);
 }

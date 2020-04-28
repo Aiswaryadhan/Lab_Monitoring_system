@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -123,6 +124,42 @@ public class TeacherController {
         logger.info("Delete teacher table");
         teacherService.deleteTeacher(teacherId);
     }
+
+    @RequestMapping("/teacher/getStudNo")
+    public Integer getStudNo(){
+        return teacherService.getStudNo();
+    }
+
+    @RequestMapping("/teacher/getTeacherStudNo/{sub}")
+    public Integer getTeacherStudNo(@PathVariable String sub){
+        return teacherService.getTeacherStudNo(sub);
+    }
+
+    @RequestMapping("/teacher/getTeacherNum")
+    public Integer getTeacherNum(){
+        return teacherService.getTeacherNum();
+    }
+
+    @RequestMapping("/teacher/getTime")
+    public String getTime(){
+        return teacherService.getTime();
+    }
+
+    @RequestMapping("/teacher/getFilesNum/{sub}")
+    public Integer getFiles(@PathVariable String sub){
+        return teacherService.getFiles(sub);
+    }
+
+    @RequestMapping("/teacher/getOnlineStud")
+    public Integer getOnlineStud(){
+        return teacherService.getOnlineStud();
+    }
+
+    @RequestMapping("/teacher/getSubName/{sub}")
+    public String getSubName(@PathVariable String sub){
+        return teacherService.getSubName(sub);
+    }
+
     @RequestMapping("/teacherSub/insert")
     public void insertTeacherSub(@RequestBody TeacherSubject teacherSubject){
         logger.info("Insert in teachersub table");

@@ -1,7 +1,9 @@
 $(document).ready(function(){
+     var teacherId;
+     var sub;
      if ($.cookie("id") != null && $.cookie("subject") != null) {
-                     var teacherId =$.cookie("id");
-                     var sub= $.cookie("subject");
+                     teacherId =$.cookie("id");
+                     sub= $.cookie("subject");
                      $.ajax({
                                 type: "POST",
                                 url: 'http://localhost:8080/teacher/getName/'+teacherId,
@@ -11,9 +13,44 @@ $(document).ready(function(){
                                 }
                      });
 
-          }
+     }
+     $.ajax({
+                     type: "POST",
+                     url: 'http://localhost:8080/teacher/getTeacherStudNo/'+sub,
+                     success: function (data) {
+                                           $("#studNo").text(data);
+                     }
+     });
+     $.ajax({
+                         type: "POST",
+                         url: 'http://localhost:8080/teacher/getTime',
+                         success: function (data) {
+                                               $("#txtTime").text(data);
+                         }
+     });
+     $.ajax({
+                         type: "POST",
+                         url: 'http://localhost:8080/teacher/getFilesNum/'+sub,
+                         success: function (data) {
+                                               $("#fileNum").text(data);
+                         }
+     });
+     $.ajax({
+                     type: "POST",
+                     url: 'http://localhost:8080/teacher/getSubName/'+sub,
+                     success: function (data) {
+                                           $("#txtSubject").text(data);
+                     }
+     });
+     $.ajax({
+                     type: "POST",
+                     url: 'http://localhost:8080/teacher/getOnlineStud',
+                     success: function (data) {
+                                          $("#onlineStud").text(data);
+                     }
+     });
 
-         $("#teacherLogout").click(function(){
+     $("#teacherLogout").click(function(){
              $.removeCookie('id');
              $.removeCookie('subject');
              $.ajax({
@@ -23,5 +60,5 @@ $(document).ready(function(){
 
                                       }
              });
-         })
+     })
 });//close of document ready

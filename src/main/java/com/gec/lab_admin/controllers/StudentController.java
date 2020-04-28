@@ -50,6 +50,12 @@ public class StudentController {
         }
     }
 
+    @RequestMapping("/student/getFilesNum/{sub}/{studId}")
+    public Integer getFiles(@PathVariable String sub,@PathVariable String studId){
+        return studentService.getFiles(sub,studId);
+    }
+
+
     @RequestMapping(method = RequestMethod.POST, value = "/student/getTeacherName")
     public String getTeacherName() {
 
