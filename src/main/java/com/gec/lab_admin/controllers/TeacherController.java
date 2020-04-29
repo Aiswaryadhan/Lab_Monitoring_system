@@ -180,6 +180,18 @@ public class TeacherController {
         logger.info("Returned semesters");
         return teacherService.getAllSemester();
     }
+
+    @RequestMapping("/teacher/getAllSites")
+    public List<String> getAllSites(){
+        logger.info("Returned sites");
+        return teacherService.getAllSites();
+    }
+    @RequestMapping("/teacher/insertSite")
+    public void insertSite(@RequestBody BlockedSites blockedSites){
+        logger.info("Insert in blocked Sites table");
+        teacherService.insertSite(blockedSites.getName());
+    }
+
     @RequestMapping("/semester/insert")
     public void insertSem(@RequestBody Semester semester){
         logger.info("Insert in semester table");

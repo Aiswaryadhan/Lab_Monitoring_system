@@ -91,5 +91,10 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             nativeQuery = true)
     Integer getFiles(String sub,String studId);
 
+    @Query(
+            value = "select * from blocked_sites",
+            nativeQuery = true)
+    List<String> getAllSites();
+
 //    Integer getAttendance(String sub, String studId);
 }

@@ -5,12 +5,15 @@ import com.gec.lab_admin.db.models.Semester;
 import com.gec.lab_admin.db.models.Student;
 import com.gec.lab_admin.db.models.Subject;
 import com.gec.lab_admin.services.StudentService;
+import com.gec.lab_admin.services.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,18 +24,26 @@ import static com.gec.lab_admin.controllers.TeacherController.LOGGED_IN_TEACHER_
 public class StudentController {
     @Autowired
     StudentService studentService;
-    //    LoggedStudentService loggedStudentService;
+
+//    TeacherService teacherService;
+    //    LoggedStudentService logge
+//    dStudentService;
     LoggedStudent loggedStudent;
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @RequestMapping(method = RequestMethod.POST,value = "/student/login")
-    public String login(@RequestBody Student student){
+    public String login(@RequestBody Student student) throws IOException {
         Optional<Student> loggedInStudent = studentService.login(student.getId());
         if(loggedInStudent.isPresent()){
             if(loggedInStudent.get().getPassword().equals(student.getPassword())){
                 logger.info("success");
                 studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 studentService.add(student.getId());
+                List<String> s1= studentService.getAllSites();
+                Iterator<String> s1Iterator = s1.iterator();
+                while (s1Iterator.hasNext()) {
+                    studentService.blockSites(s1Iterator.next());
+                }
                 System.out.println(loggedInStudent.get());
                 String name=loggedInStudent.get().getName();
                 int sem=loggedInStudent.get().getSem();

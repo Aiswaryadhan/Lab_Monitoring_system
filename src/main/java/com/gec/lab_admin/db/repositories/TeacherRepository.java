@@ -1,6 +1,7 @@
 package com.gec.lab_admin.db.repositories;
 
 import com.gec.lab_admin.db.models.AttendanceRecord;
+import com.gec.lab_admin.db.models.BlockedSites;
 import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -138,6 +139,18 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "select count(st.id) from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
             nativeQuery = true)
     Integer getTeacherSub(String sub);
+
+    @Query(
+            value = "select * from blocked_sites",
+            nativeQuery = true)
+    List<String> getAllSites();
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "insert into blocked_sites values(:name)",
+            nativeQuery = true)
+    void insertSite(String name);
 
 //    @Query(
 //            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",

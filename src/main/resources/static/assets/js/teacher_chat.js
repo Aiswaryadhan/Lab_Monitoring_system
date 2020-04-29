@@ -55,6 +55,7 @@ $(document).ready(function(){
      														                return $(this).text();
      							}).get();
      							receiver=tableData[0];
+                                alert("click "+receiver);
                                 studName=tableData[1];
                                 $('#mainDiv').removeClass('hidden');
                                 $("#"+studId).prop("disabled",false);
@@ -100,7 +101,6 @@ $(document).ready(function(){
          if(message.type === 'JOIN') {
             if((message.sender).startsWith("fc")){
                 return true;
-                alert("Haaaaa");
             }
             else{
                 $.ajax({
@@ -137,9 +137,10 @@ $(document).ready(function(){
                                                                 $newBtn.click(close);
                                                                 $("#hdr"+studId).append($newBtn);
 
-                                                                var $it = $("<i></i>");
+                                                                var $it = $("<input />");
                                                                 $it.attr("id","it"+studId);
-                                                                $it.attr("text","Chat");
+                                                                $it.attr("type","text");
+                                                                $it.attr("value",studId);
                                                                 $("#div1"+studId).append($it);
 
 
@@ -159,7 +160,7 @@ $(document).ready(function(){
                                                                 $("#"+studId).append($newForm);
 
 
-                                                                var $text = $("<input></input>");
+                                                                var $text = $("<input />");
                                                                 $text.attr("id","message"+studId);
                                                                 $text.attr("type","text");
                                                                 $text.attr("placeholder","Enter your message...");
@@ -184,15 +185,29 @@ $(document).ready(function(){
             }
            }
            if(message.type === 'CHAT') {
-//                            alert("chatzzz");
-//                            alert("user"+username);
-//                            alert("msgreceiver"+message.receiver);
-//                            alert("sender"+message.sender);
-//                            alert("rvr"+receiver);
+            if((message.sender).startsWith("fc")){
+//                    receiver=studId;
+                       }
+                       else{
+                               $.ajax({
+                                      type: "POST",
+                                      url: "http://localhost:8080/teacher/getStudName/"+message.sender,
+                                      success: function (data) {
+                                                       len = data.length;
+                                                       var txt = "";
+                                                       if(len > 0){
+                                                                           var arr=data.split(",");
+                                                                           receiver=arr[0];
+                                                       }
+                                      }
+                               });
+                        }
+                        alert("us "+username);
+                        alert("rc "+receiver);
                           if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                            if(message.type === 'CHAT') {
                                                                                  var messageElement = document.createElement('li');
-//                                                                                 alert("chat");
+                                                                                 alert("chat");
                                                                                  messageElement.classList.add('chat-message');
                                                                                  var avatarElement = document.createElement('i');
                                                                                  avatarElement.setAttribute("class", "avtr");
@@ -203,7 +218,6 @@ $(document).ready(function(){
                                                                                             url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                             success: function (data) {
                                                                                                             sender=data;
-                                                                                                            alert(sender);
                                                                                                             var avatarText = document.createTextNode(sender[0]);
                                                                                                             avatarElement.appendChild(avatarText);
                                                                                                             avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -228,7 +242,6 @@ $(document).ready(function(){
                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                            success: function (data) {
                                                                                                       sender=data;
-                                                                                                        alert(sender);
                                                                                              var avatarText = document.createTextNode(sender[0]);
                                                                                              avatarElement.appendChild(avatarText);
                                                                                              avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -253,15 +266,14 @@ $(document).ready(function(){
            }
     }
   function send(){
-//        alert(studId);
         var messageContent = $('#message'+studId).val();
-//        alert(messageContent);
-//        alert(receiver);
+//        alert("stud "+studId);
+//        alert($("it"+studId).text());
         if(messageContent && stompClient) {
                             var chatMessage = {
                                         sender: username,
                                         content: messageContent,
-                                        receiver:studId,
+                                        receiver:$("it"+studId).val(),
                                         type: 'CHAT'
                             };
                             stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));

@@ -173,4 +173,12 @@ public class TeacherService {
     public Integer getTeacherStudNo(String sub) {
         return teacherRepository.getTeacherSub(sub);
     }
+
+    public List<String> getAllSites() {
+        return teacherRepository.getAllSites();
+    }
+
+    public void insertSite(String name) {
+        teacherRepository.insertSite(name);
+    }
 }

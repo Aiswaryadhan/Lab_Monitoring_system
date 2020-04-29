@@ -54,7 +54,8 @@ $(document).ready(function(){
      							var tableData = $(this).children("td").map(function() {
      														                return $(this).text();
      							}).get();
-     							receiver=tableData[0];
+     							receiver=$("it"+studId).text;
+     							alert(receiver);
                                 studName=tableData[1];
                                 $('#mainDiv').removeClass('hidden');
                                 $("#"+studId).prop("disabled",false);
@@ -126,6 +127,7 @@ $(document).ready(function(){
 
                                                                 var $newDiv = $("<div></div>");
                                                                 $newDiv.attr("id","div1"+studId);
+
                                                                 $newDiv.attr("class","msger-header-title");
                                                                 $("#hdr"+studId).append($newDiv);
 
@@ -138,9 +140,8 @@ $(document).ready(function(){
 
                                                                 var $it = $("<i></i>");
                                                                 $it.attr("id","it"+studId);
-                                                                $it.attr("text","Chat");
+                                                                $it.attr("text",studId);
                                                                 $("#div1"+studId).append($it);
-
 
                                                                 var $main = $("<main></main");
                                                                 $main.attr("id","main"+studId);
@@ -158,12 +159,14 @@ $(document).ready(function(){
                                                                 $("#"+studId).append($newForm);
 
 
-                                                                var $text = $("<input></input>");
+                                                                var $text = $("<input />");
                                                                 $text.attr("id","message"+studId);
                                                                 $text.attr("type","text");
                                                                 $text.attr("placeholder","Enter your message...");
-                                                                $text.attr("class","msger-input");
+//                                                                $text.attr("class","msger-input");
                                                                 $("#messageForm"+studId).append($text);
+
+
 
                                                                 var $newBtn2 = $("<input />");
                                                                 $newBtn2.attr("type","button");
@@ -172,6 +175,7 @@ $(document).ready(function(){
                                                                 $newBtn2.attr("class","msger-send-btn");
                                                                 $newBtn2.click(send);
                                                                 $("#messageForm"+studId).append($newBtn2);
+
 
                                             }
                                             if(txt != ""){
@@ -183,11 +187,6 @@ $(document).ready(function(){
             }
            }
            if(message.type === 'CHAT') {
-//                            alert("chatzzz");
-//                            alert("user"+username);
-//                            alert("msgreceiver"+message.receiver);
-//                            alert("sender"+message.sender);
-//                            alert("rvr"+receiver);
                           if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                            if(message.type === 'CHAT') {
                                                                                  var messageElement = document.createElement('li');
@@ -260,7 +259,7 @@ $(document).ready(function(){
                             var chatMessage = {
                                         sender: username,
                                         content: messageContent,
-                                        receiver:studId,
+                                        receiver:$("it"+studId).text,
                                         type: 'CHAT'
                             };
                             stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));

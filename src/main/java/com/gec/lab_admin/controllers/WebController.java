@@ -91,6 +91,12 @@ public class WebController {
         return "insert_semester";
     }
 
+    @RequestMapping("/blocked")
+    //@ResponseBody
+    public String siteInsertion() {
+        return "admin_block_sites";
+    }
+
     @RequestMapping("/subjects")
     //@ResponseBody
     public String subjectInsertion() {
