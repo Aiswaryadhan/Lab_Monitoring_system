@@ -31,11 +31,11 @@ public class LabAssistantApplication {
 	@Value("${spring.activemq.broker-url}")
 	private String activeMQUrl;
 
-	@Value("${activemq.user}")
-	private String activemqUser;
-
-	@Value("${activemq.password}")
-	private String activemqPassword;
+//	@Value("${activemq.user}")
+//	private String activemqUser;
+//
+//	@Value("${activemq.password}")
+//	private String activemqPassword;
 
 	@Bean
 	public MessageConverter jacksonJmsMessageConverter() {
@@ -65,8 +65,8 @@ public class LabAssistantApplication {
 	public ConnectionFactory activeMQConnectionFactory() {
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 		connectionFactory.setBrokerURL(activeMQUrl);
-		connectionFactory.setUserName(activemqUser);
-		connectionFactory.setPassword(activemqPassword);
+//		connectionFactory.setUserName(activemqUser);
+//		connectionFactory.setPassword(activemqPassword);
 		connectionFactory.setUseAsyncSend(true);
 		connectionFactory.setOptimizeAcknowledge(true);
 		return connectionFactory;
