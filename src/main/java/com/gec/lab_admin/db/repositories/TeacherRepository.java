@@ -141,16 +141,23 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     Integer getTeacherSub(String sub);
 
     @Query(
-            value = "select * from blocked_sites",
+            value = "select url from blocked_sites where sub_id=:subId",
             nativeQuery = true)
-    List<String> getAllSites();
+    List<String> getAllSites(String subId);
 
     @Transactional
     @Modifying
     @Query(
-            value = "insert into blocked_sites values(:name)",
+            value = "insert into blocked_sites values(:subId,:url)",
             nativeQuery = true)
-    void insertSite(String name);
+    void insertSite(String subId,String url);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from blocked_sites where sub_id=:sub_id and url=:url",
+            nativeQuery = true)
+    void deleteSites(String sub_id, String url);
 
 //    @Query(
 //            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",

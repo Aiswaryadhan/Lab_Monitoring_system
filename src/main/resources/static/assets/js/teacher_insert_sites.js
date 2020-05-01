@@ -15,7 +15,7 @@ $(document).ready(function(){
 
     }
 
-    $("#adminLogout").click(function(){
+     $("#teacherLogout").click(function(){
             $.removeCookie('id');
             $.removeCookie('subject');
             $.ajax({
@@ -25,7 +25,7 @@ $(document).ready(function(){
 
                                      }
             });
-        });
+     });
     $("#btnInsertSite").prop('disabled',false);
     $("#btnDeleteSite").prop('disabled',true);
     $("#txtSite").blur(function(){

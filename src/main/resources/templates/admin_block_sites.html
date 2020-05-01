@@ -81,15 +81,16 @@
                     <li><a href="attendance" class=""><i class="lnr lnr-chart-bars"></i> <span>Attendance</span></a></li>
                     <li><a href="monitor" class=""><i class="lnr lnr-screen"></i> <span>Student Monitoring</span></a></li>
                     <li><a href="files_received" class=""><i class="lnr lnr-inbox"></i> <span>Student Files</span></a></li>
+                    <li><a href="blocked" class="active"><i class="lnr lnr-unlink"></i> <span>Block Web Sites</span></a></li>
                     <li>
                         <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-database"></i> <span>Add Details</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                        <div id="subPages" class="active ">
+                        <div id="subPages" class="collapse">
                             <ul class="nav">
 
                                 <li><a href="teachers"><i class="lnr lnr-users"></i><span>Teacher</span></a></li>
                                 <li><a href="subjects"><i class="lnr lnr-book"></i><span>Subject</span></a></li>
                                 <li><a href="students"><i class="lnr lnr-users"></i><span>Student</span></a></li>
-                                <li><a href="semesters" class="active"><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
+                                <li><a href="semesters" class=""><i class="lnr lnr-layers"></i><span>Semester</span></a></li>
                             </ul>
                         </div>
                     </li>
@@ -115,7 +116,7 @@
                         <br>
                         <p class="demo-button">
                             <button type="button" class="btn btn-success" id="btnInsertSite"><i class="fa fa-check-circle"></i> Insert</button>
-                            <button type="button" class="btn btn-warning" id="btnUpdateSite"><i class="ln lnr-pencil"></i> Update</button>
+<!--                            <button type="button" class="btn btn-warning" id="btnUpdateSite"><i class="ln lnr-pencil"></i> Update</button>-->
                             <button type="button" class="btn btn-danger" id="btnDeleteSite"><i class="fa fa-trash-o"></i> Delete</button>
                         </p>
                     </div>
@@ -124,7 +125,7 @@
             </div>
             <div class="col-md-6">
                 <!-- PANEL NO CONTROLS -->
-                <div class="panel">
+                <div class="panel" id="tblSites">
                     <div class="panel-heading">
                         <h3 class="panel-title">All Blocked Sites</h3>
                     </div>

@@ -181,15 +181,21 @@ public class TeacherController {
         return teacherService.getAllSemester();
     }
 
-    @RequestMapping("/teacher/getAllSites")
-    public List<String> getAllSites(){
+    @RequestMapping("/teacher/getAllSites/{subId}")
+    public List<String> getAllSites(@PathVariable String subId){
         logger.info("Returned sites");
-        return teacherService.getAllSites();
+        return teacherService.getAllSites(subId);
     }
     @RequestMapping("/teacher/insertSite")
     public void insertSite(@RequestBody BlockedSites blockedSites){
         logger.info("Insert in blocked Sites table");
-        teacherService.insertSite(blockedSites.getName());
+        teacherService.insertSite(blockedSites.getSub_id(),blockedSites.getUrl());
+    }
+
+    @RequestMapping("/teacher/deleteSite")
+    public void deleteSite(@RequestBody BlockedSites blockedSites){
+        logger.info("Deletion in blocked Sites table");
+        teacherService.deleteSite(blockedSites.getSub_id(),blockedSites.getUrl());
     }
 
     @RequestMapping("/semester/insert")

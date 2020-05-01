@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Files Received</title>
+    <title>Blocking WebSites</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -80,8 +80,9 @@
                     <li><a href="teacherDashboard" class=""><i class="lnr lnr-home"></i> <span>Home</span></a></li>
                     <li><a href="teacher_attendance" class=""><i class="lnr lnr-chart-bars"></i> <span>Attendance</span></a></li>
                     <li><a href="teacherMonitor" class=""><i class="lnr lnr-screen"></i> <span>Student Monitoring</span></a></li>
-                    <li><a href="teacher_files_received" class="active"><i class="lnr lnr-inbox"></i> <span>Student Files</span></a></li>
-                    <li><a href="teacher_blocked" class=""><i class="lnr lnr-unlink"></i> <span>Block Web Sites</span></a></li>
+                    <li><a href="teacher_files_received" class=""><i class="lnr lnr-inbox"></i> <span>Student Files</span></a></li>
+                    <li><a href="teacher_blocked" class="active"><i class="lnr lnr-unlink"></i> <span>Block Web Sites</span></a></li>
+
                 </ul>
             </nav>
         </div>
@@ -91,23 +92,47 @@
     <div class="main">
         <!-- MAIN CONTENT -->
         <div class="main-content">
-            <div class="col-md-12">
-                <!-- TIMELINE -->
-                <div class="panel panel-scrolling">
+            <div class="col-md-6">
+                <!-- PANEL NO CONTROLS -->
+                <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Files from Students</h3>
+                        <h3 class="panel-title">Web Sites</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="list-unstyled activity-list" id="listMsg">
-
-
-                        </ul>
-                        <button type="button" class="btn btn-primary btn-bottom center-block">Load More</button>
+                        <div id="error_site" class="error"></div>
+                        <input type="text" class="form-control" id="txtSite" placeholder="Enter URL">
+                        <br>
+                        <p class="demo-button">
+                            <button type="button" class="btn btn-success" id="btnInsertSite"><i class="fa fa-check-circle"></i> Insert</button>
+                            <!--                            <button type="button" class="btn btn-warning" id="btnUpdateSite"><i class="ln lnr-pencil"></i> Update</button>-->
+                            <button type="button" class="btn btn-danger" id="btnDeleteSite"><i class="fa fa-trash-o"></i> Delete</button>
+                        </p>
                     </div>
                 </div>
-                <!-- END TIMELINE -->
+                <!-- END PANEL NO CONTROLS -->
             </div>
+            <div class="col-md-6">
+                <!-- PANEL NO CONTROLS -->
+                <div class="panel" id="tblSites">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">All Blocked Sites</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Sl.No.</th>
+                                <th>WebSites</th>
+                            </tr>
+                            </thead>
+                            <tbody id="listSites">
 
+                            </tbody>
+                        </table>
+                    </div><!-- panel body-->
+                </div><!-- Panel -->
+                <!-- END PANEL NO CONTROLS -->
+            </div>
         </div>
     </div>
     <!-- END MAIN CONTENT -->
@@ -129,7 +154,7 @@
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
 <script src = "http://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
-<script src="assets/js/teacher_files.js"></script>
+<script src="assets/js/teacher_insert_sites.js"></script>
 </body>
 
 </html>

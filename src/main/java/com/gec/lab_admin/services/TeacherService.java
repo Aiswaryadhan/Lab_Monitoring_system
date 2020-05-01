@@ -174,11 +174,15 @@ public class TeacherService {
         return teacherRepository.getTeacherSub(sub);
     }
 
-    public List<String> getAllSites() {
-        return teacherRepository.getAllSites();
+    public List<String> getAllSites(String subId) {
+        return teacherRepository.getAllSites(subId);
     }
 
-    public void insertSite(String name) {
-        teacherRepository.insertSite(name);
+    public void insertSite(String subId,String url) {
+        teacherRepository.insertSite(subId, url);
+    }
+
+    public void deleteSite(String sub_id, String url) {
+        teacherRepository.deleteSites(sub_id,url);
     }
 }

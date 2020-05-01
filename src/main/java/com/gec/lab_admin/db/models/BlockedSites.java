@@ -7,20 +7,42 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
+
 @Table(name="blocked_sites")
 public class BlockedSites {
-    @Id
-    @NotNull
-    @Column(name="name")
-    @Size(max = 255)
-    private String name;
 
-    public String getName() {
-        return name;
+    @Column(name="sub_id")
+    @Size(max = 10)
+    private String sub_id;
+
+    @Column(name="url")
+    @Size(max = 255)
+    private String url;
+
+
+
+    public String getSub_id() {
+        return sub_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSub_id(String sub_id) {
+        this.sub_id = sub_id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public BlockedSites(){
+
+    }
+
+    public BlockedSites(@Size(max = 10) String sub_id, @Size(max = 255) String url) {
+        this.sub_id = sub_id;
+        this.url = url;
     }
 }

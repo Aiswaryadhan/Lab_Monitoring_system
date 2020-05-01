@@ -119,7 +119,7 @@ public class StudentService {
 
     }
 
-    public List<String> getAllSites() {
-        return studentRepository.getAllSites();
+    public List<String> getAllSites(String loggedInTeacherSubject) {
+        return studentRepository.getAllSites( loggedInTeacherSubject);
     }
 }

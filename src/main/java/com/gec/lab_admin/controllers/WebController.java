@@ -97,6 +97,12 @@ public class WebController {
         return "admin_block_sites";
     }
 
+    @RequestMapping("/teacher_blocked")
+    //@ResponseBody
+    public String teacherSiteInsertion() {
+        return "teacher_block_sites";
+    }
+
     @RequestMapping("/subjects")
     //@ResponseBody
     public String subjectInsertion() {
