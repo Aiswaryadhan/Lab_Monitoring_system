@@ -1,16 +1,17 @@
 package com.gec.lab_admin.db.repositories;
 
+
 import com.gec.lab_admin.db.models.AttendanceRecord;
 import com.gec.lab_admin.db.models.BlockedSites;
 import com.gec.lab_admin.db.models.MessageSend;
+
 import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

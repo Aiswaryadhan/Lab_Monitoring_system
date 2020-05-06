@@ -1,8 +1,10 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.*;
+import com.gec.lab_admin.services.ActivemqProducerService;
 import com.gec.lab_admin.services.AttendanceService;
 import com.gec.lab_admin.services.TeacherService;
+import com.gec.lab_admin.utilities.ZipUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 
 import static java.lang.StrictMath.round;
 
@@ -29,16 +42,18 @@ public class TeacherController {
 
     AttendanceReport attendanceReport=new AttendanceReport();
 
+    ActivemqProducerService activemqProducerService=new ActivemqProducerService();
+
     @Autowired
     AttendanceService attendanceService;
     final Logger logger = LoggerFactory.getLogger(TeacherController.class);
-
+    Session session = null;
     public static String LOGGED_IN_TEACHER_SUBJECT="";
     public static String LOGGED_IN_TEACHER_NAME="";
     public static String LOGGED_IN_TEACHER_ID="";
     public static Boolean LOGGED_IN_TEACHER_ADMIN;
     @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
-    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId){
+    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId) throws IOException, JMSException {
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
         if(loggedInTeacher.isPresent()){
             if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
@@ -49,6 +64,17 @@ public class TeacherController {
                 System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("success");
+//                ArrayList<String> reqList = new ArrayList<String>();
+                List<String> reqList = teacherService.getAllSites(TeacherController.LOGGED_IN_TEACHER_SUBJECT);
+                Iterator<String> s1Iterator = reqList.iterator();
+                logger.info("block");
+                logger.info(String.valueOf(reqList));
+                while (s1Iterator.hasNext()) {
+                    logger.info(s1Iterator.next());
+                    logger.info("Sites");
+                    activemqProducerService.send(s1Iterator.next());
+                }
+
                 return "success"+LOGGED_IN_TEACHER_ADMIN;
             }
             else{
