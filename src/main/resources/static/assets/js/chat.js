@@ -54,7 +54,7 @@ $(document).ready(function(){
      							var tableData = $(this).children("td").map(function() {
      														                return $(this).text();
      							}).get();
-     							receiver=$("it"+studId).text;
+     							receiver="18MCA01";
      							alert(receiver);
                                 studName=tableData[1];
                                 $('#mainDiv').removeClass('hidden');
@@ -259,7 +259,7 @@ $(document).ready(function(){
                             var chatMessage = {
                                         sender: username,
                                         content: messageContent,
-                                        receiver:$("it"+studId).text,
+                                        receiver:"18MCA01",
                                         type: 'CHAT'
                             };
                             stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
