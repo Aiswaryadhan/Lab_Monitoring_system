@@ -13,6 +13,11 @@ import javax.annotation.PostConstruct;
 import javax.jms.BytesMessage;
 import java.util.ArrayList;
 
+
+import javax.jms.BytesMessage;
+
+
+
 @Service
 public class ActivemqConsumerService {
 
@@ -28,6 +33,7 @@ public class ActivemqConsumerService {
 
 
     ObjectMapper mapper = new ObjectMapper();
+
 
     @PostConstruct
     public void init(){
