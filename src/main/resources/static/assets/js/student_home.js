@@ -12,14 +12,14 @@ $(document).ready(function(){
      }
      $.ajax({
                          type: "POST",
-                         url: 'http://d76524e0.ngrok.io/teacher/getTime',
+                         url: 'http://1fb077bb.ngrok.io/teacher/getTime',
                          success: function (data) {
                                                $("#txtTime").text(data);
                          }
      });
      $.ajax({
                           type: "POST",
-                          url: 'http://d76524e0.ngrok.io/teacher/getSubName/'+sub,
+                          url: 'http://1fb077bb.ngrok.io/teacher/getSubName/'+sub,
                           success: function (data) {
                                                 $("#txtSubject").text(data);
                           }
@@ -33,7 +33,7 @@ $(document).ready(function(){
 //     });
      $.ajax({
                               type: "POST",
-                              url: 'http://d76524e0.ngrok.io/student/getFilesNum/'+sub+'/'+studId,
+                              url: 'http://1fb077bb.ngrok.io/student/getFilesNum/'+sub+'/'+studId,
                               success: function (data) {
                                                     $("#fileNum").text(data);
                               }
@@ -46,7 +46,7 @@ $(document).ready(function(){
                 $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://d76524e0.ngrok.io/loggedStudent/delete/'+studId,
+                                         url: 'http://1fb077bb.ngrok.io/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }

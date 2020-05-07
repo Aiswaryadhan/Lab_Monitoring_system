@@ -50,24 +50,30 @@ $(document).ready(function(){
      					        else
      							{
      								$(this).addClass('highlighted');
+     								var tableData = $(this).children("td").map(function() {
+                                         			return $(this).text();
+                                    }).get();
+                                    receiver=tableData[0];
+                                    alert(receiver);
+                                    studId=tableData[0];
+                                    if($("#"+studId).hasClass('hidden')){
+                                        $("#"+studId).removeClass('hidden');
+                                        studName=tableData[1];
+                                        $('#mainDiv').removeClass('hidden');
+                                        $("#"+studId).prop("disabled",false);
+                                    }
+                                    else{
+                                        $('#'+studId).addClass('hidden');
+                                    }
+
+
+//                                    if ( $('#'+tableData[0]).hasClass('hidden') ){
+//                                                        			 $('#'+tableData[0]).removeClass('hidden');
+//                                    }
+//                                    else{
+//                                      		$('#'+tableData[0]).addClass('hidden');
+//                                    }
      							}
-     							var tableData = $(this).children("td").map(function() {
-     														                return $(this).text();
-     							}).get();
-     							receiver="18MCA01";
-     							alert(receiver);
-                                studName=tableData[1];
-                                $('#mainDiv').removeClass('hidden');
-                                $("#"+studId).prop("disabled",false);
-     							if ( $('#'+tableData[0]).hasClass('hidden') ){
-                                     			 $('#'+tableData[0]).removeClass('hidden');
-                                }
-                                else{
-                                     		$('#'+tableData[0]).addClass('hidden');
-                                 }
-
-
-
     });
 
     function connect() {
@@ -254,12 +260,12 @@ $(document).ready(function(){
 //        alert(studId);
         var messageContent = $('#message'+studId).val();
 //        alert(messageContent);
-//        alert(receiver);
+        alert("receiver" +studId);
         if(messageContent && stompClient) {
                             var chatMessage = {
                                         sender: username,
                                         content: messageContent,
-                                        receiver:"18MCA01",
+                                        receiver:studId,
                                         type: 'CHAT'
                             };
                             stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));

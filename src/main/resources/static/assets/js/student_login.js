@@ -38,7 +38,7 @@ $(document).ready(function(){
                var sub;
                 $.ajax({
                         type : "POST",
-                        url : 'http://d76524e0.ngrok.io/student/getTeacherName',
+                        url : 'http://1fb077bb.ngrok.io/student/getTeacherName',
                         headers : {
                                         "Content-Type" : "application/json"
                         },
@@ -51,7 +51,7 @@ $(document).ready(function(){
                                            sub=$.cookie("teacherSub");
                                            $.ajax({
                                                                                   type : "POST",
-                                                                                  url : 'http://d76524e0.ngrok.io/student/getCount/'+user+'/'+sub,
+                                                                                  url : 'http://1fb077bb.ngrok.io/student/getCount/'+user+'/'+sub,
                                                                                   headers : {
                                                                                                      "Content-Type" : "application/json"
                                                                                   },
@@ -64,7 +64,7 @@ $(document).ready(function(){
                                                                                                      var aJson = JSON.stringify(logCred);
                                                                                                      $.ajax({
                                                                                                                 type : "POST",
-                                                                                                                url : 'http://d76524e0.ngrok.io/student/login',
+                                                                                                                url : 'http://1fb077bb.ngrok.io/student/login',
                                                                                                                 headers : {
                                                                                                                               "Content-Type" : "application/json"
                                                                                                                 },
@@ -76,12 +76,12 @@ $(document).ready(function(){
                                                                                                                                                $.cookie("studName",arr[0]);
                                                                                                                                                $.cookie("studSem",arr[1]);
                                                                                                                                                $.cookie("studId", user);
-                                                                                                                                               window.location.replace("http://d76524e0.ngrok.io/student_home");
+                                                                                                                                               window.location.replace("http://1fb077bb.ngrok.io/student_home");
 
                                                                                                                                       }
                                                                                                                                       else{
                                                                                                                                            $('#error_cred').slideDown();
-                                                                                                                                                                                                      $('#error_cred').html('Incorrect username or password');
+                                                                                                                                            $('#error_cred').html('Incorrect username or password');
                                                                                                                                       }
                                                                                                                 }
 

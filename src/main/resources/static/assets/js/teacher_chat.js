@@ -50,24 +50,30 @@ $(document).ready(function(){
      					        else
      							{
      								$(this).addClass('highlighted');
+     								var tableData = $(this).children("td").map(function() {
+                                         			return $(this).text();
+                                    }).get();
+                                    receiver=tableData[0];
+                                    alert(receiver);
+                                    studId=tableData[0];
+                                    if($("#"+studId).hasClass('hidden')){
+                                        $("#"+studId).removeClass('hidden');
+                                        studName=tableData[1];
+                                        $('#mainDiv').removeClass('hidden');
+                                        $("#"+studId).prop("disabled",false);
+                                    }
+                                    else{
+                                        $('#'+studId).addClass('hidden');
+                                    }
+
+
+//                                    if ( $('#'+tableData[0]).hasClass('hidden') ){
+//                                                        			 $('#'+tableData[0]).removeClass('hidden');
+//                                    }
+//                                    else{
+//                                      		$('#'+tableData[0]).addClass('hidden');
+//                                    }
      							}
-     							var tableData = $(this).children("td").map(function() {
-     														                return $(this).text();
-     							}).get();
-     							receiver=tableData[0];
-                                alert("click "+receiver);
-                                studName=tableData[1];
-                                $('#mainDiv').removeClass('hidden');
-                                $("#"+studId).prop("disabled",false);
-     							if ( $('#'+tableData[0]).hasClass('hidden') ){
-                                     			 $('#'+tableData[0]).removeClass('hidden');
-                                }
-                                else{
-                                     		$('#'+tableData[0]).addClass('hidden');
-                                 }
-
-
-
     });
 
     function connect() {
@@ -127,6 +133,7 @@ $(document).ready(function(){
 
                                                                 var $newDiv = $("<div></div>");
                                                                 $newDiv.attr("id","div1"+studId);
+
                                                                 $newDiv.attr("class","msger-header-title");
                                                                 $("#hdr"+studId).append($newDiv);
 
@@ -137,12 +144,10 @@ $(document).ready(function(){
                                                                 $newBtn.click(close);
                                                                 $("#hdr"+studId).append($newBtn);
 
-                                                                var $it = $("<input />");
+                                                                var $it = $("<i></i>");
                                                                 $it.attr("id","it"+studId);
-                                                                $it.attr("type","text");
-                                                                $it.attr("value",studId);
+                                                                $it.attr("text",studId);
                                                                 $("#div1"+studId).append($it);
-
 
                                                                 var $main = $("<main></main");
                                                                 $main.attr("id","main"+studId);
@@ -164,8 +169,10 @@ $(document).ready(function(){
                                                                 $text.attr("id","message"+studId);
                                                                 $text.attr("type","text");
                                                                 $text.attr("placeholder","Enter your message...");
-                                                                $text.attr("class","msger-input");
+//                                                                $text.attr("class","msger-input");
                                                                 $("#messageForm"+studId).append($text);
+
+
 
                                                                 var $newBtn2 = $("<input />");
                                                                 $newBtn2.attr("type","button");
@@ -174,6 +181,7 @@ $(document).ready(function(){
                                                                 $newBtn2.attr("class","msger-send-btn");
                                                                 $newBtn2.click(send);
                                                                 $("#messageForm"+studId).append($newBtn2);
+
 
                                             }
                                             if(txt != ""){
@@ -185,29 +193,10 @@ $(document).ready(function(){
             }
            }
            if(message.type === 'CHAT') {
-            if((message.sender).startsWith("fc")){
-//                    receiver=studId;
-                       }
-                       else{
-                               $.ajax({
-                                      type: "POST",
-                                      url: "http://localhost:8080/teacher/getStudName/"+message.sender,
-                                      success: function (data) {
-                                                       len = data.length;
-                                                       var txt = "";
-                                                       if(len > 0){
-                                                                           var arr=data.split(",");
-                                                                           receiver=arr[0];
-                                                       }
-                                      }
-                               });
-                        }
-                        alert("us "+username);
-                        alert("rc "+receiver);
                           if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                            if(message.type === 'CHAT') {
                                                                                  var messageElement = document.createElement('li');
-                                                                                 alert("chat");
+//                                                                                 alert("chat");
                                                                                  messageElement.classList.add('chat-message');
                                                                                  var avatarElement = document.createElement('i');
                                                                                  avatarElement.setAttribute("class", "avtr");
@@ -218,6 +207,7 @@ $(document).ready(function(){
                                                                                             url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                             success: function (data) {
                                                                                                             sender=data;
+                                                                                                            alert(sender);
                                                                                                             var avatarText = document.createTextNode(sender[0]);
                                                                                                             avatarElement.appendChild(avatarText);
                                                                                                             avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -242,6 +232,7 @@ $(document).ready(function(){
                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                            success: function (data) {
                                                                                                       sender=data;
+                                                                                                        alert(sender);
                                                                                              var avatarText = document.createTextNode(sender[0]);
                                                                                              avatarElement.appendChild(avatarText);
                                                                                              avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -266,14 +257,15 @@ $(document).ready(function(){
            }
     }
   function send(){
+//        alert(studId);
         var messageContent = $('#message'+studId).val();
-//        alert("stud "+studId);
-//        alert($("it"+studId).text());
+//        alert(messageContent);
+        alert("receiver" +studId);
         if(messageContent && stompClient) {
                             var chatMessage = {
                                         sender: username,
                                         content: messageContent,
-                                        receiver:$("it"+studId).val(),
+                                        receiver:studId,
                                         type: 'CHAT'
                             };
                             stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
