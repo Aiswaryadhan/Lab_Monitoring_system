@@ -38,7 +38,7 @@ $(document).ready(function(){
                var sub;
                 $.ajax({
                         type : "POST",
-                        url : 'http://1fb077bb.ngrok.io/student/getTeacherName',
+                        url : 'http://localhost:8080/student/getTeacherName',
                         headers : {
                                         "Content-Type" : "application/json"
                         },
@@ -51,7 +51,7 @@ $(document).ready(function(){
                                            sub=$.cookie("teacherSub");
                                            $.ajax({
                                                                                   type : "POST",
-                                                                                  url : 'http://1fb077bb.ngrok.io/student/getCount/'+user+'/'+sub,
+                                                                                  url : 'http://localhost:8080/student/getCount/'+user+'/'+sub,
                                                                                   headers : {
                                                                                                      "Content-Type" : "application/json"
                                                                                   },
@@ -64,7 +64,7 @@ $(document).ready(function(){
                                                                                                      var aJson = JSON.stringify(logCred);
                                                                                                      $.ajax({
                                                                                                                 type : "POST",
-                                                                                                                url : 'http://1fb077bb.ngrok.io/student/login',
+                                                                                                                url : 'http://localhost:8080/student/login',
                                                                                                                 headers : {
                                                                                                                               "Content-Type" : "application/json"
                                                                                                                 },
@@ -76,7 +76,7 @@ $(document).ready(function(){
                                                                                                                                                $.cookie("studName",arr[0]);
                                                                                                                                                $.cookie("studSem",arr[1]);
                                                                                                                                                $.cookie("studId", user);
-                                                                                                                                               window.location.replace("http://1fb077bb.ngrok.io/student_home");
+                                                                                                                                               window.location.replace("http://localhost:8080/student_home");
 
                                                                                                                                       }
                                                                                                                                       else{

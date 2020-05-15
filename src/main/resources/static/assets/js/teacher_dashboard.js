@@ -14,6 +14,7 @@ $(document).ready(function(){
                      });
 
      }
+
      $.ajax({
                      type: "POST",
                      url: 'http://localhost:8080/teacher/getTeacherStudNo/'+sub,

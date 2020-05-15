@@ -19,6 +19,7 @@ $(document).ready(function(){
                                         $("#teacher_name").text(data);
                                         teacherName=data;
                                         username = teacherId;
+
                                         connect();
                            }
                 });
@@ -76,7 +77,7 @@ $(document).ready(function(){
      							}
     });
 
-    function connect() {
+   function connect() {
                 if(username) {
                                    var socket = new SockJS('/javatechie');
                                    stompClient = Stomp.over(socket);

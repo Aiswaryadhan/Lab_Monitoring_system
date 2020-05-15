@@ -2,6 +2,7 @@ package com.gec.lab_admin.db.repositories;
 
 import com.gec.lab_admin.db.models.AttendanceRecord;
 import com.gec.lab_admin.db.models.BlockedSites;
+import com.gec.lab_admin.db.models.MessageSend;
 import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +22,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     List<String> getSubjects(String teacher_id);
 
     @Query(
-            value = " select st.id as student_id, ss.subject_id as subject_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:subject_id",
+            value = "select st.id as student_id, ss.subject_id as subject_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:subject_id",
             nativeQuery = true)
     List<Map<String,String>> getAttendanceRecords(String subject_id);
 
@@ -159,23 +160,25 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             nativeQuery = true)
     void deleteSites(String sub_id, String url);
 
-//    @Query(
-//            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
-//            nativeQuery = true)
-//    int getTotalCount(String studId, String sDate, String eDate,String sub);
-//
-//    @Query(
-//            value = "select count(*) from attendance_record where subject_id=:sub and student_id=:studId and presence=1 and date between :sDate and :eDate",
-//            nativeQuery = true)
-//    int getCount(String studId, String sDate, String eDate, String sub);
-//
-//    @Query(
-//            value = "select date,presence from attendance_record where subject_id=:sub and student_id=:studId and date between :sDate and :eDate",
-//            nativeQuery = true)
-//    List<String> getAllAttendance(String studId, String sDate, String eDate, String sub);
+    @Query(
+            value = "select * from message_send where  order by timestamp",
+            nativeQuery = true)
+    List<String> getMessages(String stId, String teacherId);
 
-//    @Query(
-//            value = "insert into semester values(:id,:name)",
-//            nativeQuery = true)
-//    void insertSem(sem);
+    @Query(
+            value = "select id from loggedInStudent",
+            nativeQuery = true)
+    List<String> getLoggedStud();
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "insert into message_send values(:sender,:receiver,:message,NOW())",
+            nativeQuery = true)
+    void insertMessage(String sender, String receiver, String message);
+
+    @Query(
+            value = "select st.id as student_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
+            nativeQuery = true)
+    String getAllStudId(String sub);
 }

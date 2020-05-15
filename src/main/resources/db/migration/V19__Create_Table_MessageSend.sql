@@ -3,5 +3,4 @@ create table IF NOT EXISTS message_send(
   receiver varchar(10),
   message varchar(255),
   timestamp timestamp
-
 );

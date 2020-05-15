@@ -104,6 +104,13 @@ public class TeacherController {
         logger.info("finding student");
         return teacherService.getStudentName(sender);
     }
+
+    @RequestMapping("/teacher/getAllStudId/{sub}")
+    public String getAllStudId(@PathVariable String sub){
+        logger.info("finding Student List");
+        return teacherService.getAllStudId(sub);
+    }
+
     @RequestMapping("/teacher_details/getAll")
     public List<String> findTeacherDetails(){
         return teacherService.getTeacherDetails();
@@ -309,4 +316,20 @@ public class TeacherController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     } // method uploadFile
+
+    @RequestMapping("/teacher/getMessages/{stId}/{teacherId}")
+    public List<String> getMessages(@PathVariable String stId,@PathVariable String teacherId){
+        logger.info("Returning Messages");
+        return teacherService.getMessages(stId,teacherId);
+    }
+    @RequestMapping("/teacher/getLoggedStud")
+    public List<String> getLoggedStud(){
+        logger.info("Returning Logged Students");
+        return teacherService.getLoggedStud();
+    }
+    @RequestMapping("/teacher/insertMessage")
+    public void insertMessage(@RequestBody MessageSend messageSend){
+        logger.info("Insert in Message table");
+        teacherService.insertMessage(messageSend.getSender(),messageSend.getReceiver(),messageSend.getMessage());
+    }
 }

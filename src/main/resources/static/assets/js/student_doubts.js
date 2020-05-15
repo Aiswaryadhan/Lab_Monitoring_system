@@ -26,7 +26,7 @@ $(document).ready(function(){
                 $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://1fb077bb.ngrok.io/loggedStudent/delete/'+studId,
+                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }
@@ -87,7 +87,7 @@ $(document).ready(function(){
                                                                                                if((message.sender).startsWith("fc")){
                                                                                                        $.ajax({
                                                                                                            type: "POST",
-                                                                                                           url: 'http://1fb077bb.ngrok.io/teacher/getName/'+message.sender,
+                                                                                                           url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                                            success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);
@@ -111,7 +111,7 @@ $(document).ready(function(){
                                                                                                else{
                                                                                                     $.ajax({
                                                                                                             type: "POST",
-                                                                                                            url: 'http://1fb077bb.ngrok.io/student/getName/'+message.sender,
+                                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                                             success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);

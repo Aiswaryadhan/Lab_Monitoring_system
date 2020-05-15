@@ -185,4 +185,20 @@ public class TeacherService {
     public void deleteSite(String sub_id, String url) {
         teacherRepository.deleteSites(sub_id,url);
     }
+
+    public List<String> getMessages(String stId, String teacherId) {
+       return teacherRepository.getMessages(stId,teacherId);
+    }
+
+    public List<String> getLoggedStud() {
+        return teacherRepository.getLoggedStud();
+    }
+
+    public void insertMessage(String sender, String receiver, String message) {
+        teacherRepository.insertMessage(sender,receiver,message);
+    }
+
+    public String getAllStudId(String sub) {
+       return teacherRepository.getAllStudId(sub);
+    }
 }

@@ -112,12 +112,14 @@ $(document).ready(function(){
                                                         if(data == "successtrue"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);
+
                                                             window.location.replace("http://localhost:8080/home");
 
                                                         }
                                                         else if(data == "successfalse"){
                                                             $.cookie("id", user);
                                                             $.cookie("subject", selsub);
+
                                                             window.location.replace("http://localhost:8080/teacherDashboard");
 
                                                         }
@@ -135,4 +137,5 @@ $(document).ready(function(){
                     });
                 }
             });//close of click
+
 });//close of document ready
