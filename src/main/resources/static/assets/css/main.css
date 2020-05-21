@@ -178,7 +178,13 @@ html.fullscreen-bg #wrapper {
           font-family: Georgia, Times, "Times New Roman", serif; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px;
           color: #0000ff;
     }
-
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #008000;
+  border-radius: 50%;
+  display: inline-block;
+  }
 .msger {
   display: flex;
   flex-flow: column wrap;

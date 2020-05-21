@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -186,8 +185,13 @@ public class TeacherService {
         teacherRepository.deleteSites(sub_id,url);
     }
 
-    public List<String> getMessages(String stId, String teacherId) {
-       return teacherRepository.getMessages(stId,teacherId);
+    public List<MessageSend> getMessages(String stId, String teacherId) {
+        List<MessageSend> messageSendList = new ArrayList<>();
+        List<Map> objectArrayList = teacherRepository.getMessages(stId,teacherId);
+        for ( Map obj: objectArrayList ) {
+            messageSendList.add(mapper.convertValue(obj, MessageSend.class));
+        }
+       return messageSendList;
     }
 
     public List<String> getLoggedStud() {
@@ -198,7 +202,7 @@ public class TeacherService {
         teacherRepository.insertMessage(sender,receiver,message);
     }
 
-    public String getAllStudId(String sub) {
+    public List<String> getAllStudId(String sub) {
        return teacherRepository.getAllStudId(sub);
     }
 }

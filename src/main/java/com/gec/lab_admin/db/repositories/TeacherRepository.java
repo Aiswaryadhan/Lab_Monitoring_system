@@ -161,9 +161,9 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     void deleteSites(String sub_id, String url);
 
     @Query(
-            value = "select * from message_send where  order by timestamp",
+            value = "select * from message_send where sender=:teacherId and receiver=:stId or sender=:stId and receiver=:teacherId",
             nativeQuery = true)
-    List<String> getMessages(String stId, String teacherId);
+    List<Map> getMessages(String stId, String teacherId);
 
     @Query(
             value = "select id from loggedInStudent",
@@ -178,7 +178,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     void insertMessage(String sender, String receiver, String message);
 
     @Query(
-            value = "select st.id as student_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
+            value = "select st.id as student_id, st.name as studName from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
             nativeQuery = true)
-    String getAllStudId(String sub);
+    List<String> getAllStudId(String sub);
 }

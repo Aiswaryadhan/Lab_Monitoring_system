@@ -16,6 +16,86 @@ $(document).ready(function(){
                 username = studId;
                 alert(receiver);
                 connect();
+                $.ajax({
+                        type:"POST",
+                        url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+receiver,
+                        success: function(data){
+                                                   len1=data.length;
+                                                   if(len1!=0){
+                                                        for(var i=0;i<len1;i++){
+                                                            var sendr=data[i].sender;
+                                                            var recevr=data[i].receiver;
+                                                            var sender;
+                                                            if((sendr).startsWith("fc")){
+                                                                              var msg1=data[i].message;
+                                                                              func(msg1);
+                                                                              function func(msg1){
+                                                                              $.ajax({
+                                                                                       type: "POST",
+                                                                                       url: 'http://localhost:8080/teacher/getName/'+sendr,
+                                                                                       success: function (data){
+                                                                                                            sender=data;
+                                                                                                            alert(sender);
+                                                                                                            var messageElement = document.createElement('li');
+                                                                                                            messageElement.classList.add('chat-message');
+                                                                                                            var avatarElement = document.createElement('i');
+                                                                                                            avatarElement.setAttribute("class", "avtr");
+                                                                                                            var avatarText = document.createTextNode(sender[0]);
+                                                                                                            avatarElement.appendChild(avatarText);
+                                                                                                            avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                            messageElement.appendChild(avatarElement);
+                                                                                                            var usernameElement = document.createElement('span');
+                                                                                                            var usernameText = document.createTextNode(sender);
+                                                                                                            usernameElement.appendChild(usernameText);
+                                                                                                            messageElement.appendChild(usernameElement);
+                                                                                                            var textElement = document.createElement('p');
+                                                                                                            var messageText = document.createTextNode(msg1);
+                                                                                                            textElement.appendChild(messageText);
+                                                                                                            messageElement.appendChild(textElement);
+                                                                                                            document.getElementById("messageArea").appendChild(messageElement);
+                                                                                                            document.getElementById("messageArea").scrollTop = document.getElementById("messageArea").scrollHeight;
+                                                                                       }
+                                                                              });
+                                                                             }
+                                                            }
+                                                            else{
+                                                                   var msg2=data[i].message;
+                                                                   alert(msg2);
+                                                                   func1(msg2);
+                                                                   function func1(msg2){
+                                                                                   $.ajax({
+                                                                                           type: "POST",
+                                                                                           url: 'http://localhost:8080/student/getName/'+sendr,
+                                                                                           success: function (data) {
+                                                                                                                        sender=data;
+                                                                                                                        alert(sender);
+                                                                                                                        var messageElement = document.createElement('li');
+                                                                                                                        messageElement.classList.add('chat-message');
+                                                                                                                        var avatarElement = document.createElement('i');
+                                                                                                                        avatarElement.setAttribute("class", "avtr");
+                                                                                                                        var avatarText = document.createTextNode(sender[0]);
+                                                                                                                        avatarElement.appendChild(avatarText);
+                                                                                                                        avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                                        messageElement.appendChild(avatarElement);
+                                                                                                                        var usernameElement = document.createElement('span');
+                                                                                                                        var usernameText = document.createTextNode(sender);
+                                                                                                                        usernameElement.appendChild(usernameText);
+                                                                                                                        messageElement.appendChild(usernameElement);
+                                                                                                                        var textElement = document.createElement('p');
+                                                                                                                        var messageText = document.createTextNode(msg2);
+                                                                                                                        textElement.appendChild(messageText);
+                                                                                                                        messageElement.appendChild(textElement);
+                                                                                                                        document.getElementById("messageArea").appendChild(messageElement);
+                                                                                                                        document.getElementById("messageArea").scrollTop = document.getElementById("messageArea").scrollHeight;
+                                                                                           }
+                                                                                   });
+                                                                   }
+                                                            }// close of sender check 'if'
+                                                        }// close of for
+                                                   }// close of length check 'if'
+                        }// close of success
+
+                });
     }
 
     $("#studentLogout").click(function(){
@@ -62,15 +142,33 @@ $(document).ready(function(){
              alert(messageContent);
              alert(receiver);
              if(messageContent && stompClient) {
-                                 var chatMessage = {
-                                             sender: username,
-                                             content: messageContent,
-                                             receiver:receiver,
-                                             type: 'CHAT'
-                                 };
-                                 stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                                 $('#message').val('');
-             }
+                                           var chatMessage = {
+                                                       sender: username,
+                                                       content: messageContent,
+                                                       receiver:receiver,
+                                                       type: 'CHAT'
+                                           };
+                                           stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                           var msgData = {
+                                                         "sender":username,
+                                                         "receiver": receiver,
+                                                         "message":messageContent
+                                           };
+                                           var aJson = JSON.stringify(msgData);
+                                           $.ajax({
+                                                                type: "POST",
+                                                                url: 'http://localhost:8080/teacher/insertMessage',
+                                                                 headers: {
+                                                                          "Content-Type": "application/json"
+                                                                 },
+                                                                 data:aJson,
+                                                                success: function (data) {
+
+                                                                }
+                                           });
+
+                                           $('#message').val('');
+                       }
              event.preventDefault();
       });
 

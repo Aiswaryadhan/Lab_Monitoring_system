@@ -14,13 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +101,7 @@ public class TeacherController {
     }
 
     @RequestMapping("/teacher/getAllStudId/{sub}")
-    public String getAllStudId(@PathVariable String sub){
+    public List<String> getAllStudId(@PathVariable String sub){
         logger.info("finding Student List");
         return teacherService.getAllStudId(sub);
     }
@@ -318,12 +313,13 @@ public class TeacherController {
     } // method uploadFile
 
     @RequestMapping("/teacher/getMessages/{stId}/{teacherId}")
-    public List<String> getMessages(@PathVariable String stId,@PathVariable String teacherId){
+    public List<MessageSend> getMessages(@PathVariable String stId,@PathVariable String teacherId){
         logger.info("Returning Messages");
-        return teacherService.getMessages(stId,teacherId);
+        List<MessageSend> messageSendList = teacherService.getMessages(stId,teacherId);
+        return messageSendList;
     }
     @RequestMapping("/teacher/getLoggedStud")
-    public List<String> getLoggedStud(){
+    public List<String>  getLoggedStud(){
         logger.info("Returning Logged Students");
         return teacherService.getLoggedStud();
     }
