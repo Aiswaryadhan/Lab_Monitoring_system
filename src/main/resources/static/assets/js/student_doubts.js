@@ -18,7 +18,7 @@ $(document).ready(function(){
                 connect();
                 $.ajax({
                         type:"POST",
-                        url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+receiver,
+                        url: 'http://192.168.42.215:8080/teacher/getMessages/'+studId+'/'+receiver,
                         success: function(data){
                                                    len1=data.length;
                                                    if(len1!=0){
@@ -32,7 +32,7 @@ $(document).ready(function(){
                                                                               function func(msg1){
                                                                               $.ajax({
                                                                                        type: "POST",
-                                                                                       url: 'http://localhost:8080/teacher/getName/'+sendr,
+                                                                                       url: 'http://192.168.42.215:8080/teacher/getName/'+sendr,
                                                                                        success: function (data){
                                                                                                             sender=data;
                                                                                                             alert(sender);
@@ -65,7 +65,7 @@ $(document).ready(function(){
                                                                    function func1(msg2){
                                                                                    $.ajax({
                                                                                            type: "POST",
-                                                                                           url: 'http://localhost:8080/student/getName/'+sendr,
+                                                                                           url: 'http://192.168.42.215:8080/student/getName/'+sendr,
                                                                                            success: function (data) {
                                                                                                                         sender=data;
                                                                                                                         alert(sender);
@@ -106,7 +106,7 @@ $(document).ready(function(){
                 $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }
@@ -157,7 +157,7 @@ $(document).ready(function(){
                                            var aJson = JSON.stringify(msgData);
                                            $.ajax({
                                                                 type: "POST",
-                                                                url: 'http://localhost:8080/teacher/insertMessage',
+                                                                url: 'http://192.168.42.215:8080/teacher/insertMessage',
                                                                  headers: {
                                                                           "Content-Type": "application/json"
                                                                  },
@@ -185,7 +185,7 @@ $(document).ready(function(){
                                                                                                if((message.sender).startsWith("fc")){
                                                                                                        $.ajax({
                                                                                                            type: "POST",
-                                                                                                           url: 'http://localhost:8080/teacher/getName/'+message.sender,
+                                                                                                           url: 'http://192.168.42.202:8080/teacher/getName/'+message.sender,
                                                                                                            success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);
@@ -209,7 +209,7 @@ $(document).ready(function(){
                                                                                                else{
                                                                                                     $.ajax({
                                                                                                             type: "POST",
-                                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                                            url: 'http://192.168.42.202:8080/student/getName/'+message.sender,
                                                                                                             success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);
