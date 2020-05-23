@@ -37,6 +37,7 @@ $(document).ready(function(){
                 var pwd=$('#pass').val();
                var sub;
                 $.ajax({
+
                         type : "POST",
                         url : 'http://192.168.42.202:8080/student/getTeacherName',
                         headers : {
@@ -98,6 +99,67 @@ $(document).ready(function(){
                                             alert("Teacher is not logged in !")
                                         }
                         }
+
+                          type : "POST",
+                          url : 'http://192.168.42.202:8080/student/getCount/'+user,
+                          headers : {
+                                        "Content-Type" : "application/json"
+                          },
+                          success : function(data) {
+                                            if(data==1){
+                                                var logCred = {
+                                                            'id': user,
+                                                            'password': pwd
+                                                };
+                                                var aJson = JSON.stringify(logCred);
+                                                $.ajax({
+                                                        type : "POST",
+                                                        url : 'http://192.168.42.202:8080/student/login',
+                                                        headers : {
+                                                                "Content-Type" : "application/json"
+                                                        },
+                                                        data:aJson,
+                                                        success : function(data) {
+
+                                                        if(data != "invalid"){
+                                                                            $('#error_cred').slideUp();
+                                                                            $.ajax({
+                                                                                    type : "POST",
+                                                                                    url : 'http://192.168.42.202:8080/student/getTeacherName',
+                                                                                    headers : {
+                                                                                            "Content-Type" : "application/json"
+                                                                                    },
+                                                                                    data:aJson,
+                                                                                    success : function(data) {
+                                                                                           if(data != "null"){
+                                                                                                var dataTeacher=data.split(",");
+                                                                                                $.cookie("teacherName", dataTeacher[0]);
+                                                                                                $.cookie("teacherId", dataTeacher[1]);
+                                                                                                $.cookie("teacherSub", dataTeacher[2]);
+                                                                                           }
+                                                                                           else{
+                                                                                                alert("Teacher is not logged in !")
+                                                                                           }
+                                                                                    }
+                                                                            });
+                                                                            var arr=data.split(",");
+                                                                            $.cookie("studName",arr[0]);
+                                                                            $.cookie("studSem",arr[1]);
+                                                                            $.cookie("studId", user);
+                                                                            window.location.replace("http://192.168.42.202:8080/student_home");
+                                                        }
+                                                        else{
+                                                                $('#error_cred').slideDown();
+                                                                $('#error_cred').html('Incorrect username or password');
+                                                        }
+                                                        }
+                                                });
+                                            }
+                                            else{
+                                                alert("You are not allowed to attend this session!")
+                                            }
+                          }
+                });
 
                 });
                     });//close of click

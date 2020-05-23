@@ -3,6 +3,7 @@ package com.gec.lab_admin.controllers;
 import com.gec.lab_admin.db.models.*;
 import com.gec.lab_admin.services.ActivemqProducerService;
 import com.gec.lab_admin.services.AttendanceService;
+import com.gec.lab_admin.services.SitesPublisher;
 import com.gec.lab_admin.services.TeacherService;
 import com.gec.lab_admin.utilities.ZipUtility;
 import org.slf4j.Logger;
@@ -42,6 +43,8 @@ public class TeacherController {
 
     AttendanceReport attendanceReport=new AttendanceReport();
 
+    SitesPublisher sitesPublisher=new SitesPublisher();
+
     ActivemqProducerService activemqProducerService=new ActivemqProducerService();
 
     @Autowired
@@ -53,7 +56,7 @@ public class TeacherController {
     public static String LOGGED_IN_TEACHER_ID="";
     public static Boolean LOGGED_IN_TEACHER_ADMIN;
     @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
-    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId) throws IOException, JMSException {
+    public String login(@RequestBody Teacher teacher, @PathVariable String subjectId) throws Exception {
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
         if(loggedInTeacher.isPresent()){
             if(loggedInTeacher.get().getPassword().equals(teacher.getPassword())){
@@ -64,16 +67,16 @@ public class TeacherController {
                 System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("success");
-//                ArrayList<String> reqList = new ArrayList<String>();
-                List<String> reqList = teacherService.getAllSites(TeacherController.LOGGED_IN_TEACHER_SUBJECT);
-                Iterator<String> s1Iterator = reqList.iterator();
-                logger.info("block");
+//              List<String> reqList = new ArrayList<String>();
+                List<String> reqList = teacherService.getAllSites(LOGGED_IN_TEACHER_SUBJECT);
+//                Iterator<String> s1Iterator = reqList.iterator();
+//                logger.info("block");
                 logger.info(String.valueOf(reqList));
-                while (s1Iterator.hasNext()) {
-                    logger.info(s1Iterator.next());
-                    logger.info("Sites");
-                    activemqProducerService.send(s1Iterator.next());
-                }
+//                while (s1Iterator.hasNext()) {
+//                    logger.info(s1Iterator.next());
+//                    logger.info("Sites");
+                    sitesPublisher.processMessage(reqList);
+//                }
 
                 return "success"+LOGGED_IN_TEACHER_ADMIN;
             }

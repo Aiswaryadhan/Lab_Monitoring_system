@@ -106,7 +106,9 @@ $(document).ready(function(){
                 $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
+
                                          url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
+
                                          success: function (data) {
 
                                          }

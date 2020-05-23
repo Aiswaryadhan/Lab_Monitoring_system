@@ -114,9 +114,9 @@ public class StudentController {
         }
 
     }
-    @RequestMapping("/student/getCount/{user}/{sub}")
-    public Integer getCount(@PathVariable String user,@PathVariable String sub) {
-        return studentService.getCount(user,sub);
+    @RequestMapping("/student/getCount/{user}")
+    public Integer getCount(@PathVariable String user) {
+        return studentService.getCount(user,TeacherController.LOGGED_IN_TEACHER_SUBJECT);
     }
     @RequestMapping("/student/update/{studId}")
     public void updateStud(@RequestBody Student student,@PathVariable String studId) {
