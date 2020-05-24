@@ -12,14 +12,14 @@ $(document).ready(function(){
      }
      $.ajax({
                          type: "POST",
-                         url: 'http://192.168.42.202:8080/teacher/getTime',
+                         url: 'http://192.168.42.215:8080/teacher/getTime',
                          success: function (data) {
                                                $("#txtTime").text(data);
                          }
      });
      $.ajax({
                           type: "POST",
-                          url: 'http://192.168.42.202:8080/teacher/getSubName/'+sub,
+                          url: 'http://192.168.42.215:8080/teacher/getSubName/'+sub,
                           success: function (data) {
                                                 $("#txtSubject").text(data);
                           }
@@ -33,7 +33,7 @@ $(document).ready(function(){
 //     });
      $.ajax({
                               type: "POST",
-                              url: 'http://192.168.42.202:8080/student/getFilesNum/'+sub+'/'+studId,
+                              url: 'http://192.168.42.215:8080/student/getFilesNum/'+sub+'/'+studId,
                               success: function (data) {
                                                     $("#fileNum").text(data);
                               }
@@ -46,7 +46,7 @@ $(document).ready(function(){
                 $.removeCookie('teacherId');
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://192.168.42.202:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }

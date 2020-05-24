@@ -187,7 +187,7 @@ $(document).ready(function(){
                                                                                                if((message.sender).startsWith("fc")){
                                                                                                        $.ajax({
                                                                                                            type: "POST",
-                                                                                                           url: 'http://192.168.42.202:8080/teacher/getName/'+message.sender,
+                                                                                                           url: 'http://192.168.42.215:8080/teacher/getName/'+message.sender,
                                                                                                            success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);
@@ -211,7 +211,7 @@ $(document).ready(function(){
                                                                                                else{
                                                                                                     $.ajax({
                                                                                                             type: "POST",
-                                                                                                            url: 'http://192.168.42.202:8080/student/getName/'+message.sender,
+                                                                                                            url: 'http://192.168.42.215:8080/student/getName/'+message.sender,
                                                                                                             success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       alert(sender);

@@ -39,7 +39,7 @@ $(document).ready(function(){
                 $.ajax({
 
                         type : "POST",
-                        url : 'http://192.168.42.202:8080/student/getTeacherName',
+                        url : 'http://192.168.42.215:8080/student/getTeacherName',
                         headers : {
                                         "Content-Type" : "application/json"
                         },
@@ -53,7 +53,7 @@ $(document).ready(function(){
                                            sub=$.cookie("teacherSub");
                                            $.ajax({
                                                                                   type : "POST",
-                                                                                  url : 'http://192.168.42.202:8080/student/getCount/'+user+'/'+sub,
+                                                                                  url : 'http://192.168.42.215:8080/student/getCount/'+user+'/'+sub,
                                                                                   headers : {
                                                                                                      "Content-Type" : "application/json"
                                                                                   },
@@ -66,7 +66,7 @@ $(document).ready(function(){
                                                                                                      var aJson = JSON.stringify(logCred);
                                                                                                      $.ajax({
                                                                                                                 type : "POST",
-                                                                                                                url : 'http://192.168.42.202:8080/student/login',
+                                                                                                                url : 'http://192.168.42.215:8080/student/login',
                                                                                                                 headers : {
                                                                                                                               "Content-Type" : "application/json"
                                                                                                                 },
@@ -78,7 +78,7 @@ $(document).ready(function(){
                                                                                                                                                $.cookie("studName",arr[0]);
                                                                                                                                                $.cookie("studSem",arr[1]);
                                                                                                                                                $.cookie("studId", user);
-                                                                                                                                               window.location.replace("http://192.168.42.202:8080/student_home");
+                                                                                                                                               window.location.replace("http://192.168.42.215:8080/student_home");
 
                                                                                                                                       }
                                                                                                                                       else{
@@ -101,7 +101,7 @@ $(document).ready(function(){
                         }
 
                           type : "POST",
-                          url : 'http://192.168.42.202:8080/student/getCount/'+user,
+                          url : 'http://192.168.42.215:8080/student/getCount/'+user,
                           headers : {
                                         "Content-Type" : "application/json"
                           },
@@ -114,7 +114,7 @@ $(document).ready(function(){
                                                 var aJson = JSON.stringify(logCred);
                                                 $.ajax({
                                                         type : "POST",
-                                                        url : 'http://192.168.42.202:8080/student/login',
+                                                        url : 'http://192.168.42.215:8080/student/login',
                                                         headers : {
                                                                 "Content-Type" : "application/json"
                                                         },
@@ -125,7 +125,7 @@ $(document).ready(function(){
                                                                             $('#error_cred').slideUp();
                                                                             $.ajax({
                                                                                     type : "POST",
-                                                                                    url : 'http://192.168.42.202:8080/student/getTeacherName',
+                                                                                    url : 'http://192.168.42.215:8080/student/getTeacherName',
                                                                                     headers : {
                                                                                             "Content-Type" : "application/json"
                                                                                     },
@@ -146,7 +146,7 @@ $(document).ready(function(){
                                                                             $.cookie("studName",arr[0]);
                                                                             $.cookie("studSem",arr[1]);
                                                                             $.cookie("studId", user);
-                                                                            window.location.replace("http://192.168.42.202:8080/student_home");
+                                                                            window.location.replace("http://192.168.42.215:8080/student_home");
                                                         }
                                                         else{
                                                                 $('#error_cred').slideDown();
