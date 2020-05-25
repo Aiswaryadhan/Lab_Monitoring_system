@@ -309,11 +309,14 @@ $(document).ready(function(){
          var message = JSON.parse(payload.body);
          var id=message.sender;
          var txt="";
+         var txt1="";
          var requester;
           if(message.type === 'REQUEST') {
-//                                                          <li><a href="#" class="notification-item"></li>
-//                                                          <p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p>
+//                                            <li><a href="#" class="notification-item"></li>
+//                                            <p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p>
+
                                             req=message.sender;
+                                            txt1 += "<li><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
                                             $.ajax({
                                                      type: "POST",
                                                      url: 'http://localhost:8080/student/getName/'+message.sender,
@@ -334,6 +337,9 @@ $(document).ready(function(){
 
                                                      }
                                             });
+                                            if(txt1!=''){
+                                                $("#notificationList").append(txt1);
+                                            }
 
                     }
 
