@@ -206,4 +206,8 @@ public class TeacherService {
     public List<String> getAllStudId(String sub) {
        return teacherRepository.getAllStudId(sub);
     }
+
+    public void insertNotification(String sender, String receiver, String type) {
+        teacherRepository.insertNotification(sender,receiver,type);
+    }
 }

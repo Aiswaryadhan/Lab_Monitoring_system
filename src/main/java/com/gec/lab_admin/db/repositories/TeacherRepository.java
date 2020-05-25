@@ -182,4 +182,11 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "select st.id as student_id, st.name as studName from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
             nativeQuery = true)
     List<String> getAllStudId(String sub);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "insert into notification values(:sender,:receiver,:type,NOW())",
+            nativeQuery = true)
+    void insertNotification(String sender, String receiver, String type);
 }

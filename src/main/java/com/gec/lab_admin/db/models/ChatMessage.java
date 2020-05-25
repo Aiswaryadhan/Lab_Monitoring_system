@@ -3,7 +3,7 @@ package com.gec.lab_admin.db.models;
 public class ChatMessage {
 
     public enum MessageType {
-        CHAT, JOIN, LEAVE
+        CHAT, JOIN, LEAVE, REQUEST, RESPONSE
     }
 
     private MessageType messageType;

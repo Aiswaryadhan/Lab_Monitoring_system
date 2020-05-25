@@ -24,7 +24,7 @@ $(document).ready(function(){
                 $.removeCookie('studSem');
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }
@@ -43,7 +43,7 @@ $(document).ready(function(){
         var filename = $('input[type=file]').val().split('\\').pop();
         if(filename!=''){
             $.ajax({
-                url: "http://192.168.42.215:8080/uploadFile/"+studId+'/'+teacherSub,
+                url: "http://localhost:8080/uploadFile/"+studId+'/'+teacherSub,
                 type: "POST",
                 data: new FormData($("#upload-file-form")[0]),
                 enctype: 'multipart/form-data',
@@ -53,12 +53,12 @@ $(document).ready(function(){
                 success: function () {
 //                alert("success");
                 $.ajax({
-                                url: "http://192.168.42.215:8080/student/upload/"+studId+'/'+teacherSub+'/'+filename,
+                                url: "http://localhost:8080/student/upload/"+studId+'/'+teacherSub+'/'+filename,
                                 type: "POST",
                                 success: function () {
 //                                            alert("success");
                                             $.ajax({
-                                                url: "http://192.168.42.215:8080/student/getUploadDetails/"+studId+'/'+teacherSub,
+                                                url: "http://localhost:8080/student/getUploadDetails/"+studId+'/'+teacherSub,
                                                 type: "POST",
                                                 success: function (data) {
                                                      len = data.length;

@@ -445,9 +445,6 @@ padding: 5px 5px;
     font-size: 10px;
 }
 
-#btnSend{
-width:400px;
-}
 ul.notifications > li {
   border-bottom: 1px solid #F0F0F0; }
   ul.notifications > li:last-child {
@@ -986,6 +983,8 @@ ul.activity-list > li {
   .todo-list .controls a {
     margin-left: 5px; }
 
+#btnSend{
+width:400px;}
 /* toastr notification */
 #toast-container > div {
   opacity: 0.9;

@@ -5,6 +5,8 @@ $(document).ready(function(){
     var teacherId;
     var studName;
     var teacherName;
+    var tcr;
+    var tName;
     if(($.cookie("studId") != null) && ($.cookie("studName") != null) && ($.cookie("studSem") !=null) && ($.cookie("teacherName") !=null) && ($.cookie("teacherId") !=null)){
 //                alert("iffff");
                 studId =$.cookie("studId");
@@ -18,7 +20,7 @@ $(document).ready(function(){
                 connect();
                 $.ajax({
                         type:"POST",
-                        url: 'http://192.168.42.215:8080/teacher/getMessages/'+studId+'/'+receiver,
+                        url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+receiver,
                         success: function(data){
                                                    len1=data.length;
                                                    if(len1!=0){
@@ -32,10 +34,10 @@ $(document).ready(function(){
                                                                               function func(msg1){
                                                                               $.ajax({
                                                                                        type: "POST",
-                                                                                       url: 'http://192.168.42.215:8080/teacher/getName/'+sendr,
+                                                                                       url: 'http://localhost:8080/teacher/getName/'+sendr,
                                                                                        success: function (data){
                                                                                                             sender=data;
-                                                                                                            alert(sender);
+//                                                                                                            alert(sender);
                                                                                                             var messageElement = document.createElement('li');
                                                                                                             messageElement.classList.add('chat-message');
                                                                                                             var avatarElement = document.createElement('i');
@@ -60,15 +62,15 @@ $(document).ready(function(){
                                                             }
                                                             else{
                                                                    var msg2=data[i].message;
-                                                                   alert(msg2);
+//                                                                   alert(msg2);
                                                                    func1(msg2);
                                                                    function func1(msg2){
                                                                                    $.ajax({
                                                                                            type: "POST",
-                                                                                           url: 'http://192.168.42.215:8080/student/getName/'+sendr,
+                                                                                           url: 'http://localhost:8080/student/getName/'+sendr,
                                                                                            success: function (data) {
                                                                                                                         sender=data;
-                                                                                                                        alert(sender);
+//                                                                                                                        alert(sender);
                                                                                                                         var messageElement = document.createElement('li');
                                                                                                                         messageElement.classList.add('chat-message');
                                                                                                                         var avatarElement = document.createElement('i');
@@ -107,7 +109,7 @@ $(document).ready(function(){
                 $.ajax({
                                          type: "POST",
 
-                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
 
                                          success: function (data) {
 
@@ -159,7 +161,7 @@ $(document).ready(function(){
                                            var aJson = JSON.stringify(msgData);
                                            $.ajax({
                                                                 type: "POST",
-                                                                url: 'http://192.168.42.215:8080/teacher/insertMessage',
+                                                                url: 'http://localhost:8080/teacher/insertMessage',
                                                                  headers: {
                                                                           "Content-Type": "application/json"
                                                                  },
@@ -174,12 +176,76 @@ $(document).ready(function(){
              event.preventDefault();
       });
 
+     $('#btnRequest').click(function(){
+             if(stompClient) {
+                                           var chatMessage = {
+                                                       sender: username,
+                                                       receiver:receiver,
+                                                       type: 'REQUEST'
+                                           };
+                                           stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                           var msgData = {
+                                                         "sender":username,
+                                                         "receiver": receiver,
+                                                         "type":"request"
+                                           };
+                                           var aJson = JSON.stringify(msgData);
+                                           $.ajax({
+                                                                type: "POST",
+                                                                url: 'http://localhost:8080/teacher/insertNotification',
+                                                                 headers: {
+                                                                          "Content-Type": "application/json"
+                                                                 },
+                                                                 data:aJson,
+                                                                success: function (data) {
+
+                                                                }
+                                           });
+
+                                           $('#message').val('');
+              }
+             event.preventDefault();
+      });
+      function shareScreen(){
+                    $.ajax({
+                                       url: 'http://localhost:8090/start',
+                                       success: function (data) {
+
+                                       }
+                    });
+       }
          function onMessageReceived(payload) {
               var message = JSON.parse(payload.body);
+              if(message.type === 'RESPONSE') {
+//                                        alert("hloo");
+                                                          tcr=message.sender;
+                                                          $.ajax({
+                                                                   type: "POST",
+                                                                   url: 'http://localhost:8080/teacher/getName/'+message.sender,
+                                                                   success: function (data) {
+                                                                                            tName=data;
+//                                                                                            txt = "<li><a href=\"student_doubts\" class=\"notification-item\"><span class=\"dot bg-warning\">"+tcr+" is ready</span></a></li>";
+//                                                                                            alert(txt);
+//                                                                                             alert("btnAccess"+message.sender);
+                                                                                            $("#btnStart").attr("disabled", false);
+                                                                                            $("#btnStart").click(shareScreen);
+              //                                                                              if(txt != ""){
+              //                                                                                             $('#notificationList').append(txt);
+              //                                                                              }
+                                                                                            return $.growl.automator_green({
+                                                                                                                               title: "Share your screen",
+                                                                                                                               message: " "+tName+" is Ready Now.."
+                                                                                            });
+
+                                                                   }
+                                                          });
+
+                                  }
+
               if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                                          if(message.type === 'CHAT') {
                                                                                          var messageElement = document.createElement('li');
-                                                                                               alert("chat");
+//                                                                                               alert("chat");
                                                                                                messageElement.classList.add('chat-message');
                                                                                                var avatarElement = document.createElement('i');
                                                                                                avatarElement.setAttribute("class", "avtr");
@@ -187,10 +253,10 @@ $(document).ready(function(){
                                                                                                if((message.sender).startsWith("fc")){
                                                                                                        $.ajax({
                                                                                                            type: "POST",
-                                                                                                           url: 'http://192.168.42.215:8080/teacher/getName/'+message.sender,
+                                                                                                           url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                                            success: function (data) {
                                                                                                                                       sender=data;
-                                                                                                                                      alert(sender);
+//                                                                                                                                      alert(sender);
                                                                                                                                       var avatarText = document.createTextNode(sender[0]);
                                                                                                                                       avatarElement.appendChild(avatarText);
                                                                                                                                       avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -211,10 +277,10 @@ $(document).ready(function(){
                                                                                                else{
                                                                                                     $.ajax({
                                                                                                             type: "POST",
-                                                                                                            url: 'http://192.168.42.215:8080/student/getName/'+message.sender,
+                                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                                             success: function (data) {
                                                                                                                                       sender=data;
-                                                                                                                                      alert(sender);
+//                                                                                                                                      alert(sender);
                                                                                                                                       var avatarText = document.createTextNode(sender[0]);
                                                                                                                                       avatarElement.appendChild(avatarText);
                                                                                                                                       avatarElement.style['background-color'] = getAvatarColor(sender);

@@ -13,6 +13,8 @@ public class ViewerFrame extends javax.swing.JFrame {
 
     @Autowired
     ScreenPlayer screenPlayer;
+    @Autowired
+    EventsShipper eventsShipper;
 
     /** Creates new form MainFrame */
     public void init() {
@@ -21,6 +23,7 @@ public class ViewerFrame extends javax.swing.JFrame {
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
         jScrollPane1.setViewportView(screenPlayer);
         setVisible(true);
+//        screenPlayer.ship();
     }
 
     public void Start() {
@@ -86,7 +89,7 @@ public class ViewerFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-
+//        screenPlayer.init();
     }//GEN-LAST:event_formWindowOpened
 
 

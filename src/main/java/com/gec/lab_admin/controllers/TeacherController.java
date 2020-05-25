@@ -357,4 +357,10 @@ public class TeacherController {
         logger.info("Insert in Message table");
         teacherService.insertMessage(messageSend.getSender(),messageSend.getReceiver(),messageSend.getMessage());
     }
+
+    @RequestMapping("/teacher/insertNotification")
+    public void insertNotification(@RequestBody Notification notification){
+        logger.info("Insert in Notification table");
+        teacherService.insertNotification(notification.getSender(),notification.getReceiver(),notification.getType());
+    }
 }
