@@ -45,16 +45,12 @@
             <!--            </form>-->
             <div id="navbar-menu">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
+                    <li class="dropdown" id="notificationLi">
                         <a class="dropdown-toggle icon-menu" data-toggle="dropdown" href="#">
                             <i class="lnr lnr-alarm"></i>
-                            <span class="badge bg-danger" id="numNotifications">5</span>
+                            <p class="badge bg-danger" id="numNotifications"></p>
                         </a>
                         <ul class="dropdown-menu notifications" id="notificationList">
-                            <li><a class="notification-item" href="#"><span class="dot bg-warning"></span>System space
-                                is almost full</a></li>
-
-<!--                            <li><a class="more" href="#">See all notifications</a></li>-->
 
                         </ul>
                     </li>
@@ -120,19 +116,6 @@
                     <div class="col-md-1">
                         <div class="panel">
                             <div class="form-group">
-                                <!--                                &lt;!&ndash;                            <label for="name">Online</label>&ndash;&gt;-->
-                                <!--                                <center>-->
-                                <!--                                    <table id="btnTable" class="table table-hover">-->
-                                <!--                                        <thead>-->
-                                <!--                                        <tr>-->
-                                <!--                                            <th colspan="2"> <center></center></th>-->
-                                <!--                                        </tr>-->
-                                <!--                                        </thead>-->
-                                <!--                                        <tbody id="btnList">-->
-
-                                <!--                                        </tbody>-->
-                                <!--                                    </table>-->
-                                <!--                                </center>-->
                             </div>
                         </div>
                     </div>
@@ -172,6 +155,12 @@
 <!-- END WRAPPER -->
 <!-- Javascript -->
 <script src="assets/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    setInterval("my_function();",5000);
+    function my_function(){
+      $('#refresh').load(location.href + ' #notificationLi');
+    }
+  </script>
 <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>

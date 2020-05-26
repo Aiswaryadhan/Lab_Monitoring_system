@@ -1,11 +1,8 @@
 package com.gec.lab_admin.db.repositories;
 
 
-import com.gec.lab_admin.db.models.AttendanceRecord;
-import com.gec.lab_admin.db.models.BlockedSites;
-import com.gec.lab_admin.db.models.MessageSend;
+import com.gec.lab_admin.db.models.*;
 
-import com.gec.lab_admin.db.models.Teacher;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -186,7 +183,17 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     @Transactional
     @Modifying
     @Query(
-            value = "insert into notification values(:sender,:receiver,:type,NOW())",
+            value = "insert into notification values(:sender,:receiver,:type,NOW(),NULL)",
             nativeQuery = true)
     void insertNotification(String sender, String receiver, String type);
+
+    @Query(
+            value = "select sender from notification where receiver=:username and type='request' order by timestamp desc",
+            nativeQuery = true)
+    List<String> getNotifications(String username);
+
+    @Query(
+            value = "select count(*) from notification where receiver=:username and viewedTime is NULL",
+            nativeQuery = true)
+    int getNotificationCount(String username);
 }

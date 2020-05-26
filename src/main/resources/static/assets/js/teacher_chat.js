@@ -101,10 +101,38 @@ $(document).ready(function(){
                                                                                 }
                                                  }//success of stud fetch
                                         });//end of stud ajax
+
                            }
                 });
 
     }
+    $.ajax({
+                                                    type : "POST",
+                                                    url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                    success:function(data){
+                                                                                    len = data.length;
+                                                                                    var i;
+                                                                                    var txt='';
+                                                                                    var req1='';
+
+                                                                                    if(len > 0){
+                                                                                                    for(i=0;i<len;i++){
+                                                                                                    req1=data[i];
+                                                                                                    txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
+                                                                                                }
+                                                                                                if(txt!=''){
+                                                                                                    $("#notificationList").append(txt);
+                                                                                                }
+                                                                                    }
+                                                    }
+    });
+    $.ajax({
+                                                    type:'POST',
+                                                    url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                    success:function(data){
+                                                        $("#numNotifications").text(data);
+                                                    }
+    });
     $("#teacherLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');
@@ -299,7 +327,13 @@ $(document).ready(function(){
                      });
     }
 
+    $("#notificationList li").click(function(){
+    alert("liii");
+           var n=$("#notificationList li").getName;
+           $("#btnAccess"+n).attr("disabled", false);
+           $("#btnAccess"+n).click(access);
 
+    });
     function close(){
                     $("#"+studId).prop("disabled",true);
                     $("#"+studId).addClass('hidden');
@@ -312,19 +346,17 @@ $(document).ready(function(){
          var txt1="";
          var requester;
           if(message.type === 'REQUEST') {
-//                                            <li><a href="#" class="notification-item"></li>
-//                                            <p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p>
 
                                             req=message.sender;
-                                            txt1 += "<li><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
+                                            txt1 += "<li name=\""+req+"\"><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
                                             $.ajax({
                                                      type: "POST",
                                                      url: 'http://localhost:8080/student/getName/'+message.sender,
                                                      success: function (data) {
                                                                               requester=data;
                                                                               txt = "<li><a href=\"teacherMonitor\" class=\"notification-item\"><span class=\"dot bg-warning\">"+requester+" has asked for help</span></a></li>";
-                                                                              alert(txt);
-                                                                               alert("btnAccess"+message.sender);
+//                                                                              alert(txt);
+//                                                                               alert("btnAccess"+message.sender);
                                                                               $("#btnAccess"+message.sender).attr("disabled", false);
                                                                               $("#btnAccess"+message.sender).click(access);
 //                                                                              if(txt != ""){

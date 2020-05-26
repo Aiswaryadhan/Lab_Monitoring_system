@@ -12,6 +12,8 @@ insert into student values("18MCA01","Anagha K","18MCA01",2);
 insert into student values("18MCA02","Arya A S","18MCA02",2);
 insert into student values("18MCA03","Amal Babu","18MCA03",2);
 insert into student values("18MCA04","Krishna M","18MCA04",2);
+insert into student values("19MCA01","Balu","19MCA01",1);
+insert into student values("19MCA02","Chandhana","19MCA02",1);
 insert into subject_sem values("sub01",2);
 insert into subject_sem values("sub02",1);
 insert into subject_sem values("sub03",1);

@@ -210,4 +210,12 @@ public class TeacherService {
     public void insertNotification(String sender, String receiver, String type) {
         teacherRepository.insertNotification(sender,receiver,type);
     }
+
+    public List<String> getNotification(String username) {
+        return teacherRepository.getNotifications(username);
+    }
+
+    public int getNotificationCount(String username) {
+        return teacherRepository.getNotificationCount(username);
+    }
 }

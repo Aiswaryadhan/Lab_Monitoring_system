@@ -6,11 +6,12 @@ $(document).ready(function(){
     var username;
     var studName;
     var teacherName;
+    var sub;
     $('#mainDiv').addClass('hidden');
 
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     teacherId =$.cookie("id");
-                    var sub= $.cookie("subject");
+                    sub= $.cookie("subject");
                     $.ajax({
                                type: "POST",
                                url: 'http://localhost:8080/teacher/getName/'+teacherId,
@@ -27,14 +28,18 @@ $(document).ready(function(){
                                                                                     len = data.length;
                                                                                     var i;
                                                                                     var txt='';
+                                                                                    var txt1='';
                                                                                     if(len > 0){
                                                                                                 for(i=0;i<len;i++){
                                                                                                 var arr=data[i].split(",");
                                                                                                 sName=arr[1];
                                                                                                 studId=arr[0];
-                                                                                                txt += "<tr><td>"+studId+"</td><td>"+sName+"</td></tr>";
+
+                                                                                                txt += "<tr><td><button type=\"button\" name=\""+studId+"\" id=\"btnAccess"+studId+"\" disabled=\"disabled\" class=\"btn btn-primary btn-sm\">Remote Access</button></td><td>"+studId+"</td><td>"+sName+"</td></tr>";
+
                                                                                                 var $section = $("<section></section>");
                                                                                                 $section.attr("id",studId);
+                                                                                                $section.attr("name",studId);
                                                                                                 $section.attr("class","msger");
                                                                                                 $("#mainDiv").append($section);
                                                                                                 $('#'+studId).addClass('hidden');
@@ -91,29 +96,42 @@ $(document).ready(function(){
                                                                                                 $("#messageForm"+studId).append($newBtn2);
                                                                                     }
                                                                                     if(txt != ""){
-                                                                                        $('#onlineStud').append(txt).removeClass("hidden");
+                                                                                        $('#onlineStud').append(txt);
                                                                                        }
                                                                                     }
                                                      }//success of stud fetch
                                             });//end of stud ajax
-    //                                        $.ajax({
-    //                                                   type: "POST",
-    //                                                   url:"http://localhost:8080/teacher/getLoggedStud",
-    //                                                   success: function (data) {
-    //                                                        len = data.length;
-    //                                                        if(len!=0){
-    ////                                                                var arr2;
-    //                                                                for(j=0;j<len;j++){
-    //                                                                    var stId=data[j];
-    //
-    //                                                                }
-    //                                                        }
-    //                                                   }
-    //                                        });
                                }
                     });
 
         }
+        $.ajax({
+                                                            type : "POST",
+                                                            url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                            success:function(data){
+                                                                                            len = data.length;
+                                                                                            var i;
+                                                                                            var txt='';
+                                                                                            var req1='';
+
+                                                                                            if(len > 0){
+                                                                                                            for(i=0;i<len;i++){
+                                                                                                            req1=data[i];
+                                                                                                            txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
+                                                                                                        }
+                                                                                                        if(txt!=''){
+                                                                                                            $("#notificationList").append(txt);
+                                                                                                        }
+                                                                                            }
+                                                            }
+            });
+            $.ajax({
+                                                            type:'POST',
+                                                            url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                            success:function(data){
+                                                                $("#numNotifications").text(data);
+                                                            }
+            });
     $("#adminLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');
@@ -238,6 +256,10 @@ $(document).ready(function(){
                                                                                          }// close of sender check 'if'
                                                                                     }// close of for
                                                                                 }// close of length check 'if'
+                                                                                else
+                                                                                {
+                                                                                    return true;
+                                                                                }
                                                                             }// close of success
                                                                         });
     //                                    if ( $('#'+tableData[0]).hasClass('hidden') ){
@@ -248,6 +270,7 @@ $(document).ready(function(){
     //                                    }
          							}
         });
+
    function connect() {
                 if(username) {
                                    var socket = new SockJS('/javatechie');
@@ -266,6 +289,42 @@ $(document).ready(function(){
         alert("Disconnected !..");
     }
 
+    function access(){
+                    if(stompClient) {
+
+                                           var chatMessage = {
+                                                       sender: username,
+                                                       receiver:req,
+                                                       type: 'RESPONSE'
+                                           };
+                                           stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                           var msgData = {
+                                                         "sender":username,
+                                                         "receiver": req,
+                                                         "type":"response"
+                                           };
+                                           var aJson = JSON.stringify(msgData);
+                                           $.ajax({
+                                                                type: "POST",
+                                                                url: 'http://localhost:8080/teacher/insertNotification',
+                                                                 headers: {
+                                                                          "Content-Type": "application/json"
+                                                                 },
+                                                                 data:aJson,
+                                                                success: function (data) {
+
+                                                                }
+                                           });
+
+                                           $('#message').val('');
+              }
+                     $.ajax({
+                                 url: 'http://localhost:8080/start',
+                                 success: function (data) {
+
+                                 }
+                     });
+    }
 
 
 
@@ -276,8 +335,47 @@ $(document).ready(function(){
     }
     function onMessageReceived(payload) {
              var message = JSON.parse(payload.body);
+             var id=message.sender;
+             var txt="";
+             var txt1="";
+             var requester;
+              if(message.type === 'REQUEST') {
+    //                                            <li><a href="#" class="notification-item"></li>
+    //                                            <p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p>
 
+                                                req=message.sender;
+                                                txt1 += "<li><a class=\"notification-item\" href=\"monitor\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
+                                                $.ajax({
+                                                         type: "POST",
+                                                         url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                         success: function (data) {
+                                                                                  requester=data;
+                                                                                  txt = "<li><a href=\"teacherMonitor\" class=\"notification-item\"><span class=\"dot bg-warning\">"+requester+" has asked for help</span></a></li>";
+                                                                                  alert(txt);
+                                                                                   alert("btnAccess"+message.sender);
+                                                                                  $("#btnAccess"+message.sender).attr("disabled", false);
+                                                                                  $("#btnAccess"+message.sender).click(access);
+    //                                                                              if(txt != ""){
+    //                                                                                             $('#notificationList').append(txt);
+    //                                                                              }
+                                                                                  return $.growl.automator_green({
+                                                                                                                     title: "Student Request",
+                                                                                                                     message: " "+requester+" has requested for help..."
+                                                                                  });
+
+                                                         }
+                                                });
+                                                if(txt1!=''){
+                                                    $("#notificationList").append(txt1);
+                                                }
+
+                        }
+
+               if(message.type === 'JOIN') {
+                    $("#onlineDot"+id).removeAttr("style");
+               }
                if(message.type === 'CHAT') {
+                                receiver=$("#"+message.sender).getName;
                               if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                                if(message.type === 'CHAT') {
                                                                                      var messageElement = document.createElement('li');
@@ -376,6 +474,7 @@ $(document).ready(function(){
           }
           event.preventDefault();
       }
+
     function getAvatarColor(messageSender) {
                 var hash = 0;
                 for (var i = 0; i < messageSender.length; i++) {

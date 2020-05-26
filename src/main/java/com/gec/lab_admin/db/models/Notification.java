@@ -22,14 +22,26 @@ public class Notification {
     @Column(name="timestamp")
     private Timestamp timestamp;
 
+    @Column(name="viewedTime")
+    private Timestamp viewedTime;
+
     public Notification() {
     }
 
-    public Notification(@Size(max = 10) String sender, @Size(max = 10) String receiver, @Size(max = 10) String type, Timestamp timestamp) {
+    public Notification(@Size(max = 10) String sender, @Size(max = 10) String receiver, @Size(max = 10) String type, Timestamp timestamp, Timestamp viewedTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.type = type;
         this.timestamp = timestamp;
+        this.viewedTime = viewedTime;
+    }
+
+    public Timestamp getViewedTime() {
+        return viewedTime;
+    }
+
+    public void setViewedTime(Timestamp viewedTime) {
+        this.viewedTime = viewedTime;
     }
 
     public String getSender() {

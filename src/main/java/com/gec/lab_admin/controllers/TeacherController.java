@@ -363,4 +363,14 @@ public class TeacherController {
         logger.info("Insert in Notification table");
         teacherService.insertNotification(notification.getSender(),notification.getReceiver(),notification.getType());
     }
+    @RequestMapping("/teacher/getNotification/{username}")
+    public List<String> getNotification(@PathVariable String username){
+        logger.info("Get Notifications");
+        return teacherService.getNotification(username);
+    }
+    @RequestMapping("/teacher/getNotificationCount/{username}")
+    public int getNotificationCount(@PathVariable String username){
+        logger.info("Get Notification Count");
+        return teacherService.getNotificationCount(username);
+    }
 }

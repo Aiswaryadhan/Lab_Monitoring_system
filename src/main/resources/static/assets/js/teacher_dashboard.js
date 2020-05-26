@@ -14,7 +14,33 @@ $(document).ready(function(){
                      });
 
      }
+     $.ajax({
+                                                         type : "POST",
+                                                         url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                         success:function(data){
+                                                                                         len = data.length;
+                                                                                         var i;
+                                                                                         var txt='';
+                                                                                         var req1='';
 
+                                                                                         if(len > 0){
+                                                                                                         for(i=0;i<len;i++){
+                                                                                                         req1=data[i];
+                                                                                                         txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
+                                                                                                     }
+                                                                                                     if(txt!=''){
+                                                                                                         $("#notificationList").append(txt);
+                                                                                                     }
+                                                                                         }
+                                                         }
+         });
+         $.ajax({
+                                                         type:'POST',
+                                                         url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                         success:function(data){
+                                                             $("#numNotifications").text(data);
+                                                         }
+         });
      $.ajax({
                      type: "POST",
                      url: 'http://localhost:8080/teacher/getTeacherStudNo/'+sub,

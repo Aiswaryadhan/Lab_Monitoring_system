@@ -1,8 +1,10 @@
 $(document).ready(function(){
     $("#tblAttendance").hide();
+     var teacherId;
+     var sub;
      if ($.cookie("id") != null && $.cookie("subject") != null) {
-                var teacherId =$.cookie("id");
-                var sub= $.cookie("subject");
+                teacherId =$.cookie("id");
+                sub= $.cookie("subject");
                 $.ajax({
                            type: "POST",
                            url: 'http://localhost:8080/teacher/getName/'+teacherId,
@@ -13,6 +15,33 @@ $(document).ready(function(){
                 });
 
      }
+     $.ajax({
+                                                         type : "POST",
+                                                         url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                         success:function(data){
+                                                                                         len = data.length;
+                                                                                         var i;
+                                                                                         var txt='';
+                                                                                         var req1='';
+
+                                                                                         if(len > 0){
+                                                                                                         for(i=0;i<len;i++){
+                                                                                                         req1=data[i];
+                                                                                                         txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
+                                                                                                     }
+                                                                                                     if(txt!=''){
+                                                                                                         $("#notificationList").append(txt);
+                                                                                                     }
+                                                                                         }
+                                                         }
+         });
+         $.ajax({
+                                                         type:'POST',
+                                                         url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                         success:function(data){
+                                                             $("#numNotifications").text(data);
+                                                         }
+         });
     $("#percent").prop("disabled",true);
     $("#adminLogout").click(function(){
         $.removeCookie('id');
