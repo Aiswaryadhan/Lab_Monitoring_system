@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -142,5 +143,23 @@ public class StudentController {
     public String findStudent(@PathVariable String sender){
         logger.info("finding student");
         return studentService.getStudentName(sender);
+    }
+
+    @RequestMapping("/student/getNotification/{studId}")
+    public List<String> getNotification(@PathVariable String studId){
+        logger.info("Get Notifications");
+        return studentService.getNotification(studId);
+    }
+
+    @RequestMapping("/student/getNotificationCount/{studId}")
+    public int getNotificationCount(@PathVariable String studId){
+        logger.info("Get Notification Count");
+        return studentService.getNotificationCount(studId);
+    }
+
+    @RequestMapping("/student/updateNotification/{t1}")
+    public void updateNotification(@PathVariable Timestamp t1){
+        logger.info("Get Notifications");
+        studentService.updateNotification(t1);
     }
 }

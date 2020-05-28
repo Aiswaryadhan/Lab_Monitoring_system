@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -188,7 +189,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     void insertNotification(String sender, String receiver, String type);
 
     @Query(
-            value = "select sender from notification where receiver=:username and type='request' order by timestamp desc",
+            value = "select sender,timestamp from notification where receiver=:username and type='request' order by timestamp desc",
             nativeQuery = true)
     List<String> getNotifications(String username);
 
@@ -196,4 +197,11 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "select count(*) from notification where receiver=:username and viewedTime is NULL",
             nativeQuery = true)
     int getNotificationCount(String username);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update notification set viewedTime=NOW() where timestamp=:t1",
+            nativeQuery = true)
+    void updateNotification(Timestamp t1);
 }

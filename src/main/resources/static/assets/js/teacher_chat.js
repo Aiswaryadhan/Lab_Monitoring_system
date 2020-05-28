@@ -7,6 +7,8 @@ $(document).ready(function(){
     var studName;
     var teacherName;
     var req;
+    var t1;
+    var req1='';
     $('#mainDiv').addClass('hidden');
 
     if ($.cookie("id") != null && $.cookie("subject") != null) {
@@ -21,6 +23,7 @@ $(document).ready(function(){
                                         teacherName=data;
                                         username = teacherId;
                                         connect();
+                                        refresh();
                                         $.ajax({
                                                  type: "POST",
                                                  url: "http://localhost:8080/teacher/getAllStudId/"+sub,
@@ -113,12 +116,12 @@ $(document).ready(function(){
                                                                                     len = data.length;
                                                                                     var i;
                                                                                     var txt='';
-                                                                                    var req1='';
-
-                                                                                    if(len > 0){
+                                                                                                if(len > 0){
                                                                                                     for(i=0;i<len;i++){
-                                                                                                    req1=data[i];
-                                                                                                    txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
+                                                                                                    arr=data[i].split(',');
+                                                                                                    req1=arr[0];
+                                                                                                    t1=arr[1];
+                                                                                                    txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
                                                                                                 }
                                                                                                 if(txt!=''){
                                                                                                     $("#notificationList").append(txt);
@@ -162,12 +165,12 @@ $(document).ready(function(){
      								var tableData = $(this).children("td").map(function() {
                                          			return $(this).text();
                                     }).get();
-                                    receiver=tableData[0];
+                                    receiver=tableData[1];
                                     alert(receiver);
-                                    studId=tableData[0];
+                                    studId=tableData[1];
                                     if($("#"+studId).hasClass('hidden')){
                                         $("#"+studId).removeClass('hidden');
-                                        studName=tableData[1];
+                                        studName=tableData[2];
                                         $('#mainDiv').removeClass('hidden');
                                         $("#"+studId).prop("disabled",false);
                                     }
@@ -182,13 +185,11 @@ $(document).ready(function(){
                                                                             len1=data.length;
                                                                             if(len1!=0){
                                                                                 for(var i=0;i<len1;i++){
-//                                                                                     var arr=data[i].split(",");
                                                                                      var sendr=data[i].sender;
                                                                                      var recevr=data[i].receiver;
                                                                                      var sender;
                                                                                      if((sendr).startsWith("fc")){
                                                                                                    var msg1=data[i].message;
-//                                                                                                   alert(msg1);
                                                                                                      func(msg1);
                                                                                                      function func(msg1){
                                                                                                       $.ajax({
@@ -318,22 +319,38 @@ $(document).ready(function(){
                                            });
 
                                            $('#message').val('');
-              }
-                     $.ajax({
+                    }
+                    $.ajax({
                                  url: 'http://localhost:8080/start',
                                  success: function (data) {
 
                                  }
-                     });
+                    });
     }
 
-    $("#notificationList li").click(function(){
-    alert("liii");
-           var n=$("#notificationList li").getName;
+    $('#notificationList').on( 'click', 'li', function(){
+           var n=$(this).attr('name');
+           var ar1=$(this).text().split('@');
+           var dt=ar1[1];
+           req=n.substring(0, 7);
+           var date1=dt.trim();
            $("#btnAccess"+n).attr("disabled", false);
            $("#btnAccess"+n).click(access);
+           $.ajax({
+                                            url: 'http://localhost:8080/teacher/updateNotification/'+dt,
+                                            success: function (data) {
+                                                $.ajax({
+                                                    type:'POST',
+                                                    url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                    success:function(data){
+                                                        $("#numNotifications").text(data);
+                                                    }
+                                                });
+                                            }
+           });
 
     });
+
     function close(){
                     $("#"+studId).prop("disabled",true);
                     $("#"+studId).addClass('hidden');
@@ -348,20 +365,13 @@ $(document).ready(function(){
           if(message.type === 'REQUEST') {
 
                                             req=message.sender;
-                                            txt1 += "<li name=\""+req+"\"><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
                                             $.ajax({
                                                      type: "POST",
                                                      url: 'http://localhost:8080/student/getName/'+message.sender,
                                                      success: function (data) {
                                                                               requester=data;
-                                                                              txt = "<li><a href=\"teacherMonitor\" class=\"notification-item\"><span class=\"dot bg-warning\">"+requester+" has asked for help</span></a></li>";
-//                                                                              alert(txt);
-//                                                                               alert("btnAccess"+message.sender);
                                                                               $("#btnAccess"+message.sender).attr("disabled", false);
                                                                               $("#btnAccess"+message.sender).click(access);
-//                                                                              if(txt != ""){
-//                                                                                             $('#notificationList').append(txt);
-//                                                                              }
                                                                               return $.growl.automator_green({
                                                                                                                  title: "Student Request",
                                                                                                                  message: " "+requester+" has requested for help..."
@@ -369,21 +379,21 @@ $(document).ready(function(){
 
                                                      }
                                             });
-                                            if(txt1!=''){
-                                                $("#notificationList").append(txt1);
-                                            }
 
-                    }
+          }
 
-           if(message.type === 'JOIN') {
+          if(message.type === 'JOIN') {
                 $("#onlineDot"+id).removeAttr("style");
-           }
-           if(message.type === 'CHAT') {
-                            receiver=$("#"+message.sender).getName;
-                          if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
-                                                                           if(message.type === 'CHAT') {
+          }
+          if(message.type === 'CHAT') {
+                        if((message.sender).startsWith("fc")){
+                          return true;
+                        }
+                        else{
+                            receiver=message.sender;
+                        }
+                        if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                                  var messageElement = document.createElement('li');
-//                                                                                 alert("chat");
                                                                                  messageElement.classList.add('chat-message');
                                                                                  var avatarElement = document.createElement('i');
                                                                                  avatarElement.setAttribute("class", "avtr");
@@ -394,7 +404,6 @@ $(document).ready(function(){
                                                                                             url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                             success: function (data) {
                                                                                                             sender=data;
-                                                                                                            alert(sender);
                                                                                                             var avatarText = document.createTextNode(sender[0]);
                                                                                                             avatarElement.appendChild(avatarText);
                                                                                                             avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -419,7 +428,6 @@ $(document).ready(function(){
                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                            success: function (data) {
                                                                                                       sender=data;
-                                                                                                        alert(sender);
                                                                                              var avatarText = document.createTextNode(sender[0]);
                                                                                              avatarElement.appendChild(avatarText);
                                                                                              avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -438,17 +446,45 @@ $(document).ready(function(){
                                                                                            }
                                                                                     });
                                                                                  }
-                                                                                                                                                            }
-                          }
+                        }
 
-           }
+          }
     }
-
-  function send(){
-//        alert(studId);
+    function refresh(){
+                            setTimeout(function(){
+                             $.ajax({
+                                                                                 type : "POST",
+                                                                                 url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                 success:function(data){
+                                                                                         len = data.length;
+                                                                                         var i;
+                                                                                         var txt='';
+                                                                                         $("#notificationList li").remove();
+                                                                                         if(len > 0){
+                                                                                                         for(i=0;i<len;i++){
+                                                                                                             arr=data[i].split(',');
+                                                                                                             req1=arr[0];
+                                                                                                             t1=arr[1];
+                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                         }
+                                                                                                         if(txt!=''){
+                                                                                                             $("#notificationList").append(txt);
+                                                                                                         }
+                                                                                         }
+                                                                                 }
+                             });
+                             $.ajax({
+                                                                                 type:'POST',
+                                                                                 url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                 success:function(data){
+                                                                                     $("#numNotifications").text(data);
+                                                                                 }
+                             });
+                             refresh();
+                             },5000);
+    }
+    function send(){
         var messageContent = $('#message'+studId).val();
-//        alert(messageContent);
-        alert("receiver" +studId);
         if(messageContent && stompClient) {
                             var chatMessage = {
                                         sender: username,
@@ -479,12 +515,39 @@ $(document).ready(function(){
         }
         event.preventDefault();
     }
-
-
-
-
-
-
+    function refresh(){
+                            setTimeout(function(){
+                             $.ajax({
+                                                                                 type : "POST",
+                                                                                 url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                 success:function(data){
+                                                                                         len = data.length;
+                                                                                         var i;
+                                                                                         var txt='';
+                                                                                         $("#notificationList li").remove();
+                                                                                         if(len > 0){
+                                                                                                         for(i=0;i<len;i++){
+                                                                                                             arr=data[i].split(',');
+                                                                                                             req1=arr[0];
+                                                                                                             t1=arr[1];
+                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                         }
+                                                                                                         if(txt!=''){
+                                                                                                             $("#notificationList").append(txt);
+                                                                                                         }
+                                                                                         }
+                                                                                 }
+                             });
+                             $.ajax({
+                                                                                 type:'POST',
+                                                                                 url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                 success:function(data){
+                                                                                     $("#numNotifications").text(data);
+                                                                                 }
+                             });
+                             refresh();
+                             },5000);
+    }
     function getAvatarColor(messageSender) {
                 var hash = 0;
                 for (var i = 0; i < messageSender.length; i++) {

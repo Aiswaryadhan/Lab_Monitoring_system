@@ -6,12 +6,14 @@ $(document).ready(function(){
     var username;
     var studName;
     var teacherName;
-    var sub;
+    var req;
+    var t1;
+    var req1='';
     $('#mainDiv').addClass('hidden');
 
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     teacherId =$.cookie("id");
-                    sub= $.cookie("subject");
+                    var sub= $.cookie("subject");
                     $.ajax({
                                type: "POST",
                                url: 'http://localhost:8080/teacher/getName/'+teacherId,
@@ -101,37 +103,38 @@ $(document).ready(function(){
                                                                                     }
                                                      }//success of stud fetch
                                             });//end of stud ajax
+
                                }
                     });
 
-        }
-        $.ajax({
-                                                            type : "POST",
-                                                            url :'http://localhost:8080/teacher/getNotification/'+teacherId,
-                                                            success:function(data){
-                                                                                            len = data.length;
-                                                                                            var i;
-                                                                                            var txt='';
-                                                                                            var req1='';
-
-                                                                                            if(len > 0){
-                                                                                                            for(i=0;i<len;i++){
-                                                                                                            req1=data[i];
-                                                                                                            txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
-                                                                                                        }
-                                                                                                        if(txt!=''){
-                                                                                                            $("#notificationList").append(txt);
-                                                                                                        }
-                                                                                            }
-                                                            }
-            });
-            $.ajax({
-                                                            type:'POST',
-                                                            url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
-                                                            success:function(data){
-                                                                $("#numNotifications").text(data);
-                                                            }
-            });
+    }
+    $.ajax({
+                                                        type : "POST",
+                                                        url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                        success:function(data){
+                                                                                        len = data.length;
+                                                                                        var i;
+                                                                                        var txt='';
+                                                                                                    if(len > 0){
+                                                                                                        for(i=0;i<len;i++){
+                                                                                                        arr=data[i].split(',');
+                                                                                                        req1=arr[0];
+                                                                                                        t1=arr[1];
+                                                                                                        txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                    }
+                                                                                                    if(txt!=''){
+                                                                                                        $("#notificationList").append(txt);
+                                                                                                    }
+                                                                                        }
+                                                        }
+    });
+    $.ajax({
+                                                        type:'POST',
+                                                        url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                        success:function(data){
+                                                            $("#numNotifications").text(data);
+                                                        }
+    });
     $("#adminLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');
@@ -150,126 +153,118 @@ $(document).ready(function(){
 
 
 
-    $('#onlineStud').on( 'click', 'tr', function () {
-                                    if ($(this).hasClass('highlighted') )
-         							{
-         						        $(this).removeClass('highlighted');
-         							}
-         					        else
-         							{
-         								$(this).addClass('highlighted');
-         								var tableData = $(this).children("td").map(function() {
-                                             			return $(this).text();
-                                        }).get();
-                                        receiver=tableData[0];
-                                        alert(receiver);
-                                        studId=tableData[0];
-                                        if($("#"+studId).hasClass('hidden')){
-                                            $("#"+studId).removeClass('hidden');
-                                            studName=tableData[1];
-                                            $('#mainDiv').removeClass('hidden');
-                                            $("#"+studId).prop("disabled",false);
-                                        }
-                                        else{
-                                            $('#'+studId).addClass('hidden');
-                                        }
+   $('#onlineStud').on( 'click', 'tr', function () {
+                                   if ($(this).hasClass('highlighted') )
+        							{
+        						        $(this).removeClass('highlighted');
+        							}
+        					        else
+        							{
+        								$(this).addClass('highlighted');
+        								var tableData = $(this).children("td").map(function() {
+                                            			return $(this).text();
+                                       }).get();
+                                       receiver=tableData[1];
+                                       alert(receiver);
+                                       studId=tableData[1];
+                                       if($("#"+studId).hasClass('hidden')){
+                                           $("#"+studId).removeClass('hidden');
+                                           studName=tableData[2];
+                                           $('#mainDiv').removeClass('hidden');
+                                           $("#"+studId).prop("disabled",false);
+                                       }
+                                       else{
+                                           $('#'+studId).addClass('hidden');
+                                       }
 
-                                        $.ajax({
-                                                                            type:"POST",
-                                                                            url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+teacherId,
-                                                                            success: function(data){
-                                                                                len1=data.length;
-                                                                                if(len1!=0){
-                                                                                    for(var i=0;i<len1;i++){
-    //                                                                                     var arr=data[i].split(",");
-                                                                                         var sendr=data[i].sender;
-                                                                                         var recevr=data[i].receiver;
-                                                                                         var sender;
-                                                                                         if((sendr).startsWith("fc")){
-                                                                                                       var msg1=data[i].message;
-    //                                                                                                   alert(msg1);
-                                                                                                         func(msg1);
-                                                                                                         function func(msg1){
-                                                                                                          $.ajax({
-                                                                                                            type: "POST",
-                                                                                                            url: 'http://localhost:8080/teacher/getName/'+sendr,
-                                                                                                            success: function (data) {
-                                                                                                                                sender=data;
-                                                                                                                                alert(sender);
-                                                                                                                                var messageElement = document.createElement('li');
-                                                                                                                                messageElement.classList.add('chat-message');
-                                                                                                                                var avatarElement = document.createElement('i');
-                                                                                                                                avatarElement.setAttribute("class", "avtr");
-                                                                                                                                var avatarText = document.createTextNode(sender[0]);
-                                                                                                                                avatarElement.appendChild(avatarText);
-                                                                                                                                avatarElement.style['background-color'] = getAvatarColor(sender);
-                                                                                                                                messageElement.appendChild(avatarElement);
-                                                                                                                                var usernameElement = document.createElement('span');
-                                                                                                                                var usernameText = document.createTextNode(sender);
-                                                                                                                                usernameElement.appendChild(usernameText);
-                                                                                                                                messageElement.appendChild(usernameElement);
-                                                                                                                                var textElement = document.createElement('p');
+                                       $.ajax({
+                                                                           type:"POST",
+                                                                           url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+teacherId,
+                                                                           success: function(data){
+                                                                               len1=data.length;
+                                                                               if(len1!=0){
+                                                                                   for(var i=0;i<len1;i++){
+                                                                                        var sendr=data[i].sender;
+                                                                                        var recevr=data[i].receiver;
+                                                                                        var sender;
+                                                                                        if((sendr).startsWith("fc")){
+                                                                                                      var msg1=data[i].message;
+                                                                                                        func(msg1);
+                                                                                                        function func(msg1){
+                                                                                                         $.ajax({
+                                                                                                           type: "POST",
+                                                                                                           url: 'http://localhost:8080/teacher/getName/'+sendr,
+                                                                                                           success: function (data) {
+                                                                                                                               sender=data;
+                                                                                                                               alert(sender);
+                                                                                                                               var messageElement = document.createElement('li');
+                                                                                                                               messageElement.classList.add('chat-message');
+                                                                                                                               var avatarElement = document.createElement('i');
+                                                                                                                               avatarElement.setAttribute("class", "avtr");
+                                                                                                                               var avatarText = document.createTextNode(sender[0]);
+                                                                                                                               avatarElement.appendChild(avatarText);
+                                                                                                                               avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                                               messageElement.appendChild(avatarElement);
+                                                                                                                               var usernameElement = document.createElement('span');
+                                                                                                                               var usernameText = document.createTextNode(sender);
+                                                                                                                               usernameElement.appendChild(usernameText);
+                                                                                                                               messageElement.appendChild(usernameElement);
+                                                                                                                               var textElement = document.createElement('p');
 
-                                                                                                                                var messageText = document.createTextNode(msg1);
-                                                                                                                                textElement.appendChild(messageText);
-                                                                                                                                messageElement.appendChild(textElement);
-                                                                                                                                document.getElementById("messageArea"+studId).appendChild(messageElement);
-                                                                                                                                document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
+                                                                                                                               var messageText = document.createTextNode(msg1);
+                                                                                                                               textElement.appendChild(messageText);
+                                                                                                                               messageElement.appendChild(textElement);
+                                                                                                                               document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                                               document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
 
-                                                                                                            }
-                                                                                                          });
-                                                                                                          }
+                                                                                                           }
+                                                                                                         });
+                                                                                                         }
+                                                                                        }
+                                                                                        else{
+                                                                                        var msg2=data[i].message;
+                                                                                         func1(msg2);
+                                                                                         function func1(msg2){
+                                                                                               $.ajax({
+                                                                                                       type: "POST",
+                                                                                                       url: 'http://localhost:8080/student/getName/'+sendr,
+                                                                                                       success: function (data) {
+                                                                                                       sender=data;
+                                                                                                       alert(sender);
+                                                                                                       var messageElement = document.createElement('li');
+                                                                                                       messageElement.classList.add('chat-message');
+                                                                                                       var avatarElement = document.createElement('i');
+                                                                                                       avatarElement.setAttribute("class", "avtr");
+                                                                                                       var avatarText = document.createTextNode(sender[0]);
+                                                                                                       avatarElement.appendChild(avatarText);
+                                                                                                       avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                       messageElement.appendChild(avatarElement);
+                                                                                                       var usernameElement = document.createElement('span');
+                                                                                                       var usernameText = document.createTextNode(sender);
+                                                                                                       usernameElement.appendChild(usernameText);
+                                                                                                       messageElement.appendChild(usernameElement);
+                                                                                                       var textElement = document.createElement('p');
+                                                                                                       var messageText = document.createTextNode(msg2);
+
+                                                                                                       textElement.appendChild(messageText);
+                                                                                                       messageElement.appendChild(textElement);
+                                                                                                       document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                       document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
+
+                                                                                                       }
+                                                                                               });
                                                                                          }
-                                                                                         else{
-                                                                                         var msg2=data[i].message;
-                                                                                          func1(msg2);
-                                                                                          function func1(msg2){
-                                                                                                $.ajax({
-                                                                                                        type: "POST",
-                                                                                                        url: 'http://localhost:8080/student/getName/'+sendr,
-                                                                                                        success: function (data) {
-                                                                                                        sender=data;
-                                                                                                        alert(sender);
-                                                                                                        var messageElement = document.createElement('li');
-                                                                                                        messageElement.classList.add('chat-message');
-                                                                                                        var avatarElement = document.createElement('i');
-                                                                                                        avatarElement.setAttribute("class", "avtr");
-                                                                                                        var avatarText = document.createTextNode(sender[0]);
-                                                                                                        avatarElement.appendChild(avatarText);
-                                                                                                        avatarElement.style['background-color'] = getAvatarColor(sender);
-                                                                                                        messageElement.appendChild(avatarElement);
-                                                                                                        var usernameElement = document.createElement('span');
-                                                                                                        var usernameText = document.createTextNode(sender);
-                                                                                                        usernameElement.appendChild(usernameText);
-                                                                                                        messageElement.appendChild(usernameElement);
-                                                                                                        var textElement = document.createElement('p');
-                                                                                                        var messageText = document.createTextNode(msg2);
-
-                                                                                                        textElement.appendChild(messageText);
-                                                                                                        messageElement.appendChild(textElement);
-                                                                                                        document.getElementById("messageArea"+studId).appendChild(messageElement);
-                                                                                                        document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
-
-                                                                                                        }
-                                                                                                });
-                                                                                          }
-                                                                                         }// close of sender check 'if'
-                                                                                    }// close of for
-                                                                                }// close of length check 'if'
-                                                                                else
-                                                                                {
-                                                                                    return true;
-                                                                                }
-                                                                            }// close of success
-                                                                        });
-    //                                    if ( $('#'+tableData[0]).hasClass('hidden') ){
-    //                                                        			 $('#'+tableData[0]).removeClass('hidden');
-    //                                    }
-    //                                    else{
-    //                                      		$('#'+tableData[0]).addClass('hidden');
-    //                                    }
-         							}
-        });
+                                                                                        }// close of sender check 'if'
+                                                                                   }// close of for
+                                                                               }// close of length check 'if'
+                                                                               else
+                                                                               {
+                                                                                   return true;
+                                                                               }
+                                                                           }// close of success
+                                                                       });
+        							}
+   });
 
    function connect() {
                 if(username) {
@@ -277,61 +272,73 @@ $(document).ready(function(){
                                    stompClient = Stomp.over(socket);
                                    stompClient.connect({}, onConnected, onError);
                 }
-    }
-    function onConnected() {
-        // Subscribe to the Public Topic
+   }
+   function onConnected() {
         stompClient.subscribe('/queue/public', onMessageReceived);
-
-        // Tell your username to the server
         stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
-    }
-    function onError(error) {
-        alert("Disconnected !..");
-    }
+   }
+   function onError(error) {
+       alert("Disconnected !..");
+   }
 
     function access(){
-                    if(stompClient) {
+                        if(stompClient) {
 
-                                           var chatMessage = {
-                                                       sender: username,
-                                                       receiver:req,
-                                                       type: 'RESPONSE'
-                                           };
-                                           stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                                           var msgData = {
-                                                         "sender":username,
-                                                         "receiver": req,
-                                                         "type":"response"
-                                           };
-                                           var aJson = JSON.stringify(msgData);
-                                           $.ajax({
-                                                                type: "POST",
-                                                                url: 'http://localhost:8080/teacher/insertNotification',
-                                                                 headers: {
-                                                                          "Content-Type": "application/json"
-                                                                 },
-                                                                 data:aJson,
-                                                                success: function (data) {
+                                               var chatMessage = {
+                                                           sender: username,
+                                                           receiver:req,
+                                                           type: 'RESPONSE'
+                                               };
+                                               stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                               var msgData = {
+                                                             "sender":username,
+                                                             "receiver": req,
+                                                             "type":"response"
+                                               };
+                                               var aJson = JSON.stringify(msgData);
+                                               $.ajax({
+                                                                    type: "POST",
+                                                                    url: 'http://localhost:8080/teacher/insertNotification',
+                                                                     headers: {
+                                                                              "Content-Type": "application/json"
+                                                                     },
+                                                                     data:aJson,
+                                                                    success: function (data) {
 
-                                                                }
-                                           });
+                                                                    }
+                                               });
+                                               $('#message').val('');
+                        }
+                        $.ajax({
+                                     url: 'http://localhost:8080/start',
+                                     success: function (data) {
 
-                                           $('#message').val('');
-              }
-                     $.ajax({
-                                 url: 'http://localhost:8080/start',
-                                 success: function (data) {
-
-                                 }
-                     });
+                                     }
+                        });
     }
+    $('#notificationList').on( 'click', 'li', function(){
+               var n=$(this).attr('name');
+               $("#btnAccess"+n).attr("disabled", false);
+               $("#btnAccess"+n).click(access);
+               $.ajax({
+                                                url: 'http://localhost:8080/teacher/updateNotification/'+t1,
+                                                success: function (data) {
+                                                    $.ajax({
+                                                        type:'POST',
+                                                        url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                        success:function(data){
+                                                            $("#numNotifications").text(data);
+                                                        }
+                                                    });
+                                                }
+               });
 
-
+    });
 
     function close(){
-                    $("#"+studId).prop("disabled",true);
-                    $("#"+studId).addClass('hidden');
-                    $('#mainDiv').addClass('hidden');
+                        $("#"+studId).prop("disabled",true);
+                        $("#"+studId).addClass('hidden');
+                        $('#mainDiv').addClass('hidden');
     }
     function onMessageReceived(payload) {
              var message = JSON.parse(payload.body);
@@ -339,25 +346,17 @@ $(document).ready(function(){
              var txt="";
              var txt1="";
              var requester;
-              if(message.type === 'REQUEST') {
-    //                                            <li><a href="#" class="notification-item"></li>
-    //                                            <p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p>
-
+             if(message.type === 'REQUEST') {
                                                 req=message.sender;
-                                                txt1 += "<li><a class=\"notification-item\" href=\"monitor\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
+                                                txt1 += "<li name=\""+req+"\"><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
                                                 $.ajax({
                                                          type: "POST",
                                                          url: 'http://localhost:8080/student/getName/'+message.sender,
                                                          success: function (data) {
                                                                                   requester=data;
                                                                                   txt = "<li><a href=\"teacherMonitor\" class=\"notification-item\"><span class=\"dot bg-warning\">"+requester+" has asked for help</span></a></li>";
-                                                                                  alert(txt);
-                                                                                   alert("btnAccess"+message.sender);
                                                                                   $("#btnAccess"+message.sender).attr("disabled", false);
                                                                                   $("#btnAccess"+message.sender).click(access);
-    //                                                                              if(txt != ""){
-    //                                                                                             $('#notificationList').append(txt);
-    //                                                                              }
                                                                                   return $.growl.automator_green({
                                                                                                                      title: "Student Request",
                                                                                                                      message: " "+requester+" has requested for help..."
@@ -369,17 +368,20 @@ $(document).ready(function(){
                                                     $("#notificationList").append(txt1);
                                                 }
 
-                        }
+             }
 
-               if(message.type === 'JOIN') {
+             if(message.type === 'JOIN') {
                     $("#onlineDot"+id).removeAttr("style");
-               }
-               if(message.type === 'CHAT') {
-                                receiver=$("#"+message.sender).getName;
-                              if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
-                                                                               if(message.type === 'CHAT') {
+             }
+             if(message.type === 'CHAT') {
+                            if((message.sender).startsWith("fc")){
+                                 return true;
+                            }
+                            else{
+                                receiver=message.sender;
+                            }
+                            if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
                                                                                      var messageElement = document.createElement('li');
-    //                                                                                 alert("chat");
                                                                                      messageElement.classList.add('chat-message');
                                                                                      var avatarElement = document.createElement('i');
                                                                                      avatarElement.setAttribute("class", "avtr");
@@ -390,7 +392,6 @@ $(document).ready(function(){
                                                                                                 url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                                 success: function (data) {
                                                                                                                 sender=data;
-                                                                                                                alert(sender);
                                                                                                                 var avatarText = document.createTextNode(sender[0]);
                                                                                                                 avatarElement.appendChild(avatarText);
                                                                                                                 avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -415,7 +416,6 @@ $(document).ready(function(){
                                                                                                url: 'http://localhost:8080/student/getName/'+message.sender,
                                                                                                success: function (data) {
                                                                                                           sender=data;
-                                                                                                            alert(sender);
                                                                                                  var avatarText = document.createTextNode(sender[0]);
                                                                                                  avatarElement.appendChild(avatarText);
                                                                                                  avatarElement.style['background-color'] = getAvatarColor(sender);
@@ -434,46 +434,46 @@ $(document).ready(function(){
                                                                                                }
                                                                                         });
                                                                                      }
-                                                                                                                                                                }
-                              }
 
-               }
-        }
-  function send(){
-  //        alert(studId);
-          var messageContent = $('#message'+studId).val();
-  //        alert(messageContent);
-          alert("receiver" +studId);
-          if(messageContent && stompClient) {
-                              var chatMessage = {
-                                          sender: username,
-                                          content: messageContent,
-                                          receiver:studId,
-                                          type: 'CHAT'
-                              };
-                              stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                              var msgData = {
-                                            'sender':username,
-                                            'receiver': studId,
-                                            'message':messageContent
-                              };
-                              var aJson = JSON.stringify(msgData);
-                              $.ajax({
-                                                   type: "POST",
-                                                   url: 'http://localhost:8080/teacher/insertMessage',
-                                                    headers: {
-                                                             "Content-Type": "application/json"
-                                                    },
-                                                    data:aJson,
-                                                   success: function (data) {
+                            }
 
-                                                   }
-                              });
+             }
+    }
 
-                              $('#message'+studId).val('');
-          }
-          event.preventDefault();
-      }
+    function send(){
+            var messageContent = $('#message'+studId).val();
+            alert("receiver" +studId);
+            if(messageContent && stompClient) {
+                                var chatMessage = {
+                                            sender: username,
+                                            content: messageContent,
+                                            receiver:studId,
+                                            type: 'CHAT'
+                                };
+                                stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                var msgData = {
+                                              'sender':username,
+                                              'receiver': studId,
+                                              'message':messageContent
+                                };
+                                var aJson = JSON.stringify(msgData);
+                                $.ajax({
+                                                     type: "POST",
+                                                     url: 'http://localhost:8080/teacher/insertMessage',
+                                                      headers: {
+                                                               "Content-Type": "application/json"
+                                                      },
+                                                      data:aJson,
+                                                     success: function (data) {
+
+                                                     }
+                                });
+
+                                $('#message'+studId).val('');
+            }
+            event.preventDefault();
+    }
+
 
     function getAvatarColor(messageSender) {
                 var hash = 0;

@@ -12,37 +12,39 @@ $(document).ready(function(){
                                success: function (data) {
 
                                             $("#teacher_name").text(data);
+                                            refresh();
                                }
                     });
 
     }
     $.ajax({
-                                                        type : "POST",
-                                                        url :'http://localhost:8080/teacher/getNotification/'+teacherId,
-                                                        success:function(data){
-                                                                                        len = data.length;
-                                                                                        var i;
-                                                                                        var txt='';
-                                                                                        var req1='';
-
-                                                                                        if(len > 0){
-                                                                                                        for(i=0;i<len;i++){
-                                                                                                        req1=data[i];
-                                                                                                        txt += "<li><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for help</a></li>";
-                                                                                                    }
-                                                                                                    if(txt!=''){
-                                                                                                        $("#notificationList").append(txt);
-                                                                                                    }
-                                                                                        }
-                                                        }
-        });
-        $.ajax({
-                                                        type:'POST',
-                                                        url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
-                                                        success:function(data){
-                                                            $("#numNotifications").text(data);
-                                                        }
-        });
+                                                                                  type : "POST",
+                                                                                  url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                  success:function(data){
+                                                                                          len = data.length;
+                                                                                          var i;
+                                                                                          var txt='';
+                                                                                          $("#notificationList li").remove();
+                                                                                          if(len > 0){
+                                                                                                          for(i=0;i<len;i++){
+                                                                                                              arr=data[i].split(',');
+                                                                                                              req1=arr[0];
+                                                                                                              t1=arr[1];
+                                                                                                              txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                          }
+                                                                                                          if(txt!=''){
+                                                                                                              $("#notificationList").append(txt);
+                                                                                                          }
+                                                                                          }
+                                                                                  }
+    });
+    $.ajax({
+                                                                                  type:'POST',
+                                                                                  url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                  success:function(data){
+                                                                                      $("#numNotifications").text(data);
+                                                                                  }
+    });
     $("#adminLogout").click(function(){
             $.removeCookie('id');
             $.removeCookie('subject');
@@ -113,13 +115,11 @@ $(document).ready(function(){
     });
     $("#btnInsertSem").click(function(){
         var sem=$("#txtSem").val();
-                    if(sem=='')
-                    {
+        if(sem==''){
                           $('#error_sem').slideDown();
                           $('#error_sem').html('Please provide valid semester');
-                    }
-                    else
-                    {
+        }
+        else{
                           $('#error_sem').slideUp();
                           status = 0;
                           var semData = {
@@ -164,11 +164,9 @@ $(document).ready(function(){
 
                           });
 
-                    }
-        });
-
-
-        $('#listSemester').on( 'click', 'tr', function () {
+        }
+    });//close of insert button click
+    $('#listSemester').on( 'click', 'tr', function () {
 
                                         if ( $(this).hasClass('highlighted') )
              							{
@@ -182,24 +180,19 @@ $(document).ready(function(){
              							var tableData = $(this).children("td").map(function() {
              														                return $(this).text();
              							}).get();
-//                                        semVal=tableData[1];
                                         $("#txtSem").val(tableData[1]);
                                         semId=tableData[0];
                                         $("#btnInsertSem").prop('disabled',true);
                                         $("#btnUpdateSem").prop('disabled',false);
                                         $("#btnDeleteSem").prop('disabled',false);
-
-                            });
-
-          $("#btnUpdateSem").click(function(){
+    });
+    $("#btnUpdateSem").click(function(){
                   var sem=$("#txtSem").val();
-                              if(sem=='')
-                              {
+                  if(sem==''){
                                     $('#error_sem').slideDown();
                                     $('#error_sem').html('Please provide valid semester');
-                              }
-                              else
-                              {
+                  }
+                  else{
                                     $('#error_sem').slideUp();
                                     status = 0;
                                     var semData = {
@@ -246,10 +239,10 @@ $(document).ready(function(){
 
                                     });
 
-                              }
-                  });
+                  }
+    });
 
-          $("#btnDeleteSem").click(function(){
+    $("#btnDeleteSem").click(function(){
                 $.ajax({
                            type: "POST",
                            url: 'http://localhost:8080/semester/delete/'+semId,
@@ -284,6 +277,56 @@ $(document).ready(function(){
                            }
                 });
 
-          });
+    });
+    function refresh(){
+                        setTimeout(function(){
+                         $.ajax({
+                                                                             type : "POST",
+                                                                             url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                             success:function(data){
+                                                                                     len = data.length;
+                                                                                     var i;
+                                                                                     var txt='';
+                                                                                     $("#notificationList li").remove();
+                                                                                     if(len > 0){
+                                                                                                     for(i=0;i<len;i++){
+                                                                                                         arr=data[i].split(',');
+                                                                                                         req1=arr[0];
+                                                                                                         t1=arr[1];
+                                                                                                         txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                     }
+                                                                                                     if(txt!=''){
+                                                                                                         $("#notificationList").append(txt);
+                                                                                                     }
+                                                                                     }
+                                                                             }
+                         });
+                         $.ajax({
+                                                                             type:'POST',
+                                                                             url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                             success:function(data){
+                                                                                 $("#numNotifications").text(data);
+                                                                             }
+                         });
+                         refresh();
+                         },5000);
+    }
+    $('#notificationList').on( 'click', 'li', function(){
+                                   var n=$(this).attr('name');
+                                   $.ajax({
+                                                                    url: 'http://localhost:8080/teacher/updateNotification/'+t1,
+                                                                    success: function (data) {
+                                                                        $.ajax({
+                                                                            type:'POST',
+                                                                            url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                            success:function(data){
+                                                                                $("#numNotifications").text(data);
+                                                                            }
+                                                                        });
+                                                                    }
+                                   });
+
+
+    });
 
 });

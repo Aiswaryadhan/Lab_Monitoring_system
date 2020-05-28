@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface StudentRepository extends CrudRepository<Student,String> {
@@ -95,4 +96,19 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             nativeQuery = true)
     List<String> getAllSites(String loggedInTeacherSubject);
 
+    @Query(
+            value = "select sender,timestamp from notification where receiver=:studId and type='response' order by timestamp desc",
+            nativeQuery = true)
+    List<String> getNotifications(String studId);
+    @Query(
+            value = "select count(*) from notification where receiver=:studId and type='response' and viewedTime is NULL",
+            nativeQuery = true)
+    int getNotificationCount(String studId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "update notification set viewedTime=NOW() where timestamp=:t1",
+            nativeQuery = true)
+    void updateNotification(Timestamp t1);
 }

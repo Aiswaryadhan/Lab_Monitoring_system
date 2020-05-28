@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -217,5 +218,9 @@ public class TeacherService {
 
     public int getNotificationCount(String username) {
         return teacherRepository.getNotificationCount(username);
+    }
+
+    public void updateNotification(Timestamp t1) {
+        teacherRepository.updateNotification(t1);
     }
 }

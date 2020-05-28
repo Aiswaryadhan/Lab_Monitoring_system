@@ -37,7 +37,7 @@ public class ActivemqConsumerService {
 
     @PostConstruct
     public void init(){
-        viewerFrame.init();
+//        viewerFrame.init();
     }
 
     @JmsListener(destination = "image_queue", containerFactory = "activeMQContainerFactory")

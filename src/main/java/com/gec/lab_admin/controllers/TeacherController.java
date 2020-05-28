@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -367,6 +368,11 @@ public class TeacherController {
     public List<String> getNotification(@PathVariable String username){
         logger.info("Get Notifications");
         return teacherService.getNotification(username);
+    }
+    @RequestMapping("/teacher/updateNotification/{t1}")
+    public void updateNotification(@PathVariable Timestamp t1){
+        logger.info("Get Notifications");
+        teacherService.updateNotification(t1);
     }
     @RequestMapping("/teacher/getNotificationCount/{username}")
     public int getNotificationCount(@PathVariable String username){

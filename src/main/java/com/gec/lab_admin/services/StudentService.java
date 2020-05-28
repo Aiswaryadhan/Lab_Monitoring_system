@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -121,5 +122,17 @@ public class StudentService {
 
     public List<String> getAllSites(String loggedInTeacherSubject) {
         return studentRepository.getAllSites( loggedInTeacherSubject);
+    }
+
+    public List<String> getNotification(String studId) {
+        return studentRepository.getNotifications(studId);
+    }
+
+    public int getNotificationCount(String studId) {
+        return studentRepository.getNotificationCount(studId);
+    }
+
+    public void updateNotification(Timestamp t1) {
+        studentRepository.updateNotification(t1);
     }
 }
