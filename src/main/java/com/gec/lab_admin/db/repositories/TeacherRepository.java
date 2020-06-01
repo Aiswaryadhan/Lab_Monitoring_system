@@ -204,4 +204,9 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "update notification set viewedTime=NOW() where timestamp=:t1",
             nativeQuery = true)
     void updateNotification(Timestamp t1);
+
+    @Query(
+            value = "select st.id as student_id, st.name as subject_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
+            nativeQuery = true)
+    List<String> getStudInfo(String sub);
 }

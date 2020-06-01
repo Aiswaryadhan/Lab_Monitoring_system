@@ -223,4 +223,8 @@ public class TeacherService {
     public void updateNotification(Timestamp t1) {
         teacherRepository.updateNotification(t1);
     }
+
+    public List<String> getStudInfo(String sub) {
+        return teacherRepository.getStudInfo(sub);
+    }
 }

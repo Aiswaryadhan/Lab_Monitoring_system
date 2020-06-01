@@ -1,10 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.db.models.*;
-import com.gec.lab_admin.services.ActivemqProducerService;
-import com.gec.lab_admin.services.AttendanceService;
-import com.gec.lab_admin.services.SitesPublisher;
-import com.gec.lab_admin.services.TeacherService;
+import com.gec.lab_admin.services.*;
 import com.gec.lab_admin.utilities.ZipUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +43,8 @@ public class TeacherController {
 
     SitesPublisher sitesPublisher=new SitesPublisher();
 
+    MonitorStudentPublisher monitorStudentPublisher=new MonitorStudentPublisher();
+
     ActivemqProducerService activemqProducerService=new ActivemqProducerService();
 
     @Autowired
@@ -68,16 +67,9 @@ public class TeacherController {
                 System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("success");
-//              List<String> reqList = new ArrayList<String>();
                 List<String> reqList = teacherService.getAllSites(LOGGED_IN_TEACHER_SUBJECT);
-//                Iterator<String> s1Iterator = reqList.iterator();
-//                logger.info("block");
                 logger.info(String.valueOf(reqList));
-//                while (s1Iterator.hasNext()) {
-//                    logger.info(s1Iterator.next());
-//                    logger.info("Sites");
-                    sitesPublisher.processMessage(reqList);
-//                }
+                sitesPublisher.processMessage(reqList);
 
                 return "success"+LOGGED_IN_TEACHER_ADMIN;
             }
@@ -378,5 +370,14 @@ public class TeacherController {
     public int getNotificationCount(@PathVariable String username){
         logger.info("Get Notification Count");
         return teacherService.getNotificationCount(username);
+    }
+    @RequestMapping("/teacher/getStudInfo/{sub}")
+    public List<String> getStudInfo(@PathVariable String sub){
+        logger.info("Getting student info");
+        return teacherService.getStudInfo(sub);
+    }
+    @RequestMapping("/teacher/monitorStudent/{stId}")
+    public void sendId(@PathVariable String stId) throws Exception {
+        monitorStudentPublisher.processMonitorMessage(stId);
     }
 }

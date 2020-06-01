@@ -85,6 +85,12 @@ public class WebController {
         return "teacher_files";
     }
 
+    @RequestMapping("/teacher_exam_mode")
+    //@ResponseBody
+    public String teacherExamMode() {
+        return "teacher_exam_mode";
+    }
+
     @RequestMapping("/semesters")
     //@ResponseBody
     public String semesterInsertion() {

@@ -1896,4 +1896,14 @@ ul.activity-timeline > li {
   top:30px;
   overflow:auto
 }
+.grid-container {
+  display: grid;
+  grid-gap: 5px 5px;
+  grid-template-columns: auto auto auto auto auto auto;
+}
+.grid-item {
+  padding: 10px;
+  text-align: center;
+}
+
 /*# sourceMappingURL=main.css.map */

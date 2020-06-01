@@ -9,6 +9,7 @@ $(document).ready(function(){
     var req;
     var t1;
     var req1='';
+    var requester;
     $('#mainDiv').addClass('hidden');
 
     if ($.cookie("id") != null && $.cookie("subject") != null) {
@@ -23,6 +24,7 @@ $(document).ready(function(){
                                             teacherName=data;
                                             username = teacherId;
                                             connect();
+                                            refresh();
                                             $.ajax({
                                                      type: "POST",
                                                      url: "http://localhost:8080/teacher/getAllStudId/"+sub,
@@ -119,8 +121,15 @@ $(document).ready(function(){
                                                                                                         for(i=0;i<len;i++){
                                                                                                         arr=data[i].split(',');
                                                                                                         req1=arr[0];
+                                                                                                        $.ajax({
+                                                                                                                   type: "POST",
+                                                                                                                   url: 'http://localhost:8080/student/getName/'+req1,
+                                                                                                                   success: function (data) {
+                                                                                                                                                requester=data;
+                                                                                                                   }
+                                                                                                        });
                                                                                                         t1=arr[1];
-                                                                                                        txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                        txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
                                                                                                     }
                                                                                                     if(txt!=''){
                                                                                                         $("#notificationList").append(txt);
@@ -318,10 +327,14 @@ $(document).ready(function(){
     }
     $('#notificationList').on( 'click', 'li', function(){
                var n=$(this).attr('name');
+               var ar1=$(this).text().split('@');
+               var dt=ar1[1];
+               req=n.substring(0, 7);
+               var date1=dt.trim();
                $("#btnAccess"+n).attr("disabled", false);
                $("#btnAccess"+n).click(access);
                $.ajax({
-                                                url: 'http://localhost:8080/teacher/updateNotification/'+t1,
+                                                url: 'http://localhost:8080/teacher/updateNotification/'+date1,
                                                 success: function (data) {
                                                     $.ajax({
                                                         type:'POST',
@@ -347,26 +360,22 @@ $(document).ready(function(){
              var txt1="";
              var requester;
              if(message.type === 'REQUEST') {
-                                                req=message.sender;
-                                                txt1 += "<li name=\""+req+"\"><a class=\"notification-item\" href=\"#\"><span class=\"dot bg-warning\"></span> "+req+" has asked for screen sharing</a></li>";
-                                                $.ajax({
-                                                         type: "POST",
-                                                         url: 'http://localhost:8080/student/getName/'+message.sender,
-                                                         success: function (data) {
-                                                                                  requester=data;
-                                                                                  txt = "<li><a href=\"teacherMonitor\" class=\"notification-item\"><span class=\"dot bg-warning\">"+requester+" has asked for help</span></a></li>";
-                                                                                  $("#btnAccess"+message.sender).attr("disabled", false);
-                                                                                  $("#btnAccess"+message.sender).click(access);
-                                                                                  return $.growl.automator_green({
-                                                                                                                     title: "Student Request",
-                                                                                                                     message: " "+requester+" has requested for help..."
-                                                                                  });
 
-                                                         }
-                                                });
-                                                if(txt1!=''){
-                                                    $("#notificationList").append(txt1);
-                                                }
+                                                         req=message.sender;
+                                                         $.ajax({
+                                                                  type: "POST",
+                                                                  url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                  success: function (data) {
+                                                                                           requester=data;
+                                                                                           $("#btnAccess"+message.sender).attr("disabled", false);
+                                                                                           $("#btnAccess"+message.sender).click(access);
+                                                                                           return $.growl.automator_green({
+                                                                                                                              title: "Student Request",
+                                                                                                                              message: " "+requester+" has requested for help..."
+                                                                                           });
+
+                                                                  }
+                                                         });
 
              }
 
@@ -439,7 +448,46 @@ $(document).ready(function(){
 
              }
     }
-
+    function refresh(){
+                                setTimeout(function(){
+                                 $.ajax({
+                                                                                     type : "POST",
+                                                                                     url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                     success:function(data){
+                                                                                             len = data.length;
+                                                                                             var i;
+                                                                                             var txt='';
+                                                                                             $("#notificationList li").remove();
+                                                                                             if(len > 0){
+                                                                                                             for(i=0;i<len;i++){
+                                                                                                                 arr=data[i].split(',');
+                                                                                                                 req1=arr[0];
+                                                                                                                 $.ajax({
+                                                                                                                               type: "POST",
+                                                                                                                               url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                                                               success: function (data) {
+                                                                                                                                                            requester=data;
+                                                                                                                               }
+                                                                                                                 });
+                                                                                                                 t1=arr[1];
+                                                                                                                 txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                             }
+                                                                                                             if(txt!=''){
+                                                                                                                 $("#notificationList").append(txt);
+                                                                                                             }
+                                                                                             }
+                                                                                     }
+                                 });
+                                 $.ajax({
+                                                                                     type:'POST',
+                                                                                     url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                     success:function(data){
+                                                                                         $("#numNotifications").text(data);
+                                                                                     }
+                                 });
+                                 refresh();
+                                 },5000);
+    }
     function send(){
             var messageContent = $('#message'+studId).val();
             alert("receiver" +studId);

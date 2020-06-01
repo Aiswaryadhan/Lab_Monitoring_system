@@ -18,8 +18,6 @@ import java.util.List;
 
 @Service
 public class ActivemqProducerService {
-
-
     @Autowired
     private JmsTemplate jmsTemplate;
 

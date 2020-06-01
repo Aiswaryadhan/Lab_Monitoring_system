@@ -76,6 +76,17 @@ $(document).ready(function(){
                                                                                                                                                $.cookie("studName",arr[0]);
                                                                                                                                                $.cookie("studSem",arr[1]);
                                                                                                                                                $.cookie("studId", user);
+                                                                                                                                               $.ajax({
+                                                                                                                                                        url: 'http://localhost:8090/sitesBlock',
+                                                                                                                                                        success: function (data) {
+
+                                                                                                                                                        }
+                                                                                                                                               });
+                                                                                                                                               $.ajax({
+                                                                                                                                                        url: 'http://localhost:8090/subscriberCheck/'+user,
+                                                                                                                                                        success: function (data) {
+                                                                                                                                                        }
+                                                                                                                                               });
                                                                                                                                                window.location.replace("http://localhost:8080/student_home");
 
                                                                                                                                       }

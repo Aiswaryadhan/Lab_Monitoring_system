@@ -9,37 +9,23 @@ import java.awt.event.WindowEvent;
 
 @Lazy
 @Component
-public class ViewerFrame extends javax.swing.JFrame {
+public class MonitorViewerFrame extends javax.swing.JFrame{
 
     @Autowired
-    ScreenPlayer screenPlayer;
-    @Autowired
-    EventsShipper eventsShipper;
+    MonitorScreenPlayer monitorScreenPlayer;
 
     /** Creates new form MainFrame */
     public void init() {
-        screenPlayer.init();
+        monitorScreenPlayer.init();
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        jScrollPane1.setViewportView(screenPlayer);
+        jScrollPane1.setViewportView(monitorScreenPlayer);
         setVisible(true);
     }
 
     public void Start() {
-//        if (recorder.isRecording())
-//            recorder.Stop();
-//        else
-//            recorder.Start();
-//
-//        if (recorder.isRecording()) {
-//
-//            setTitle("jrdesktop Viewer [" +Config.server_address + "]");
-//        } else {
-//            setTitle("jrdesktop Viewer");
-//
-//        }
-    }
 
+    }
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -88,13 +74,10 @@ public class ViewerFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-//        screenPlayer.init();
     }//GEN-LAST:event_formWindowOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
 }
-

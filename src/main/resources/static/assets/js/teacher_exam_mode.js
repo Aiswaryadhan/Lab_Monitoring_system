@@ -2,6 +2,7 @@ $(document).ready(function(){
      var teacherId;
      var sub;
      var requester;
+     var stId;
      if ($.cookie("id") != null && $.cookie("subject") != null) {
                      teacherId =$.cookie("id");
                      sub= $.cookie("subject");
@@ -52,41 +53,48 @@ $(document).ready(function(){
                                                                   }
      });
      $.ajax({
-                     type: "POST",
-                     url: 'http://localhost:8080/teacher/getTeacherStudNo/'+sub,
-                     success: function (data) {
-                                           $("#studNo").text(data);
-                     }
-     });
-     $.ajax({
-                         type: "POST",
-                         url: 'http://localhost:8080/teacher/getTime',
-                         success: function (data) {
-                                               $("#txtTime").text(data);
-                         }
-     });
-     $.ajax({
-                         type: "POST",
-                         url: 'http://localhost:8080/teacher/getFilesNum/'+sub,
-                         success: function (data) {
-                                               $("#fileNum").text(data);
-                         }
-     });
-     $.ajax({
-                     type: "POST",
-                     url: 'http://localhost:8080/teacher/getSubName/'+sub,
-                     success: function (data) {
-                                           $("#txtSubject").text(data);
-                     }
-     });
-     $.ajax({
-                     type: "POST",
-                     url: 'http://localhost:8080/teacher/getOnlineStud',
-                     success: function (data) {
-                                          $("#onlineStud").text(data);
-                     }
-     });
+                                                                      type:'POST',
+                                                                      url:'http://localhost:8080/teacher/getStudInfo/'+sub,
+                                                                      success:function(data){
+                                                                                var len=data.length;
+//                                                                                var row=len/4;
+//                                                                                var i;
+                                                                                var txtTable='';
+                                                                                for(j=0;j<len;j++){
+                                                                                    arr=data[j].split(',');
+                                                                                    stId=arr[0];
+                                                                                    var stName=arr[1];
+//                                                                                    alert(stId);
+                                                                                    txtTable +="<div id=\"div1\" class=\"grid-item\" name=\""+stId+"\"><p>Roll No:"+(j+1)+"</p><button name=\"studBtn\" type=\"button\" class=\"btn btn-success\" style=\"height:50px;width:125px\" id=\""+stId+"\"><i class=\"fa fa-check-circle\"></i>"+stName+"</button></div>"
 
+                                                                                }
+                                                                                if(txtTable!=''){
+
+                                                                                             $("#studentTable").append(txtTable);
+
+                                                                                }
+                                                                      }
+     });
+     $(document).on("click", "div.grid-item" , function() {
+                stId=$(this).attr('name');
+//                alert(stId);
+                $.ajax({
+                                          url: 'http://localhost:8080/monitorStart',
+                                          success: function (data) {
+                                          }
+                });
+                $.ajax({
+                          type: "POST",
+                          url: 'http://localhost:8080/teacher/monitorStudent/'+stId,
+                          success: function (data) {
+                          }
+                });
+
+     });
+//     function sendId(){
+//        alert("send");
+//
+//     }
      $("#teacherLogout").click(function(){
              $.removeCookie('id');
              $.removeCookie('subject');

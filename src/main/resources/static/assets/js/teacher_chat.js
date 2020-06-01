@@ -9,6 +9,7 @@ $(document).ready(function(){
     var req;
     var t1;
     var req1='';
+    var requester;
     $('#mainDiv').addClass('hidden');
 
     if ($.cookie("id") != null && $.cookie("subject") != null) {
@@ -120,8 +121,15 @@ $(document).ready(function(){
                                                                                                     for(i=0;i<len;i++){
                                                                                                     arr=data[i].split(',');
                                                                                                     req1=arr[0];
+                                                                                                    $.ajax({
+                                                                                                                 type: "POST",
+                                                                                                                 url: 'http://localhost:8080/student/getName/'+req1,
+                                                                                                                 success: function (data) {
+                                                                                                                               requester=data;
+                                                                                                                 }
+                                                                                                    });
                                                                                                     t1=arr[1];
-                                                                                                    txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                    txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
                                                                                                 }
                                                                                                 if(txt!=''){
                                                                                                     $("#notificationList").append(txt);
@@ -337,7 +345,7 @@ $(document).ready(function(){
            $("#btnAccess"+n).attr("disabled", false);
            $("#btnAccess"+n).click(access);
            $.ajax({
-                                            url: 'http://localhost:8080/teacher/updateNotification/'+dt,
+                                            url: 'http://localhost:8080/teacher/updateNotification/'+date1,
                                             success: function (data) {
                                                 $.ajax({
                                                     type:'POST',
@@ -464,8 +472,15 @@ $(document).ready(function(){
                                                                                                          for(i=0;i<len;i++){
                                                                                                              arr=data[i].split(',');
                                                                                                              req1=arr[0];
+                                                                                                             $.ajax({
+                                                                                                                           type: "POST",
+                                                                                                                           url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                                                           success: function (data) {
+                                                                                                                                                        requester=data;
+                                                                                                                           }
+                                                                                                             });
                                                                                                              t1=arr[1];
-                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time" +t1+"</p></li>";
+                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
                                                                                                          }
                                                                                                          if(txt!=''){
                                                                                                              $("#notificationList").append(txt);
@@ -529,8 +544,15 @@ $(document).ready(function(){
                                                                                                          for(i=0;i<len;i++){
                                                                                                              arr=data[i].split(',');
                                                                                                              req1=arr[0];
+                                                                                                             $.ajax({
+                                                                                                                        type: "POST",
+                                                                                                                        url: 'http://localhost:8080/student/getName/'+req1,
+                                                                                                                        success: function (data) {
+                                                                                                                                                      requester=data;
+                                                                                                                        }
+                                                                                                             });
                                                                                                              t1=arr[1];
-                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+req1+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
                                                                                                          }
                                                                                                          if(txt!=''){
                                                                                                              $("#notificationList").append(txt);

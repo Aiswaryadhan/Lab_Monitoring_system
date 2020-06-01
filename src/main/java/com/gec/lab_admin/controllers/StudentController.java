@@ -40,11 +40,11 @@ public class StudentController {
                 logger.info("success");
                 studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
                 studentService.add(student.getId());
-                List<String> s1= studentService.getAllSites(TeacherController.LOGGED_IN_TEACHER_SUBJECT);
-                Iterator<String> s1Iterator = s1.iterator();
-                while (s1Iterator.hasNext()) {
-                    studentService.blockSites(s1Iterator.next());
-                }
+//                List<String> s1= studentService.getAllSites(TeacherController.LOGGED_IN_TEACHER_SUBJECT);
+//                Iterator<String> s1Iterator = s1.iterator();
+//                while (s1Iterator.hasNext()) {
+//                    studentService.blockSites(s1Iterator.next());
+//                }
                 System.out.println(loggedInStudent.get());
                 String name=loggedInStudent.get().getName();
                 int sem=loggedInStudent.get().getSem();

@@ -27,6 +27,12 @@ public class ActivemqConsumerService {
     @Autowired
     ViewerFrame viewerFrame;
 
+    @Autowired
+    MonitorScreenPlayer monitorScreenPlayer;
+
+    @Autowired
+    MonitorViewerFrame monitorViewerFrame;
+
     Logger logger = LoggerFactory.getLogger(com.gec.lab_admin.services.ActivemqConsumerService.class);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(com.gec.lab_admin.services.ActivemqConsumerService.class);
@@ -37,7 +43,6 @@ public class ActivemqConsumerService {
 
     @PostConstruct
     public void init(){
-//        viewerFrame.init();
     }
 
     @JmsListener(destination = "image_queue", containerFactory = "activeMQContainerFactory")
@@ -57,6 +62,26 @@ public class ActivemqConsumerService {
                     if (obj instanceof byte[]) {
                         logger.info("found buffered stream image");
                         screenPlayer.updateScreen((byte[]) obj);
+                    }
+                }
+            }
+        }
+    }
+
+    @JmsListener(destination = "monitor_image_queue", containerFactory = "activeMQContainerFactory")
+    public void processImageMessage(Message message) throws Exception {
+        if (message instanceof BytesMessage) {
+            BytesMessage bytesMessage = (BytesMessage) message;
+            int messageLength = new Long(bytesMessage.getBodyLength()).intValue();
+            byte[] dataBytes = new byte[messageLength];
+            bytesMessage.readBytes(dataBytes, messageLength);
+
+            Object object = ZipUtility.byteArrayToObject(dataBytes);
+            if(object instanceof ArrayList) {
+                for ( Object obj : (ArrayList) object ) {
+                    if (obj instanceof byte[]) {
+                        logger.info("found buffered stream imagess");
+                        monitorScreenPlayer.updateScreen((byte[]) obj);
                     }
                 }
             }
