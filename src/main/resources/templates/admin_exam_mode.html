@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Home</title>
+    <title>Screen Monitoring</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -56,7 +56,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="assets/img/user-medium.png" class="img-circle" alt="Avatar"> <span id="teacher_name"></span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li id="teacherLogout"><a href="login"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                            <li id="adminLogout"><a href="login"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                         </ul>
                     </li>
                     <!-- <li>
@@ -72,17 +72,17 @@
         <div class="sidebar-scroll">
             <nav>
                 <ul class="nav">
-                    <li><a href="teacherDashboard" class="active"><i class="lnr lnr-home"></i> <span>Home</span></a></li>
+                    <li><a href="teacherDashboard" class=""><i class="lnr lnr-home"></i> <span>Home</span></a></li>
                     <li><a href="teacher_attendance" class=""><i class="lnr lnr-chart-bars"></i> <span>Attendance</span></a></li>
                     <li><a href="teacherMonitor" class=""><i class="lnr lnr-bubble"></i> <span>Student Doubts</span></a></li>
-                    <li><a href="teacher_exam_mode" class=""><i class="lnr lnr-screen"></i> <span>Screen monitoring</span></a></li>
+                    <li><a href="teacher_exam_mode" class="active"><i class="lnr lnr-screen"></i> <span>Screen monitoring</span></a></li>
                     <li><a href="teacher_files_received" class=""><i class="lnr lnr-inbox"></i> <span>Student Files</span></a></li>
                     <li><a href="teacher_blocked" class=""><i class="lnr lnr-unlink"></i> <span>Block Web Sites</span></a></li>
 
-<!--                    <li><a href="#" class=""><i class="lnr lnr-inbox"></i> <span>Task Evaluation</span></a></li>-->
+                    <!--                    <li><a href="#" class=""><i class="lnr lnr-inbox"></i> <span>Task Evaluation</span></a></li>-->
 
 
-<!--                    <li><a href="#" class=""><i class="lnr lnr-inbox"></i> <span>Task Evaluation</span></a></li>-->
+                    <!--                    <li><a href="#" class=""><i class="lnr lnr-inbox"></i> <span>Task Evaluation</span></a></li>-->
 
 
                 </ul>
@@ -97,54 +97,16 @@
             <div class="container-fluid">
                 <!-- OVERVIEW -->
                 <div class="panel panel-headline">
-                    <div class="panel-heading">
-                        <h6 class="panel-title">Welcome to <b><span id="txtSubject"></span></b> Lab</h6>
-                        <p class="panel-subtitle" id="txtTime"></p>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="metric">
-                                    <span class="icon"><i class="lnr lnr-user"></i></span>
-                                    <p>
-                                        <span class="number" id="studNo"></span>
-                                        <span class="title">Total Students</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="metric">
-                                    <span class="icon"><i class="lnr lnr-screen"></i></span>
-                                    <p>
-                                        <span class="number" id="onlineStud"></span>
-                                        <span class="title">Online Students</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="metric">
-                                    <span class="icon"><i class="lnr lnr-download"></i></span>
-                                    <p>
-                                        <span class="number" id="fileNum"></span>
-                                        <span class="title">Files Received</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
 
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="metric">
-                                    <p>
-                                        <button id="btnPublish">Block Sites Now</button>
-                                        <span class="title"></span>
-                                    </p>
+                            <div class="col-md-12">
+                                <div class="grid-container" id="studentTable">
+                                    <!--                                    <table id="studentTable" >-->
+                                    <!--                                    </table>-->
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
@@ -152,18 +114,18 @@
                     <!-- END OVERVIEW -->
 
 
+                </div>
             </div>
         </div>
+        <!-- END MAIN CONTENT -->
     </div>
-    <!-- END MAIN CONTENT -->
-</div>
-<!-- END MAIN -->
-<div class="clearfix"></div>
-<!--<footer>-->
-<!--    <div class="container-fluid">-->
-<!--        <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>-->
-<!--    </div>-->
-<!--</footer>-->
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+    <!--<footer>-->
+    <!--    <div class="container-fluid">-->
+    <!--        <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>-->
+    <!--    </div>-->
+    <!--</footer>-->
 </div>
 <!-- END WRAPPER -->
 <!-- Javascript -->
@@ -174,7 +136,7 @@
 <script src="assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="assets/scripts/klorofil-common.js"></script>
 <script type = "text/javascript" src = "http://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
-<script src="assets/js/teacher_dashboard.js"></script>
+<script src="assets/js/admin_exam_mode.js"></script>
 </body>
 
 </html>

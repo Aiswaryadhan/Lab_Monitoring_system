@@ -79,7 +79,7 @@ $(document).ready(function(){
                                                                                                                                                $.ajax({
                                                                                                                                                         url: 'http://localhost:8090/sitesBlock',
                                                                                                                                                         success: function (data) {
-
+//                                                                                                                                                            alert("sitesBlock");
                                                                                                                                                         }
                                                                                                                                                });
                                                                                                                                                $.ajax({

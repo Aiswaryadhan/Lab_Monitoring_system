@@ -67,10 +67,6 @@ public class TeacherController {
                 System.out.println(LOGGED_IN_TEACHER_NAME);
                 teacherService.getAttendanceRecords(subjectId);
                 logger.info("success");
-                List<String> reqList = teacherService.getAllSites(LOGGED_IN_TEACHER_SUBJECT);
-                logger.info(String.valueOf(reqList));
-                sitesPublisher.processMessage(reqList);
-
                 return "success"+LOGGED_IN_TEACHER_ADMIN;
             }
             else{
@@ -100,6 +96,13 @@ public class TeacherController {
 //    public List<String> generateSubject(@PathVariable String teacher_id) {
 //        return teacherService.getSubjects(teacher_id);
 //    }
+
+    @RequestMapping("/teacher/blockSites")
+    public void blockSites() throws Exception {
+        List<String> reqList = teacherService.getAllSites(LOGGED_IN_TEACHER_SUBJECT);
+        logger.info(String.valueOf(reqList));
+        sitesPublisher.processMessage(reqList);
+    }
 
     @RequestMapping("/teacher/id/{teacher_id}")
     public List<String> generateSubject(@PathVariable String teacher_id) {
