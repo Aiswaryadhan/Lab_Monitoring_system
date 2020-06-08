@@ -17,6 +17,9 @@ $(document).ready(function(){
                      });
 
      }
+     else{
+                 window.location.replace("http://localhost:8080/login");
+          }
      $.ajax({
                                                                   type : "POST",
                                                                   url :'http://localhost:8080/teacher/getNotification/'+teacherId,

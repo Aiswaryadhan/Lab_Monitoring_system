@@ -1,4 +1,20 @@
 $(document).ready(function(){
+            var ip;
+//            getIp();
+//            function getIp() {
+//                    $.getJSON("http://jsonip.com?callback=?", DisplayIP);
+//            }
+//            function DisplayIP(response) {
+//                    ip=response.ip;
+//                    alert(ip);
+//            }
+            $.ajax({
+                      type: "GET",
+                      url: 'http://localhost:8090/findIpAddress',
+                      success: function (data) {
+                        ip=data;
+                      }
+            });
             $("#user").blur(function(){
                 var user = $('#user').val();
                 if(user=='')
@@ -36,6 +52,7 @@ $(document).ready(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
                var sub;
+
                 $.ajax({
                         type : "POST",
                         url : 'http://localhost:8080/student/getTeacherName',
@@ -62,15 +79,23 @@ $(document).ready(function(){
                                                                                                                  'password': pwd
                                                                                                      };
                                                                                                      var aJson = JSON.stringify(logCred);
+                                                                                                     //
                                                                                                      $.ajax({
                                                                                                                 type : "POST",
-                                                                                                                url : 'http://localhost:8080/student/login',
+                                                                                                                url : 'http://localhost:8080/student/login/'+ip,
                                                                                                                 headers : {
                                                                                                                               "Content-Type" : "application/json"
                                                                                                                 },
                                                                                                                 data:aJson,
                                                                                                                 success : function(data) {
-                                                                                                                                      if(data != "invalid"){
+                                                                                                                                      if(data=="multipleIp"){
+                                                                                                                                        alert("already logged In");
+                                                                                                                                                                $("#user").prop('disabled',true);
+                                                                                                                                                                $("#pass").prop('disabled',true);
+                                                                                                                                                                $("#submit").prop('disabled',true);
+
+                                                                                                                                      }
+                                                                                                                                      else if(data != "invalid"){
                                                                                                                                               $('#error_cred').slideUp();
                                                                                                                                                var arr=data.split(",");
                                                                                                                                                $.cookie("studName",arr[0]);
@@ -79,7 +104,6 @@ $(document).ready(function(){
                                                                                                                                                $.ajax({
                                                                                                                                                         url: 'http://localhost:8090/sitesBlock',
                                                                                                                                                         success: function (data) {
-//                                                                                                                                                            alert("sitesBlock");
                                                                                                                                                         }
                                                                                                                                                });
                                                                                                                                                $.ajax({
@@ -110,5 +134,7 @@ $(document).ready(function(){
                         }
 
                 });
-                    });//close of click
+
+            });//close of click
 });//close of document ready
+

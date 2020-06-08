@@ -20,9 +20,9 @@ public interface StudentRepository extends CrudRepository<Student,String> {
     @Transactional
     @Modifying
     @Query(
-            value = "insert into loggedInStudent values(:id,NOW())",
+            value = "insert into loggedInStudent values(:id,:ip,NOW())",
             nativeQuery = true)
-    void insertLoggedStudent(String id);
+    void insertLoggedStudent(String id,String ip);
 
     @Transactional
     @Modifying
@@ -111,4 +111,8 @@ public interface StudentRepository extends CrudRepository<Student,String> {
             value = "update notification set viewedTime=NOW() where timestamp=:t1",
             nativeQuery = true)
     void updateNotification(Timestamp t1);
+    @Query(
+            value = "select count(id) from loggedInStudent where ip=:ip",
+            nativeQuery = true)
+    int checkIp(String ip);
 }

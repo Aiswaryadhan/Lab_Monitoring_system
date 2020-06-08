@@ -17,6 +17,9 @@ $(document).ready(function(){
                 });
 
      }
+     else{
+                 window.location.replace("http://localhost:8080/login");
+          }
     $("#teacherLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');

@@ -36,8 +36,8 @@ public class StudentService {
         studentRepository.updateAttendance(subjectId,studentId);
     }
 
-    public void add(String id) {
-        studentRepository.insertLoggedStudent(id);
+    public void add(String id,String ip) {
+        studentRepository.insertLoggedStudent(id,ip);
     }
 
 
@@ -134,5 +134,9 @@ public class StudentService {
 
     public void updateNotification(Timestamp t1) {
         studentRepository.updateNotification(t1);
+    }
+
+    public int checkIp(String ip) {
+      return studentRepository.checkIp(ip);
     }
 }

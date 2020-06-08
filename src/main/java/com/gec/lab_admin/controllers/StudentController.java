@@ -32,29 +32,32 @@ public class StudentController {
     LoggedStudent loggedStudent;
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    @RequestMapping(method = RequestMethod.POST,value = "/student/login")
-    public String login(@RequestBody Student student) throws IOException {
+    @RequestMapping(method = RequestMethod.POST,value = "/student/login/{ip}")
+    public String login(@RequestBody Student student,@PathVariable String ip) throws IOException {
         Optional<Student> loggedInStudent = studentService.login(student.getId());
         if(loggedInStudent.isPresent()){
-            if(loggedInStudent.get().getPassword().equals(student.getPassword())){
-                logger.info("success");
-                studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
-                studentService.add(student.getId());
-//                List<String> s1= studentService.getAllSites(TeacherController.LOGGED_IN_TEACHER_SUBJECT);
-//                Iterator<String> s1Iterator = s1.iterator();
-//                while (s1Iterator.hasNext()) {
-//                    studentService.blockSites(s1Iterator.next());
-//                }
-                System.out.println(loggedInStudent.get());
-                String name=loggedInStudent.get().getName();
-                int sem=loggedInStudent.get().getSem();
-                String res=name+","+sem;
-                return res;
+            int c= studentService.checkIp(ip);
+            if(c<1){
+                if(loggedInStudent.get().getPassword().equals(student.getPassword())) {
+                    logger.info("success");
+                    studentService.updateAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, student.getId());
+
+                    studentService.add(student.getId(), ip);
+                    System.out.println(loggedInStudent.get());
+                    String name = loggedInStudent.get().getName();
+                    int sem = loggedInStudent.get().getSem();
+                    String res = name + "," + sem;
+                    return res;
+                }
+                else{
+                    logger.debug("wrong password");
+                    return "invalid";
+                }
             }
             else{
-                logger.debug("wrong password");
-                return "invalid";
+                return "multipleIp";
             }
+
         }
         else{
             logger.error("wrong user name");
