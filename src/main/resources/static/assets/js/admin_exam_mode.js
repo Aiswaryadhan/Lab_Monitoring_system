@@ -13,6 +13,7 @@ $(document).ready(function(){
 
                                              $("#teacher_name").text(data);
                                               refresh();
+                                              online();
                                 }
                      });
 
@@ -60,15 +61,12 @@ $(document).ready(function(){
                                                                       url:'http://localhost:8080/teacher/getStudInfo/'+sub,
                                                                       success:function(data){
                                                                                 var len=data.length;
-//                                                                                var row=len/4;
-//                                                                                var i;
                                                                                 var txtTable='';
                                                                                 for(j=0;j<len;j++){
                                                                                     arr=data[j].split(',');
                                                                                     stId=arr[0];
                                                                                     var stName=arr[1];
-//                                                                                    alert(stId);
-                                                                                    txtTable +="<div id=\"div1\" class=\"grid-item\" name=\""+stId+"\"><p>Roll No:"+(j+1)+"</p><button name=\"studBtn\" type=\"button\" class=\"btn btn-success\" style=\"height:50px;width:125px\" id=\""+stId+"\"><i class=\"fa fa-check-circle\"></i>"+stName+"</button></div>"
+                                                                                    txtTable +="<div id=\"div1\" class=\"grid-item\" name=\""+stId+"\"><p>Roll No:"+(j+1)+"</p><button name=\"studBtn\" type=\"button\" class=\"btn btn-success\" style=\"height:50px;width:125px\" id=\""+stId+"\" disabled><i class=\"fa fa-check-circle\"></i>"+stName+"</button></div>"
 
                                                                                 }
                                                                                 if(txtTable!=''){
@@ -76,11 +74,12 @@ $(document).ready(function(){
                                                                                              $("#studentTable").append(txtTable);
 
                                                                                 }
+                                                                                online();
+
                                                                       }
      });
      $(document).on("click", "div.grid-item" , function() {
                 stId=$(this).attr('name');
-//                alert(stId);
                 $.ajax({
                                           url: 'http://localhost:8080/monitorStart',
                                           success: function (data) {
@@ -94,10 +93,6 @@ $(document).ready(function(){
                 });
 
      });
-//     function sendId(){
-//        alert("send");
-//
-//     }
      $("#adminLogout").click(function(){
              $.removeCookie('id');
              $.removeCookie('subject');
@@ -109,6 +104,25 @@ $(document).ready(function(){
                                       }
              });
      })
+
+     function online(){
+        setTimeout(function(){
+            $.ajax({
+                    type:'POST',
+                    url:'http://localhost:8080/teacher/getLoggedStud',
+                    success:function(data){
+                                                 var i=0;
+                                                 for(i=0;i<data.length;i++) {
+                                                                               if(data[i]){
+                                                                                            $("#"+data[i]).prop('disabled',false);
+                                                                               }
+                                                 }
+                   }
+            });
+            online();
+        },5000);
+     }
+
     function refresh(){
         setTimeout(function(){
          $.ajax({

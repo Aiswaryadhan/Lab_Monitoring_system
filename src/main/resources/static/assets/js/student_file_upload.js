@@ -48,6 +48,15 @@ $(document).ready(function(){
                 $.removeCookie('studName');
                 $.removeCookie('studSem');
                 document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
+                 $.ajax({
+                                                                         type: "POST",
+
+                                                                         url: 'http://localhost:8090/stop',
+
+                                                                         success: function (data) {
+
+                                                                         }
+                 });
                 $.ajax({
                                          type: "POST",
                                          url: 'http://localhost:8080/loggedStudent/delete/'+studId,

@@ -398,7 +398,8 @@ $(document).ready(function(){
           }
           if(message.type === 'CHAT') {
                         if((message.sender).startsWith("fc")){
-                          return true;
+//                          return true;
+                          receiver=studId;
                         }
                         else{
                             receiver=message.sender;

@@ -132,7 +132,17 @@ $(document).ready(function(){
                 $.removeCookie('studSem');
 //                $.removeCookie('teacherName');
 //                $.removeCookie('teacherId');
+
                 document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
+                $.ajax({
+                                                         type: "POST",
+
+                                                         url: 'http://localhost:8090/stop',
+
+                                                         success: function (data) {
+
+                                                         }
+                });
                 $.ajax({
                                          type: "POST",
 
@@ -235,7 +245,7 @@ $(document).ready(function(){
                     $.ajax({
                                        url: 'http://localhost:8090/start',
                                        success: function (data) {
-
+                                            $("#btnStart").attr("disabled", true);
                                        }
                     });
      }

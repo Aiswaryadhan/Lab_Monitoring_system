@@ -55,6 +55,7 @@ public class TeacherController {
     public static String LOGGED_IN_TEACHER_NAME="";
     public static String LOGGED_IN_TEACHER_ID="";
     public static Boolean LOGGED_IN_TEACHER_ADMIN;
+    public static Integer MINIMUMTIME=45;
     @RequestMapping(method = RequestMethod.POST,value = "/login/{subjectId}")
     public String login(@RequestBody Teacher teacher, @PathVariable String subjectId) throws Exception {
         Optional<Teacher> loggedInTeacher = teacherService.login(teacher.getId());
@@ -245,10 +246,15 @@ public class TeacherController {
         teacherService.deleteLoggedStud();
     }
 
+    @RequestMapping("/teacher/changeMinTime/{t}")
+    public void updateMinTime(@PathVariable Integer t){
+        MINIMUMTIME=t;
+    }
+
     @RequestMapping("/loggedStudent/delete/{studId}")
     public void deleteLoggedStudent(@PathVariable String studId){
        Integer diff= teacherService.getTimeDiff(studId);
-       if(diff<45){
+       if(diff<MINIMUMTIME){
            teacherService.updateLogoutAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, studId);
        }
         teacherService.deleteLoggedStudent(studId);
