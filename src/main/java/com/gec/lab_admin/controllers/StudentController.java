@@ -162,7 +162,7 @@ public class StudentController {
 
     @RequestMapping("/student/updateNotification/{t1}")
     public void updateNotification(@PathVariable Timestamp t1){
-        logger.info("Get Notifications");
+        logger.info("update Notifications");
         studentService.updateNotification(t1);
     }
 }
