@@ -160,7 +160,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     void deleteSites(String sub_id, String url);
 
     @Query(
-            value = "select * from message_send where sender=:teacherId and receiver=:stId or sender=:stId and receiver=:teacherId",
+            value = "select * from message_send where (sender=:teacherId and receiver=:stId) or (sender=:stId and receiver=:teacherId) order by timestamp",
             nativeQuery = true)
     List<Map> getMessages(String stId, String teacherId);
 
@@ -189,7 +189,7 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
     void insertNotification(String sender, String receiver, String type);
 
     @Query(
-            value = "select sender,timestamp from notification where receiver=:username and type='request' order by timestamp desc",
+            value = "select s.id,s.name,n.timestamp from student s inner join  notification n on s.id=n.sender where receiver=:username and type='request' order by timestamp desc",
             nativeQuery = true)
     List<String> getNotifications(String username);
 
@@ -209,4 +209,17 @@ public interface TeacherRepository extends CrudRepository<Teacher,String> {
             value = "select st.id as student_id, st.name as subject_id from student st inner join subject_sem ss on st.sem=ss.sem where ss.subject_id=:sub",
             nativeQuery = true)
     List<String> getStudInfo(String sub);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from notification",
+            nativeQuery = true)
+    void deleteNotifications();
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from message_send",
+            nativeQuery = true)
+    void deleteMessages();
 }

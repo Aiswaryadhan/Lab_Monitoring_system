@@ -31,6 +31,20 @@ $(document).ready(function(){
 
                                      }
             });
+            $.ajax({
+                                                     type: "POST",
+                                                     url: 'http://localhost:8080/notifications/delete',
+                                                     success: function (data) {
+
+                                                     }
+            });
+            $.ajax({
+                                                             type: "POST",
+                                                             url: 'http://localhost:8080/messages/delete',
+                                                             success: function (data) {
+
+                                                             }
+            });
      });
     $.ajax({
                                                                           type : "POST",
@@ -41,22 +55,16 @@ $(document).ready(function(){
                                                                                   var txt='';
                                                                                   $("#notificationList li").remove();
                                                                                   if(len > 0){
-                                                                                                  for(i=0;i<len;i++){
-                                                                                                      arr=data[i].split(',');
-                                                                                                      req1=arr[0];
-                                                                                                      $.ajax({
-                                                                                                               type: "POST",
-                                                                                                               url: 'http://localhost:8080/student/getName/'+req1,
-                                                                                                               success: function (data) {
-                                                                                                                                          requester=data;
-                                                                                                               }
-                                                                                                      });
-                                                                                                      t1=arr[1];
-                                                                                                      txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
-                                                                                                  }
-                                                                                                  if(txt!=''){
-                                                                                                      $("#notificationList").append(txt);
-                                                                                                  }
+                                                                                       for(i=0;i<len;i++){
+                                                                                            arr=data[i].split(',');
+                                                                                            req1=arr[0];
+                                                                                            requester=arr[1]
+                                                                                            t1=arr[2];
+                                                                                            txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                       }
+                                                                                       if(txt!=''){
+                                                                                            $("#notificationList").append(txt);
+                                                                                       }
                                                                                   }
                                                                           }
     });
@@ -236,22 +244,16 @@ $(document).ready(function(){
                                                                              var txt='';
                                                                              $("#notificationList li").remove();
                                                                              if(len > 0){
-                                                                                             for(i=0;i<len;i++){
-                                                                                                 arr=data[i].split(',');
-                                                                                                 req1=arr[0];
-                                                                                                 $.ajax({
-                                                                                                            type: "POST",
-                                                                                                            url: 'http://localhost:8080/student/getName/'+req1,
-                                                                                                            success: function (data) {
-                                                                                                                                       requester=data;
-                                                                                                            }
-                                                                                                 });
-                                                                                                 t1=arr[1];
-                                                                                                 txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for screen sharing </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
-                                                                                             }
-                                                                                             if(txt!=''){
-                                                                                                 $("#notificationList").append(txt);
-                                                                                             }
+                                                                                  for(i=0;i<len;i++){
+                                                                                       arr=data[i].split(',');
+                                                                                       req1=arr[0];
+                                                                                       requester=arr[1]
+                                                                                       t1=arr[2];
+                                                                                       txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                  }
+                                                                                  if(txt!=''){
+                                                                                       $("#notificationList").append(txt);
+                                                                                  }
                                                                              }
                                                                      }
                  });

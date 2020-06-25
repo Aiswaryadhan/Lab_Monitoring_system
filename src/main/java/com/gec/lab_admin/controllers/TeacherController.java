@@ -389,4 +389,13 @@ public class TeacherController {
     public void sendId(@PathVariable String stId) throws Exception {
         monitorStudentPublisher.processMonitorMessage(stId);
     }
+
+    @RequestMapping("/notifications/delete")
+    public void deleteNotifications(){
+        teacherService.deleteNotifications();
+    }
+    @RequestMapping("/messages/delete")
+    public void deleteMessages(){
+        teacherService.deleteMessages();
+    }
 }

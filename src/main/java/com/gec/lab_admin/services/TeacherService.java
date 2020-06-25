@@ -227,4 +227,12 @@ public class TeacherService {
     public List<String> getStudInfo(String sub) {
         return teacherRepository.getStudInfo(sub);
     }
+
+    public void deleteNotifications() {
+        teacherRepository.deleteNotifications();
+    }
+
+    public void deleteMessages() {
+        teacherRepository.deleteMessages();
+    }
 }

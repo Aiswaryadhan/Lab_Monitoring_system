@@ -91,6 +91,11 @@ public class WebController {
         return "teacher_exam_mode";
     }
 
+    @RequestMapping("/exam_mode")
+    //@ResponseBody
+    public String adminExamMode() {
+        return "admin_exam_mode";
+    }
     @RequestMapping("/semesters")
     //@ResponseBody
     public String semesterInsertion() {
