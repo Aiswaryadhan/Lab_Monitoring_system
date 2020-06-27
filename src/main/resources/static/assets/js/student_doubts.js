@@ -126,6 +126,7 @@ $(document).ready(function(){
                                                                  $("#numNotifications").text(data);
                                                              }
     });
+
     $("#studentLogout").click(function(){
                 $.removeCookie('studId');
                 $.removeCookie('studName');
@@ -135,16 +136,23 @@ $(document).ready(function(){
                                          url: 'http://localhost:8090/sitesUnblock',
                                          success: function (data) {
                                          }
-                                });
-                $.ajax({
-                                                         type: "POST",
-
-                                                         url: 'http://localhost:8090/stop',
-
-                                                         success: function (data) {
-
-                                                         }
                 });
+                $.ajax({
+                                                                             type: "POST",
+
+                                                                             url: 'http://localhost:8090/stop',
+
+                                                                             success: function (data) {
+
+                                                                             }
+                });
+                $.ajax({
+                                                                    type: "POST",
+                                                                    url: 'http://localhost:8080/stopAdapters',
+                                                                    success: function () {
+
+                                                                    }
+                                            });
                 $.ajax({
                                          type: "POST",
 

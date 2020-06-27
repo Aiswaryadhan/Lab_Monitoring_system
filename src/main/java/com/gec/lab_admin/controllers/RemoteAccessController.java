@@ -1,6 +1,7 @@
 package com.gec.lab_admin.controllers;
 
 import com.gec.lab_admin.services.MonitorViewerFrame;
+import com.gec.lab_admin.services.ScreenPlayer;
 import com.gec.lab_admin.services.ViewerFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,9 @@ public class RemoteAccessController {
     @Autowired
     MonitorViewerFrame monitorViewerFrame;
 
+    @Autowired
+    ScreenPlayer screenPlayer;
+
     @RequestMapping("/monitorStart")
     public void generate() {
         monitorViewerFrame.init();
@@ -23,5 +27,9 @@ public class RemoteAccessController {
     @RequestMapping("/start")
     public void generateSubject() {
         viewerFrame.init();
+    }
+    @RequestMapping("/stopAdapters")
+    public void stopAdapters(){
+        screenPlayer.removeAdapters();
     }
 }

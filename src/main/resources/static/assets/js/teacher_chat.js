@@ -175,9 +175,9 @@ $(document).ready(function(){
 
 
     $('#onlineStud').on( 'click', 'tr', function () {
-                                if ($(this).hasClass('highlighted') )
+                                if ($('#onlineStud tr').hasClass('highlighted') )
      							{
-     						        $(this).removeClass('highlighted');
+     						        $('#onlineStud tr').removeClass('highlighted');
      							}
      					        else
      							{
@@ -186,7 +186,7 @@ $(document).ready(function(){
                                          			return $(this).text();
                                     }).get();
                                     receiver=tableData[1];
-                                    alert(receiver);
+//                                    alert(receiver);
                                     studId=tableData[1];
                                     if($("#"+studId).hasClass('hidden')){
                                         $("#"+studId).removeClass('hidden');
@@ -204,10 +204,12 @@ $(document).ready(function(){
                                                                         success: function(data){
                                                                             len1=data.length;
                                                                             if(len1!=0){
-                                                                                for(var i=0;i<len1;i++){
+                                                                                pos: for(var i=0;i<len1;i++){
                                                                                      var sendr=data[i].sender;
                                                                                      var recevr=data[i].receiver;
                                                                                      var sender;
+                                                                                     var d1=data[i].timestamp;
+
                                                                                      if((sendr).startsWith("fc")){
                                                                                                    var msg1=data[i].message;
                                                                                                      func(msg1);
@@ -217,7 +219,7 @@ $(document).ready(function(){
                                                                                                         url: 'http://localhost:8080/teacher/getName/'+sendr,
                                                                                                         success: function (data) {
                                                                                                                             sender=data;
-                                                                                                                            alert(sender);
+//                                                                                                                            alert(sender);
                                                                                                                             var messageElement = document.createElement('li');
                                                                                                                             messageElement.classList.add('chat-message');
                                                                                                                             var avatarElement = document.createElement('i');
@@ -236,11 +238,17 @@ $(document).ready(function(){
                                                                                                                             textElement.appendChild(messageText);
                                                                                                                             messageElement.appendChild(textElement);
                                                                                                                             document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                                            var dateElement = document.createElement('span');
+                                                                                                                            dateElement.setAttribute("class","timestamp");
+                                                                                                                            var dateText=document.createTextNode(d1);
+                                                                                                                            dateElement.appendChild(dateText);
+//                                                                                                                            document.getElementById("messageArea"+studId).appendChild(dateElement);
                                                                                                                             document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
 
                                                                                                         }
                                                                                                       });
                                                                                                       }
+                                                                                        continue pos;
                                                                                      }
                                                                                      else{
                                                                                      var msg2=data[i].message;
@@ -251,7 +259,7 @@ $(document).ready(function(){
                                                                                                     url: 'http://localhost:8080/student/getName/'+sendr,
                                                                                                     success: function (data) {
                                                                                                     sender=data;
-                                                                                                    alert(sender);
+//                                                                                                    alert(sender);
                                                                                                     var messageElement = document.createElement('li');
                                                                                                     messageElement.classList.add('chat-message');
                                                                                                     var avatarElement = document.createElement('i');
@@ -270,11 +278,17 @@ $(document).ready(function(){
                                                                                                     textElement.appendChild(messageText);
                                                                                                     messageElement.appendChild(textElement);
                                                                                                     document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                    var dateElement = document.createElement('span');
+                                                                                                    dateElement.setAttribute("class","timestamp");
+                                                                                                    var dateText=document.createTextNode(d1);
+                                                                                                    dateElement.appendChild(dateText);
+//                                                                                                    document.getElementById("messageArea"+studId).appendChild(dateElement);
                                                                                                     document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
 
                                                                                                     }
                                                                                             });
                                                                                       }
+                                                                                      continue pos;
                                                                                      }// close of sender check 'if'
                                                                                 }// close of for
                                                                             }// close of length check 'if'
@@ -375,6 +389,9 @@ $(document).ready(function(){
                     $("#"+studId).prop("disabled",true);
                     $("#"+studId).addClass('hidden');
                     $('#mainDiv').addClass('hidden');
+                    if ($('#onlineStud tr').hasClass('highlighted') ){
+                         $('#onlineStud tr').removeClass('highlighted');
+                    }
     }
     function onMessageReceived(payload) {
          var message = JSON.parse(payload.body);

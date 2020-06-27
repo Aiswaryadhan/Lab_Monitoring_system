@@ -19,6 +19,11 @@ $(document).ready(function(){
      else{
                  window.location.replace("http://localhost:8080/login");
           }
+//     $.ajax({
+//                                 url: 'http://localhost:8090/sitesBlock',
+//                                 success: function () {
+//                                 }
+//     });
      $.ajax({
                                                                   type : "POST",
                                                                   url :'http://localhost:8080/teacher/getNotification/'+teacherId,
@@ -110,6 +115,7 @@ $(document).ready(function(){
              });
      });
      $("#btnPublish").click(function(){
+
                   $.ajax({
                                            type: "POST",
                                            url: 'http://localhost:8080/teacher/blockSites',

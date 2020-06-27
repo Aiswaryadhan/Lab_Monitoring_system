@@ -109,11 +109,11 @@ $(document).ready(function(){
                                }
                     });
 
-    }
-    else{
-                window.location.replace("http://localhost:8080/login");
-         }
-    $.ajax({
+        }
+        else{
+                    window.location.replace("http://localhost:8080/login");
+             }
+        $.ajax({
                                                         type : "POST",
                                                         url :'http://localhost:8080/teacher/getNotification/'+teacherId,
                                                         success:function(data){
@@ -122,26 +122,26 @@ $(document).ready(function(){
                                                                                         var txt='';
                                                                                         $("#notificationList li").remove();
                                                                                         if(len > 0){
-                                                                                            for(i=0;i<len;i++){
-                                                                                                 arr=data[i].split(',');
-                                                                                                 req1=arr[0];
-                                                                                                 requester=arr[1]
-                                                                                                 t1=arr[2];
-                                                                                                 txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
-                                                                                            }
-                                                                                            if(txt!=''){
-                                                                                                 $("#notificationList").append(txt);
-                                                                                            }
+                                                                                                    for(i=0;i<len;i++){
+                                                                                                        arr=data[i].split(',');
+                                                                                                        req1=arr[0];
+                                                                                                        requester=arr[1]
+                                                                                                        t1=arr[2];
+                                                                                                        txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                    }
+                                                                                                    if(txt!=''){
+                                                                                                        $("#notificationList").append(txt);
+                                                                                                    }
                                                                                         }
                                                         }
-    });
-    $.ajax({
+        });
+        $.ajax({
                                                         type:'POST',
                                                         url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
                                                         success:function(data){
                                                             $("#numNotifications").text(data);
                                                         }
-    });
+        });
     $("#adminLogout").click(function(){
         $.removeCookie('id');
         $.removeCookie('subject');
@@ -175,9 +175,9 @@ $(document).ready(function(){
 
 
    $('#onlineStud').on( 'click', 'tr', function () {
-                                   if ($(this).hasClass('highlighted') )
+                                   if ($('#onlineStud tr').hasClass('highlighted') )
         							{
-        						        $(this).removeClass('highlighted');
+        						        $('#onlineStud tr').removeClass('highlighted');
         							}
         					        else
         							{
@@ -186,7 +186,7 @@ $(document).ready(function(){
                                             			return $(this).text();
                                        }).get();
                                        receiver=tableData[1];
-                                       alert(receiver);
+   //                                    alert(receiver);
                                        studId=tableData[1];
                                        if($("#"+studId).hasClass('hidden')){
                                            $("#"+studId).removeClass('hidden');
@@ -217,7 +217,7 @@ $(document).ready(function(){
                                                                                                            url: 'http://localhost:8080/teacher/getName/'+sendr,
                                                                                                            success: function (data) {
                                                                                                                                sender=data;
-                                                                                                                               alert(sender);
+   //                                                                                                                            alert(sender);
                                                                                                                                var messageElement = document.createElement('li');
                                                                                                                                messageElement.classList.add('chat-message');
                                                                                                                                var avatarElement = document.createElement('i');
@@ -251,7 +251,7 @@ $(document).ready(function(){
                                                                                                        url: 'http://localhost:8080/student/getName/'+sendr,
                                                                                                        success: function (data) {
                                                                                                        sender=data;
-                                                                                                       alert(sender);
+   //                                                                                                    alert(sender);
                                                                                                        var messageElement = document.createElement('li');
                                                                                                        messageElement.classList.add('chat-message');
                                                                                                        var avatarElement = document.createElement('i');
@@ -284,257 +284,305 @@ $(document).ready(function(){
                                                                                }
                                                                            }// close of success
                                                                        });
+   //                                    if ( $('#'+tableData[0]).hasClass('hidden') ){
+   //                                                        			 $('#'+tableData[0]).removeClass('hidden');
+   //                                    }
+   //                                    else{
+   //                                      		$('#'+tableData[0]).addClass('hidden');
+   //                                    }
         							}
-   });
+       });
 
-   function connect() {
-                if(username) {
-                                   var socket = new SockJS('/javatechie');
-                                   stompClient = Stomp.over(socket);
-                                   stompClient.connect({}, onConnected, onError);
-                }
-   }
-   function onConnected() {
-        stompClient.subscribe('/queue/public', onMessageReceived);
-        stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
-   }
-   function onError(error) {
-       alert("Disconnected !..");
-   }
+       function connect() {
+                   if(username) {
+                                      var socket = new SockJS('/javatechie');
+                                      stompClient = Stomp.over(socket);
+                                      stompClient.connect({}, onConnected, onError);
+                   }
+       }
+       function onConnected() {
+           // Subscribe to the Public Topic
+           stompClient.subscribe('/queue/public', onMessageReceived);
 
-    function access(){
-                        if(stompClient) {
+           // Tell your username to the server
+           stompClient.send("/app/chat.register",{},JSON.stringify({sender: username, type: 'JOIN'}))
+       }
+       function onError(error) {
+           alert("Disconnected !..");
+       }
 
-                                               var chatMessage = {
-                                                           sender: username,
-                                                           receiver:req,
-                                                           type: 'RESPONSE'
-                                               };
-                                               stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                                               var msgData = {
-                                                             "sender":username,
-                                                             "receiver": req,
-                                                             "type":"response"
-                                               };
-                                               var aJson = JSON.stringify(msgData);
-                                               $.ajax({
-                                                                    type: "POST",
-                                                                    url: 'http://localhost:8080/teacher/insertNotification',
-                                                                     headers: {
-                                                                              "Content-Type": "application/json"
-                                                                     },
-                                                                     data:aJson,
-                                                                    success: function (data) {
+       function access(){
+                       if(stompClient) {
 
-                                                                    }
-                                               });
-                                               $('#message').val('');
-                        }
-                        $.ajax({
-                                     url: 'http://localhost:8080/start',
-                                     success: function (data) {
+                                              var chatMessage = {
+                                                          sender: username,
+                                                          receiver:req,
+                                                          type: 'RESPONSE'
+                                              };
+                                              stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                                              var msgData = {
+                                                            "sender":username,
+                                                            "receiver": req,
+                                                            "type":"response"
+                                              };
+                                              var aJson = JSON.stringify(msgData);
+                                              $.ajax({
+                                                                   type: "POST",
+                                                                   url: 'http://localhost:8080/teacher/insertNotification',
+                                                                    headers: {
+                                                                             "Content-Type": "application/json"
+                                                                    },
+                                                                    data:aJson,
+                                                                   success: function (data) {
 
-                                     }
-                        });
-    }
-    $('#notificationList').on( 'click', 'li', function(){
-               var n=$(this).attr('name');
-               var ar1=$(this).text().split('@');
-               var dt=ar1[1];
-               req=n.substring(0, 7);
-               var date1=dt.trim();
-               $("#btnAccess"+n).attr("disabled", false);
-               $("#btnAccess"+n).click(access);
-               $.ajax({
-                                                url: 'http://localhost:8080/teacher/updateNotification/'+date1,
-                                                success: function (data) {
-                                                    $.ajax({
-                                                        type:'POST',
-                                                        url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
-                                                        success:function(data){
-                                                            $("#numNotifications").text(data);
-                                                        }
-                                                    });
-                                                }
-               });
+                                                                   }
+                                              });
 
-    });
+                                              $('#message').val('');
+                       }
+                       $.ajax({
+                                    url: 'http://localhost:8080/start',
+                                    success: function (data) {
 
-    function close(){
-                        $("#"+studId).prop("disabled",true);
-                        $("#"+studId).addClass('hidden');
-                        $('#mainDiv').addClass('hidden');
-    }
-    function onMessageReceived(payload) {
-             var message = JSON.parse(payload.body);
-             var id=message.sender;
-             var txt="";
-             var txt1="";
-             var requester;
+                                    }
+                       });
+       }
+
+       $('#notificationList').on( 'click', 'li', function(){
+              var n=$(this).attr('name');
+              var ar1=$(this).text().split('@');
+              var dt=ar1[1];
+              req=n.substring(0, 7);
+              var date1=dt.trim();
+              $("#btnAccess"+n).attr("disabled", false);
+              $("#btnAccess"+n).click(access);
+              $.ajax({
+                                               url: 'http://localhost:8080/teacher/updateNotification/'+date1,
+                                               success: function (data) {
+                                                   $.ajax({
+                                                       type:'POST',
+                                                       url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                       success:function(data){
+                                                           $("#numNotifications").text(data);
+                                                       }
+                                                   });
+                                               }
+              });
+
+       });
+
+       function close(){
+                       $("#"+studId).prop("disabled",true);
+                       $("#"+studId).addClass('hidden');
+                       $('#mainDiv').addClass('hidden');
+       }
+       function onMessageReceived(payload) {
+            var message = JSON.parse(payload.body);
+            var id=message.sender;
+            var txt="";
+            var txt1="";
+            var requester;
              if(message.type === 'REQUEST') {
 
-                                                         req=message.sender;
-                                                         $.ajax({
-                                                                  type: "POST",
-                                                                  url: 'http://localhost:8080/student/getName/'+message.sender,
-                                                                  success: function (data) {
-                                                                                           requester=data;
-                                                                                           $("#btnAccess"+message.sender).attr("disabled", false);
-                                                                                           $("#btnAccess"+message.sender).click(access);
-                                                                                           return $.growl.automator_green({
-                                                                                                                              title: "Student Request",
-                                                                                                                              message: " "+requester+" has requested for help..."
-                                                                                           });
+                                               req=message.sender;
+                                               $.ajax({
+                                                        type: "POST",
+                                                        url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                        success: function (data) {
+                                                                                 requester=data;
+                                                                                 $("#btnAccess"+message.sender).attr("disabled", false);
+                                                                                 $("#btnAccess"+message.sender).click(access);
+                                                                                 return $.growl.automator_green({
+                                                                                                                    title: "Student Request",
+                                                                                                                    message: " "+requester+" has requested for help..."
+                                                                                 });
 
-                                                                  }
-                                                         });
+                                                        }
+                                               });
 
              }
 
              if(message.type === 'JOIN') {
-                    $("#onlineDot"+id).removeAttr("style");
+                   $("#onlineDot"+id).removeAttr("style");
              }
              if(message.type === 'CHAT') {
-                            if((message.sender).startsWith("fc")){
-                                 return true;
-                            }
-                            else{
-                                receiver=message.sender;
-                            }
-                            if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
-                                                                                     var messageElement = document.createElement('li');
-                                                                                     messageElement.classList.add('chat-message');
-                                                                                     var avatarElement = document.createElement('i');
-                                                                                     avatarElement.setAttribute("class", "avtr");
-                                                                                     var sender;
-                                                                                     if((message.sender).startsWith("fc")){
-                                                                                        $.ajax({
-                                                                                                type: "POST",
-                                                                                                url: 'http://localhost:8080/teacher/getName/'+message.sender,
-                                                                                                success: function (data) {
-                                                                                                                sender=data;
-                                                                                                                var avatarText = document.createTextNode(sender[0]);
-                                                                                                                avatarElement.appendChild(avatarText);
-                                                                                                                avatarElement.style['background-color'] = getAvatarColor(sender);
-                                                                                                                messageElement.appendChild(avatarElement);
-                                                                                                                var usernameElement = document.createElement('span');
-                                                                                                                var usernameText = document.createTextNode(sender);
-                                                                                                                usernameElement.appendChild(usernameText);
-                                                                                                                messageElement.appendChild(usernameElement);
-                                                                                                                var textElement = document.createElement('p');
-                                                                                                                var messageText = document.createTextNode(message.content);
-                                                                                                                textElement.appendChild(messageText);
-                                                                                                                messageElement.appendChild(textElement);
-                                                                                                                document.getElementById("messageArea"+studId).appendChild(messageElement);
-                                                                                                                document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
-
-                                                                                                }
-                                                                                        });
-                                                                                     }
-                                                                                     else{
-                                                                                        $.ajax({
+                           if((message.sender).startsWith("fc")){
+   //                          return true;
+                             receiver=studId;
+                           }
+                           else{
+                               receiver=message.sender;
+                           }
+                           if((message.receiver===username && message.sender===receiver)||(message.sender===username && message.receiver===receiver)){
+                                                                                    var messageElement = document.createElement('li');
+                                                                                    messageElement.classList.add('chat-message');
+                                                                                    var avatarElement = document.createElement('i');
+                                                                                    avatarElement.setAttribute("class", "avtr");
+                                                                                    var sender;
+                                                                                    if((message.sender).startsWith("fc")){
+                                                                                       $.ajax({
                                                                                                type: "POST",
-                                                                                               url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                               url: 'http://localhost:8080/teacher/getName/'+message.sender,
                                                                                                success: function (data) {
-                                                                                                          sender=data;
-                                                                                                 var avatarText = document.createTextNode(sender[0]);
-                                                                                                 avatarElement.appendChild(avatarText);
-                                                                                                 avatarElement.style['background-color'] = getAvatarColor(sender);
-                                                                                                 messageElement.appendChild(avatarElement);
-                                                                                                 var usernameElement = document.createElement('span');
-                                                                                                 var usernameText = document.createTextNode(sender);
-                                                                                                 usernameElement.appendChild(usernameText);
-                                                                                                 messageElement.appendChild(usernameElement);
-                                                                                                 var textElement = document.createElement('p');
-                                                                                                 var messageText = document.createTextNode(message.content);
-                                                                                                 textElement.appendChild(messageText);
-                                                                                                 messageElement.appendChild(textElement);
-                                                                                                 document.getElementById("messageArea"+studId).appendChild(messageElement);
-                                                                                                 document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
+                                                                                                               sender=data;
+                                                                                                               var avatarText = document.createTextNode(sender[0]);
+                                                                                                               avatarElement.appendChild(avatarText);
+                                                                                                               avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                               messageElement.appendChild(avatarElement);
+                                                                                                               var usernameElement = document.createElement('span');
+                                                                                                               var usernameText = document.createTextNode(sender);
+                                                                                                               usernameElement.appendChild(usernameText);
+                                                                                                               messageElement.appendChild(usernameElement);
+                                                                                                               var textElement = document.createElement('p');
+                                                                                                               var messageText = document.createTextNode(message.content);
+                                                                                                               textElement.appendChild(messageText);
+                                                                                                               messageElement.appendChild(textElement);
+                                                                                                               document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                               document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
 
                                                                                                }
-                                                                                        });
-                                                                                     }
+                                                                                       });
+                                                                                    }
+                                                                                    else{
+                                                                                       $.ajax({
+                                                                                              type: "POST",
+                                                                                              url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                              success: function (data) {
+                                                                                                         sender=data;
+                                                                                                var avatarText = document.createTextNode(sender[0]);
+                                                                                                avatarElement.appendChild(avatarText);
+                                                                                                avatarElement.style['background-color'] = getAvatarColor(sender);
+                                                                                                messageElement.appendChild(avatarElement);
+                                                                                                var usernameElement = document.createElement('span');
+                                                                                                var usernameText = document.createTextNode(sender);
+                                                                                                usernameElement.appendChild(usernameText);
+                                                                                                messageElement.appendChild(usernameElement);
+                                                                                                var textElement = document.createElement('p');
+                                                                                                var messageText = document.createTextNode(message.content);
+                                                                                                textElement.appendChild(messageText);
+                                                                                                messageElement.appendChild(textElement);
+                                                                                                document.getElementById("messageArea"+studId).appendChild(messageElement);
+                                                                                                document.getElementById("messageArea"+studId).scrollTop = document.getElementById("messageArea"+studId).scrollHeight;
 
-                            }
+                                                                                              }
+                                                                                       });
+                                                                                    }
+                           }
 
              }
-    }
-    function refresh(){
-                                setTimeout(function(){
-                                 $.ajax({
-                                                                                     type : "POST",
-                                                                                     url :'http://localhost:8080/teacher/getNotification/'+teacherId,
-                                                                                     success:function(data){
-                                                                                             len = data.length;
-                                                                                             var i;
-                                                                                             var txt='';
-                                                                                             $("#notificationList li").remove();
-                                                                                             if(len > 0){
-                                                                                                 for(i=0;i<len;i++){
-                                                                                                      arr=data[i].split(',');
-                                                                                                      req1=arr[0];
-                                                                                                      requester=arr[1]
-                                                                                                      t1=arr[2];
-                                                                                                      txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
-                                                                                                 }
-                                                                                                 if(txt!=''){
-                                                                                                      $("#notificationList").append(txt);
-                                                                                                 }
-                                                                                             }
-                                                                                     }
-                                 });
-                                 $.ajax({
-                                                                                     type:'POST',
-                                                                                     url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
-                                                                                     success:function(data){
-                                                                                         $("#numNotifications").text(data);
-                                                                                     }
-                                 });
-                                 refresh();
-                                 },5000);
-    }
-    function send(){
-            var messageContent = $('#message'+studId).val();
-            alert("receiver" +studId);
-            if(messageContent && stompClient) {
-                                var chatMessage = {
-                                            sender: username,
-                                            content: messageContent,
-                                            receiver:studId,
-                                            type: 'CHAT'
-                                };
-                                stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
-                                var msgData = {
-                                              'sender':username,
-                                              'receiver': studId,
-                                              'message':messageContent
-                                };
-                                var aJson = JSON.stringify(msgData);
+       }
+       function refresh(){
+                               setTimeout(function(){
                                 $.ajax({
-                                                     type: "POST",
-                                                     url: 'http://localhost:8080/teacher/insertMessage',
-                                                      headers: {
-                                                               "Content-Type": "application/json"
-                                                      },
-                                                      data:aJson,
-                                                     success: function (data) {
-
-                                                     }
+                                                                                    type : "POST",
+                                                                                    url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                    success:function(data){
+                                                                                            len = data.length;
+                                                                                            var i;
+                                                                                            var txt='';
+                                                                                            $("#notificationList li").remove();
+                                                                                            if(len > 0){
+                                                                                                     for(i=0;i<len;i++){
+                                                                                                             arr=data[i].split(',');
+                                                                                                             req1=arr[0];
+                                                                                                             requester=arr[1]
+                                                                                                             t1=arr[2];
+                                                                                                             txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                     }
+                                                                                                     if(txt!=''){
+                                                                                                             $("#notificationList").append(txt);
+                                                                                                     }
+                                                                                            }
+                                                                                    }
                                 });
+                                $.ajax({
+                                                                                    type:'POST',
+                                                                                    url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                    success:function(data){
+                                                                                        $("#numNotifications").text(data);
+                                                                                    }
+                                });
+                                refresh();
+                                },5000);
+       }
+       function send(){
+           var messageContent = $('#message'+studId).val();
+           if(messageContent && stompClient) {
+                               var chatMessage = {
+                                           sender: username,
+                                           content: messageContent,
+                                           receiver:studId,
+                                           type: 'CHAT'
+                               };
+                               stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+                               var msgData = {
+                                             'sender':username,
+                                             'receiver': studId,
+                                             'message':messageContent
+                               };
+                               var aJson = JSON.stringify(msgData);
+                               $.ajax({
+                                                    type: "POST",
+                                                    url: 'http://localhost:8080/teacher/insertMessage',
+                                                     headers: {
+                                                              "Content-Type": "application/json"
+                                                     },
+                                                     data:aJson,
+                                                    success: function (data) {
 
-                                $('#message'+studId).val('');
-            }
-            event.preventDefault();
-    }
+                                                    }
+                               });
 
-
-    function getAvatarColor(messageSender) {
-                var hash = 0;
-                for (var i = 0; i < messageSender.length; i++) {
-                                        hash = 31 * hash + messageSender.charCodeAt(i);
-                }
-                var index = Math.abs(hash % colors.length);
-                return colors[index];
-    }
-});
+                               $('#message'+studId).val('');
+           }
+           event.preventDefault();
+       }
+       function refresh(){
+                               setTimeout(function(){
+                                $.ajax({
+                                                                                    type : "POST",
+                                                                                    url :'http://localhost:8080/teacher/getNotification/'+teacherId,
+                                                                                    success:function(data){
+                                                                                            len = data.length;
+                                                                                            var i;
+                                                                                            var txt='';
+                                                                                            $("#notificationList li").remove();
+                                                                                            if(len > 0){
+                                                                                                            for(i=0;i<len;i++){
+                                                                                                                arr=data[i].split(',');
+                                                                                                                req1=arr[0];
+                                                                                                                $.ajax({
+                                                                                                                           type: "POST",
+                                                                                                                           url: 'http://localhost:8080/student/getName/'+req1,
+                                                                                                                           success: function (data) {
+                                                                                                                                                         requester=data;
+                                                                                                                           }
+                                                                                                                });
+                                                                                                                t1=arr[1];
+                                                                                                                txt += "<li name=\""+req1+"\"><a href=\"#\" class=\"notification-item\"><span class=\"dot bg-warning\"></span>"+requester+" has asked for help </a><p class=\"timestamp\">Date & Time @ " +t1+"</p></li>";
+                                                                                                            }
+                                                                                                            if(txt!=''){
+                                                                                                                $("#notificationList").append(txt);
+                                                                                                            }
+                                                                                            }
+                                                                                    }
+                                });
+                                $.ajax({
+                                                                                    type:'POST',
+                                                                                    url:'http://localhost:8080/teacher/getNotificationCount/'+teacherId,
+                                                                                    success:function(data){
+                                                                                        $("#numNotifications").text(data);
+                                                                                    }
+                                });
+                                refresh();
+                                },5000);
+       }
+       function getAvatarColor(messageSender) {
+                   var hash = 0;
+                   for (var i = 0; i < messageSender.length; i++) {
+                                           hash = 31 * hash + messageSender.charCodeAt(i);
+                   }
+                   var index = Math.abs(hash % colors.length);
+                   return colors[index];
+       }
+   });

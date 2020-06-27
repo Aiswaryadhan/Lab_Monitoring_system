@@ -77,15 +77,15 @@ $(document).ready(function(){
      });
      $(document).on("click", "div.grid-item" , function() {
                 stId=$(this).attr('name');
-                $.ajax({
-                                                                                         type: "POST",
-
-                                                                                         url: 'http://localhost:8090/stop',
-
-                                                                                         success: function (data) {
-
-                                                                                         }
-                });
+//                $.ajax({
+//                                                                                         type: "POST",
+//
+//                                                                                         url: 'http://localhost:8090/stop',
+//
+//                                                                                         success: function (data) {
+//
+//                                                                                         }
+//                });
                 $.ajax({
                                           url: 'http://localhost:8080/monitorStart',
                                           success: function (data) {

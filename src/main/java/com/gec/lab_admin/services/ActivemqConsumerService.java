@@ -80,7 +80,7 @@ public class ActivemqConsumerService {
             if(object instanceof ArrayList) {
                 for ( Object obj : (ArrayList) object ) {
                     if (obj instanceof byte[]) {
-                        logger.info("found buffered stream imagess");
+                        logger.info("found buffered stream image");
                         monitorScreenPlayer.updateScreen((byte[]) obj);
                     }
                 }

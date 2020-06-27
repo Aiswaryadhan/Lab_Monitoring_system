@@ -109,7 +109,7 @@ public class ScreenPlayer extends JLabel implements Serializable {
         removeMouseWheelListener(mouseWheelListener);
         removeMouseMotionListener(mouseMotionAdapter);
         removeMouseListener(mouseAdapter);
-        System.out.println("removeadapters executed");
+        System.out.println("removeAdapters executed");
     }  
     
     public void addEvent(Object object){

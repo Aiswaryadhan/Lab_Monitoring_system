@@ -69,6 +69,19 @@ $(document).ready(function(){
                                                     $("#fileNum").text(data);
                               }
      });
+     $.ajax({
+                        type: "POST",
+                        url: 'http://localhost:8090/stop',
+                        success: function () {
+                            $.ajax({
+                                                    type: "POST",
+                                                    url: 'http://localhost:8080/stopAdapters',
+                                                    success: function () {
+
+                                                    }
+                            });
+                        }
+     });
     $("#studentLogout").click(function(){
                 $.removeCookie('studId');
                 $.removeCookie('studName');
@@ -79,23 +92,16 @@ $(document).ready(function(){
                 $.ajax({
                          url: 'http://localhost:8090/sitesUnblock',
                          success: function (data) {
-                          $.ajax({
-                                                                                                   type: "POST",
 
-                                                                                                   url: 'http://localhost:8090/stop',
-
-                                                                                                   success: function (data) {
-
-                                                                                                   }
-                                           });
-                                          $.ajax({
-                                                                   type: "POST",
-                                                                   url: 'http://localhost:8080/loggedStudent/delete/'+studId,
-                                                                   success: function (data) {
-
-                                                                   }
-                                          });
                          }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                    success: function (data) {
+
+                    }
                 });
 
     });
