@@ -79,7 +79,7 @@ $(document).ready(function(){
     $("#btnUpdateSem").prop('disabled',true);
     $("#btnDeleteSem").prop('disabled',true);
     $("#txtSem").blur(function(){
-                    var sem = $('#txtSem').val();
+                    var sem = jQuery.trim($('#txtSem').val());
                     if(sem=='')
                     {
                           $('#error_sem').slideDown();
@@ -133,7 +133,7 @@ $(document).ready(function(){
 
     });
     $("#btnInsertSem").click(function(){
-        var sem=$("#txtSem").val();
+        var sem=jQuery.trim($('#txtSem').val());
         if(sem==''){
                           $('#error_sem').slideDown();
                           $('#error_sem').html('Please provide valid semester');

@@ -36,7 +36,6 @@ $(document).ready(function(){
                 }
             });
            $("#pass").blur(function(){
-//           alert("password");
                 var pass = $('#pass').val();
                 if(pass=='')
                 {

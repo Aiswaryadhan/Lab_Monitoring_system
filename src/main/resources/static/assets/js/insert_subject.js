@@ -99,7 +99,7 @@ $(document).ready(function(){
 
         });
     $("#txtSubId").blur(function(){
-                    subId = $('#txtSubId').val();
+                    subId = jQuery.trim($('#txtSubId').val());
                     if(subId=='')
                     {
                           $('#error_sub_id').slideDown();
@@ -132,7 +132,7 @@ $(document).ready(function(){
     });
 
     $("#txtSubName").blur(function(){
-                        subName = $('#txtSubName').val();
+                        subName = jQuery.trim($('#txtSubName').val());
                         if(subName=='')
                         {
                               $('#error_sub_name').slideDown();
@@ -221,8 +221,8 @@ $(document).ready(function(){
 
     });
     $("#btnInsertSub").click(function(){
-        subId=$("#txtSubId").val();
-        subName=$("#txtSubName").val();
+        subId=jQuery.trim($('#txtSubId').val());
+        subName=jQuery.trim($('#txtSubName').val());
         subSem = $('#sem').val();
         if(subId==''){
                $('#error_sub_id').slideDown();
@@ -328,8 +328,8 @@ $(document).ready(function(){
                             $("#btnDeleteSub").prop('disabled',false);
     });
     $("#btnUpdateSub").click(function(){
-                          subId=$("#txtSubId").val();
-                          subName=$("#txtSubName").val();
+                          subId=jQuery.trim($('#txtSubId').val());
+                          subName=jQuery.trim($('#txtSubName').val());
                           subSem = $('#sem').val();
                           if(subName==''){
                                          $('#error_sub_name').slideDown();
@@ -413,8 +413,8 @@ $(document).ready(function(){
                           }
     });
     $("#btnDeleteSub").click(function(){
-                    subId=$("#txtSubId").val();
-                    subName=$("#txtSubName").val();
+                    subId=jQuery.trim($('#txtSubId').val());
+                    subName=jQuery.trim($('#txtSubName').val());
                     $.ajax({
                               type: "POST",
                               url: 'http://localhost:8080/subject/delete/'+subId,

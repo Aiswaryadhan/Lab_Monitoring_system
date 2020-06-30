@@ -78,7 +78,7 @@ $(document).ready(function(){
     $("#btnInsertSite").prop('disabled',false);
     $("#btnDeleteSite").prop('disabled',true);
     $("#txtSite").blur(function(){
-                    var site = $('#txtSite').val();
+                    var site =jQuery.trim($('#txtSite').val());
                     if(site=='')
                     {
                           $('#error_site').slideDown();
@@ -90,7 +90,25 @@ $(document).ready(function(){
                     }
     });
 
+$("#txtStudId").keypress(function (e) {
+                var keyCode = e.keyCode || e.which;
 
+                //Regex for Valid Characters i.e. Alphabets and Numbers.
+                var regex =/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+
+                //Validate TextBox value against the Regex.
+                var isValid = regex.test(String.fromCharCode(keyCode));
+                if (!isValid) {
+                    $('#error_stud_id').slideDown();
+                    $("#error_stud_id").html("Only Alphabets and Numbers allowed.");
+                }
+                else
+                {
+                    $('#error_stud_id').slideUp();
+                }
+
+                return isValid;
+    });
     $.ajax({
                type: "GET",
                url: 'http://localhost:8080/teacher/getAllSites/'+subId,

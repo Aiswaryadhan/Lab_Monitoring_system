@@ -192,6 +192,7 @@ $(document).ready(function(){
                                         $("#"+studId).removeClass('hidden');
                                         studName=tableData[2];
                                         $('#mainDiv').removeClass('hidden');
+                                        $('#mainDiv').addClass('md');
                                         $("#"+studId).prop("disabled",false);
                                     }
                                     else{
@@ -391,6 +392,9 @@ $(document).ready(function(){
                     $('#mainDiv').addClass('hidden');
                     if ($('#onlineStud tr').hasClass('highlighted') ){
                          $('#onlineStud tr').removeClass('highlighted');
+                    }
+                    if($('#mainDiv').hasClass('md')){
+
                     }
     }
     function onMessageReceived(payload) {

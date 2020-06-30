@@ -77,7 +77,7 @@ $(document).ready(function(){
     $("#btnInsertSite").prop('disabled',false);
     $("#btnDeleteSite").prop('disabled',true);
     $("#txtSite").blur(function(){
-                    var site = $('#txtSite').val();
+                    var site = jQuery.trim($('#txtSite').val());
 //                    alert(site);
                     if(site=='')
                     {
@@ -113,7 +113,7 @@ $(document).ready(function(){
 
     });
     $("#btnInsertSite").click(function(){
-        var site=$("#txtSite").val();
+        var site=jQuery.trim($('#txtSite').val());
         if(site==''){
                           $('#error_site').slideDown();
                           $('#error_site').html('Please provide valid url');
@@ -185,7 +185,7 @@ $(document).ready(function(){
     });
 
     $("#btnDeleteSite").click(function(){
-          var site=$("#txtSite").val();
+          var site=jQuery.trim($('#txtSite').val());
           var siteData = {
                            'sub_id':subId,
                            'url': site

@@ -99,7 +99,7 @@ $(document).ready(function(){
     });
 
     $("#txtStudId").blur(function(){
-                    studId = $('#txtStudId').val();
+                    studId = jQuery.trim($('#txtStudId').val());
                     if(studId=='')
                     {
                           $('#error_stud_id').slideDown();
@@ -133,7 +133,7 @@ $(document).ready(function(){
     });
 
     $("#txtStudName").blur(function(){
-                        studName = $('#txtStudName').val();
+                        studName = jQuery.trim($('#txtStudName').val());
                         if(studName=='')
                         {
                               $('#error_stud_name').slideDown();
@@ -234,8 +234,8 @@ $(document).ready(function(){
     });
 
     $("#btnInsertStudent").click(function(){
-        studId = $('#txtStudId').val();
-        studName = $('#txtStudName').val();
+        studId = jQuery.trim($('#txtStudId').val());
+        studName = jQuery.trim($('#txtStudName').val());
         studSem = $('#sem').val();
         if(studId==''){
               $('#error_stud_id').slideDown();
@@ -405,8 +405,8 @@ $(document).ready(function(){
            }
         });
     $("#btnUpdateStudent").click(function(){
-                              studId = $('#txtStudId').val();
-                              studName = $('#txtStudName').val();
+                              studId = jQuery.trim($('#txtStudId').val());
+                              studName = jQuery.trim($('#txtStudName').val());
                               studSem = $('#sem').val();
                               if(studName==''){
                                         $('#error_stud_name').slideDown();
@@ -470,8 +470,8 @@ $(document).ready(function(){
                               }
     });
     $("#btnDeleteStudent").click(function(){
-         studId = $('#txtStudId').val();
-         studName = $('#txtStudName').val();
+         studId = jQuery.trim($('#txtStudId').val());
+         studName = jQuery.trim($('#txtStudName').val());
          studSem = $('#sem').val();
          $.ajax({
                                 type: "POST",

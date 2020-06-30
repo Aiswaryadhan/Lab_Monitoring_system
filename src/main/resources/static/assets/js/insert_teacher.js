@@ -100,7 +100,7 @@ $(document).ready(function(){
     });
 
     $("#txtTeacherId").blur(function(){
-                    teacherId = $('#txtTeacherId').val();
+                    teacherId = jQuery.trim($('#txtTeacherId').val());
                     if(teacherId=='')
                     {
                           $('#error_teacher_id').slideDown();
@@ -133,7 +133,7 @@ $(document).ready(function(){
     });
 
     $("#txtTeacherName").blur(function(){
-                        teacherName = $('#txtTeacherName').val();
+                        teacherName =jQuery.trim($('#txtTeacherName').val());
                         if(teacherName=='')
                         {
                               $('#error_teacher_name').slideDown();
@@ -224,8 +224,8 @@ $(document).ready(function(){
               }
     });
     $("#btnInsertTeacher").click(function(){
-        teacherId = $('#txtTeacherId').val();
-        teacherName = $('#txtTeacherName').val();
+        teacherId =jQuery.trim($('#txtTeacherId').val());
+        teacherName =jQuery.trim($('#txtTeacherName').val());
         teacherSub = $('#sub').val();
         var subs=String(teacherSub);
         var f=0;
@@ -362,8 +362,8 @@ $(document).ready(function(){
                                     $("#btnDeleteTeacher").prop('disabled',false);
     });
     $("#btnUpdateTeacher").click(function(){
-          teacherId = $('#txtTeacherId').val();
-          teacherName = $('#txtTeacherName').val();
+          teacherId = jQuery.trim($('#txtTeacherId').val());
+          teacherName =jQuery.trim($('#txtTeacherName').val());
           teacherSub = $('#sub').val();
           var subs=String(teacherSub);
           var f=0;
@@ -472,7 +472,7 @@ $(document).ready(function(){
     });
 
     $("#btnDeleteTeacher").click(function(){
-              teacherId = $('#txtTeacherId').val();
+               teacherId = jQuery.trim($('#txtTeacherId').val());
               $.ajax({
                                   type: "POST",
                                   url: 'http://localhost:8080/teacher/delete/'+teacherId,
