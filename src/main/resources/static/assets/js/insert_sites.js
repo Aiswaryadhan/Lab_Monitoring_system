@@ -3,6 +3,7 @@ $(document).ready(function(){
     var subId;
     var teacherId;
     var requester;
+    var regex;
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     teacherId =$.cookie("id");
                     subId= $.cookie("subject");
@@ -78,8 +79,8 @@ $(document).ready(function(){
     $("#btnDeleteSite").prop('disabled',true);
     $("#txtSite").blur(function(){
                     var site = jQuery.trim($('#txtSite').val());
-//                    alert(site);
-                    if(site=='')
+                    regex =/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+                    if(site=='' || !site.match(regex))
                     {
                           $('#error_site').slideDown();
                           $('#error_site').html('Please provide valid url');
@@ -114,9 +115,9 @@ $(document).ready(function(){
     });
     $("#btnInsertSite").click(function(){
         var site=jQuery.trim($('#txtSite').val());
-        if(site==''){
+        if(site=='' || !site.match(regex)){
                           $('#error_site').slideDown();
-                          $('#error_site').html('Please provide valid url');
+                          $('#error_site').html('Please provide a valid url');
         }
         else{
                           $('#error_site').slideUp();

@@ -161,7 +161,7 @@ $(document).ready(function(){
                 var keyCode = e.keyCode || e.which;
 
                 //Regex for Valid Characters i.e. Alphabets and Numbers.
-                var regex = /^[A-Za-z0-9\s]+$/;
+                var regex = /^[A-Za-z0-9]+$/;
 
                 //Validate TextBox value against the Regex.
                 var isValid = regex.test(String.fromCharCode(keyCode));
@@ -237,11 +237,13 @@ $(document).ready(function(){
         studId = jQuery.trim($('#txtStudId').val());
         studName = jQuery.trim($('#txtStudName').val());
         studSem = $('#sem').val();
-        if(studId==''){
+        var regexID = /^[A-Za-z0-9]+$/;
+        var regexName=/^[A-Za-z\s]+$/;
+        if(studId=='' || !studId.match(regexID)){
               $('#error_stud_id').slideDown();
               $('#error_stud_id').html('Please provide valid Id');
         }
-        else if(studName==''){
+        else if(studName=='' || !studName.match(regexName)){
               $('#error_stud_name').slideDown();
               $('#error_stud_name').html('Please provide valid Name');
         }
@@ -408,7 +410,8 @@ $(document).ready(function(){
                               studId = jQuery.trim($('#txtStudId').val());
                               studName = jQuery.trim($('#txtStudName').val());
                               studSem = $('#sem').val();
-                              if(studName==''){
+                              var regexName=/^[A-Za-z\s]+$/;
+                              if(studName=='' || !studName.match(regexName)){
                                         $('#error_stud_name').slideDown();
                                         $('#error_stud_name').html('Please provide valid Name');
                               }

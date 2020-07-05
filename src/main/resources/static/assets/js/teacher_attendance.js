@@ -144,7 +144,9 @@ $(document).ready(function(){
                                                               $('#listAttendance').append(txt).removeClass("hidden");
                                                 }
                                         }
-
+                                        else{
+                                                alert("Empty List...");
+                                        }
                          }
 
                });
@@ -170,6 +172,8 @@ $(document).ready(function(){
     $("#tblAttendance").hide();
           $('#startDt').val('');
           $('#endDt').val('');
+          $('#error_sDate_id').slideUp();
+          $('#error_eDate_id').slideUp();
     });
     function refresh(){
             setTimeout(function(){

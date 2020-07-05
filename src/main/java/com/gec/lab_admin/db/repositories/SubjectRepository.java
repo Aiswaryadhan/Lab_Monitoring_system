@@ -57,4 +57,11 @@ public interface SubjectRepository extends CrudRepository <Subject,String>{
             value = "update subject_sem set sem=:sem where subject_id=:subId",
             nativeQuery = true)
     void updateSubSem(Integer sem, String subId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "delete from teacher_subject where subject_id=:subId",
+            nativeQuery = true)
+    void deleteTeacherSubject(String subId);
 }

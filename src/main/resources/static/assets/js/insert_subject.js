@@ -159,7 +159,7 @@ $(document).ready(function(){
                 var keyCode = e.keyCode || e.which;
 
                 //Regex for Valid Characters i.e. Alphabets and Numbers.
-                var regex = /^[A-Za-z0-9\s]+$/;
+                var regex = /^[A-Za-z0-9]+$/;
 
                 //Validate TextBox value against the Regex.
                 var isValid = regex.test(String.fromCharCode(keyCode));
@@ -224,11 +224,13 @@ $(document).ready(function(){
         subId=jQuery.trim($('#txtSubId').val());
         subName=jQuery.trim($('#txtSubName').val());
         subSem = $('#sem').val();
-        if(subId==''){
+        var regexId = /^[A-Za-z0-9]+$/;
+        var regex = /^[A-Za-z0-9\s]+$/;
+        if(subId=='' || !subId.match(regexId)){
                $('#error_sub_id').slideDown();
                $('#error_sub_id').html('Please provide valid ID');
         }
-        else if(subName==''){
+        else if(subName=='' || !subName.match(regex)){
                $('#error_sub_name').slideDown();
                $('#error_sub_name').html('Please provide valid Subject');
         }
@@ -302,6 +304,31 @@ $(document).ready(function(){
                                                       $("#txtSubId").val('');
                                                       $("#txtSubName").val('');
                                                       $("#sem").val('select');
+                                                      $("#listSubject tr").remove();
+                                                      $.ajax({
+                                                         type: "GET",
+                                                         url: 'http://localhost:8080/subject/getSubSem',
+                                                         success: function (data) {
+                                                                                   len = data.length;
+                                                                                   var txt = "";
+                                                                                   if(len > 0){
+                                                                                             for(var i=0;i!=len;i++){
+                                                                                                  var arr=data[i].split(",");
+                                                                                                  var id=arr[0];
+                                                                                                  var name=arr[1];
+                                                                                                  var sem=arr[2];
+                                                                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+sem+"</td></tr>";
+                                                                                             }
+                                                                                             if(txt != ""){
+                                                                                                           $('#listSubject').append(txt).removeClass("hidden");
+                                                                                             }
+                                                                                   }
+                                                                                   else
+                                                                                   {
+                                                                                        alert("Empty Set !...");
+                                                                                   }
+                                                         }
+                                                      });
 
                                         }
                 });
@@ -331,7 +358,8 @@ $(document).ready(function(){
                           subId=jQuery.trim($('#txtSubId').val());
                           subName=jQuery.trim($('#txtSubName').val());
                           subSem = $('#sem').val();
-                          if(subName==''){
+                          var regex = /^[A-Za-z0-9\s]+$/;
+                          if(subName=='' || !subName.match(regex)){
                                          $('#error_sub_name').slideDown();
                                          $('#error_sub_name').html('Please provide valid Subject');
                                          status = 1;

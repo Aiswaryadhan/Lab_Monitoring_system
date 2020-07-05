@@ -50,4 +50,8 @@ public class SubjectService {
     public Optional<Subject> idCheck(String id) {
         return subjectRepository.findById(id);
     }
+
+    public void deleteTeacherSubject(String subId) {
+        subjectRepository.deleteTeacherSubject(subId);
+    }
 }

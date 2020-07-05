@@ -62,7 +62,7 @@ $(document).ready(function(){
                                              var studName=arr[2];
                                              txt += "<li><img src=\"assets/img/user-medium.png\" alt=\"Avatar\" class=\"img-circle pull-left avatar\"><p><a href=\"#\">"+studName+"</a> has send "+file_name+" <span class=\"timestamp\">"+date+"</span></p></li>";
                                   }
-                                  alert(txt);
+//                                  alert(txt);
                                  if(txt != ""){
                                               $('#listMsg').append(txt).removeClass("hidden");
                                  }

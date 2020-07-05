@@ -31,7 +31,7 @@ public class SitesPublisher {
 
             // create a topic publisher
             TopicPublisher topicPublisher = topicConsumerSession.createPublisher(topic);
-            topicPublisher.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 
             // create the "Hello World" message
             TextMessage message = topicConsumerSession.createTextMessage();
@@ -44,7 +44,7 @@ public class SitesPublisher {
             System.out.println("Message published: " + message.getText());
 
             // close the topic connection
-        topicConnection.close();
+//        topicConnection.close();
         }
 
 

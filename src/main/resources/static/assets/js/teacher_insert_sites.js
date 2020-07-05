@@ -3,6 +3,7 @@ $(document).ready(function(){
     var subId;
     var teacherId;
     var requester;
+    var regex;
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     teacherId =$.cookie("id");
                     subId= $.cookie("subject");
@@ -78,17 +79,19 @@ $(document).ready(function(){
     $("#btnInsertSite").prop('disabled',false);
     $("#btnDeleteSite").prop('disabled',true);
     $("#txtSite").blur(function(){
-                    var site =jQuery.trim($('#txtSite').val());
-                    if(site=='')
-                    {
-                          $('#error_site').slideDown();
-                          $('#error_site').html('Please provide valid url');
-                    }
-                    else
-                    {
-                          $('#error_site').slideUp();
-                    }
+                        var site = jQuery.trim($('#txtSite').val());
+                        regex =/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+                        if(site=='' || !site.match(regex))
+                        {
+                              $('#error_site').slideDown();
+                              $('#error_site').html('Please provide valid url');
+                        }
+                        else
+                        {
+                              $('#error_site').slideUp();
+                        }
     });
+
 
 $("#txtStudId").keypress(function (e) {
                 var keyCode = e.keyCode || e.which;
@@ -132,9 +135,10 @@ $("#txtStudId").keypress(function (e) {
     });
     $("#btnInsertSite").click(function(){
         var site=$("#txtSite").val();
-        if(site==''){
-             $('#error_site').slideDown();
-             $('#error_site').html('Please provide valid url');
+       if(site=='' || !site.match(regex)){
+                                 $('#error_site').slideDown();
+                                 $('#error_site').html('Please provide a valid url');
+
         }
         else
         {

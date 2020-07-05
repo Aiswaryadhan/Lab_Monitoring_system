@@ -55,7 +55,9 @@ public class SubjectController {
     }
     @RequestMapping("/subject/delete/{subId}")
     public void deleteSub(@PathVariable String subId){
+        subjectService.deleteTeacherSubject(subId);
         subjectService.deleteSub(subId);
+
     }
 
     @RequestMapping("/subjectSem/insert")

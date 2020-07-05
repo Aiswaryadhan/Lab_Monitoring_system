@@ -100,6 +100,7 @@ public class TeacherController {
 
     @RequestMapping("/teacher/blockSites")
     public void blockSites() throws Exception {
+        System.out.println(LOGGED_IN_TEACHER_SUBJECT);
         List<String> reqList = teacherService.getAllSites(LOGGED_IN_TEACHER_SUBJECT);
         logger.info(String.valueOf(reqList));
         sitesPublisher.processMessage(reqList);
@@ -140,7 +141,7 @@ public class TeacherController {
     @RequestMapping("/teacher/insert")
     public void insertTeacher(@RequestBody Teacher teacher){
         logger.info("Insert in teacher table");
-        teacherService.insertSem(teacher.getId(),teacher.getName(),teacher.getIs_admin());
+        teacherService.insertTeacher(teacher.getId(),teacher.getName(),teacher.getIs_admin());
     }
     @RequestMapping("/teacher/update/{teacherId}")
     public void updateTeacher(@RequestBody Teacher teacher,@PathVariable String teacherId){
@@ -254,6 +255,7 @@ public class TeacherController {
     @RequestMapping("/loggedStudent/delete/{studId}")
     public void deleteLoggedStudent(@PathVariable String studId){
        Integer diff= teacherService.getTimeDiff(studId);
+        System.out.println(MINIMUMTIME);
        if(diff<MINIMUMTIME){
            teacherService.updateLogoutAttendance(TeacherController.LOGGED_IN_TEACHER_SUBJECT, studId);
        }

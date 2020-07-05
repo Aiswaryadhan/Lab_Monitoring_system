@@ -45,7 +45,7 @@ public class ViewerFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Lab monitoring");
+        setTitle("Screen Sharing");
 //        setIconImage(new ImageIcon(main.WAIT_ICON).getImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(WindowEvent evt) {

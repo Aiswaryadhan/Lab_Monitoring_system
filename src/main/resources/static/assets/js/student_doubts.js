@@ -16,11 +16,12 @@ $(document).ready(function(){
                 receiver=$.cookie("teacherId");
                 $("#studName").text(studName);
                 username = studId;
+
                 connect();
                 refresh();
                 $.ajax({
                         type:"POST",
-                        url: 'http://localhost:8080/teacher/getMessages/'+studId+'/'+receiver,
+                        url: 'http://192.168.42.215:8080/teacher/getMessages/'+studId+'/'+receiver,
                         success: function(data){
                                                    len1=data.length;
                                                    if(len1!=0){
@@ -34,7 +35,7 @@ $(document).ready(function(){
                                                                               function func(msg1){
                                                                               $.ajax({
                                                                                        type: "POST",
-                                                                                       url: 'http://localhost:8080/teacher/getName/'+sendr,
+                                                                                       url: 'http://192.168.42.215:8080/teacher/getName/'+sendr,
                                                                                        success: function (data){
                                                                                                             sender=data;
                                                                                                             var messageElement = document.createElement('li');
@@ -65,7 +66,7 @@ $(document).ready(function(){
                                                                    function func1(msg2){
                                                                                    $.ajax({
                                                                                            type: "POST",
-                                                                                           url: 'http://localhost:8080/student/getName/'+sendr,
+                                                                                           url: 'http://192.168.42.215:8080/student/getName/'+sendr,
                                                                                            success: function (data) {
                                                                                                                         sender=data;
                                                                                                                         var messageElement = document.createElement('li');
@@ -97,11 +98,11 @@ $(document).ready(function(){
                 });
     }
     else{
-                window.location.replace("http://localhost:8080/student_login");
+                window.location.replace("http://192.168.42.215:8080/student_login");
          }
     $.ajax({
                                                              type : "POST",
-                                                             url :'http://localhost:8080/student/getNotification/'+studId,
+                                                             url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                              success:function(data){
                                                                                              len = data.length;
                                                                                              var i;
@@ -121,7 +122,7 @@ $(document).ready(function(){
     });
     $.ajax({
                                                              type:'POST',
-                                                             url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                             url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                              success:function(data){
                                                                  $("#numNotifications").text(data);
                                                              }
@@ -131,32 +132,26 @@ $(document).ready(function(){
                 $.removeCookie('studId');
                 $.removeCookie('studName');
                 $.removeCookie('studSem');
-                document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
+//                document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
                 $.ajax({
                                          url: 'http://localhost:8090/sitesUnblock',
                                          success: function (data) {
                                          }
                 });
-                $.ajax({
-                                                                             type: "POST",
+//                $.ajax({
+//                                                                             type: "POST",
+//
+//                                                                             url: 'http://localhost:8090/stop',
+//
+//                                                                             success: function (data) {
+//
+//                                                                             }
+//                });
 
-                                                                             url: 'http://localhost:8090/stop',
-
-                                                                             success: function (data) {
-
-                                                                             }
-                });
-                $.ajax({
-                                                                    type: "POST",
-                                                                    url: 'http://localhost:8080/stopAdapters',
-                                                                    success: function () {
-
-                                                                    }
-                                            });
                 $.ajax({
                                          type: "POST",
 
-                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
 
                                          success: function (data) {
 
@@ -206,7 +201,7 @@ $(document).ready(function(){
                                            var aJson = JSON.stringify(msgData);
                                            $.ajax({
                                                                 type: "POST",
-                                                                url: 'http://localhost:8080/teacher/insertMessage',
+                                                                url: 'http://192.168.42.215:8080/teacher/insertMessage',
                                                                  headers: {
                                                                           "Content-Type": "application/json"
                                                                  },
@@ -237,7 +232,7 @@ $(document).ready(function(){
                                            var aJson = JSON.stringify(msgData);
                                            $.ajax({
                                                                 type: "POST",
-                                                                url: 'http://localhost:8080/teacher/insertNotification',
+                                                                url: 'http://192.168.42.215:8080/teacher/insertNotification',
                                                                  headers: {
                                                                           "Content-Type": "application/json"
                                                                  },
@@ -252,20 +247,38 @@ $(document).ready(function(){
              event.preventDefault();
      });
      function shareScreen(){
+     $("#btnStop").attr("disabled", false);
+     $("#btnStop").click(stopScreen);
                     $.ajax({
                                        url: 'http://localhost:8090/start',
                                        success: function (data) {
-                                            $("#btnStart").attr("disabled", true);
+
                                        }
                     });
      }
+     function stopScreen(){
+          $("#btnStart").attr("disabled", true);
+          $("#btnStop").attr("disabled", true);
+                         $.ajax({
+                                            url: 'http://localhost:8090/stop',
+                                            success: function (data) {
+
+                                            }
+                         });
+                         $.ajax({
+                                            type: "POST",
+                                            url: 'http://192.168.42.215:8080/stopAdapters',
+                                            success: function () {
+                                            }
+                         });
+          }
      function onMessageReceived(payload) {
               var message = JSON.parse(payload.body);
               if(message.type === 'RESPONSE') {
                                                           tcr=message.sender;
                                                           $.ajax({
                                                                    type: "POST",
-                                                                   url: 'http://localhost:8080/teacher/getName/'+message.sender,
+                                                                   url: 'http://192.168.42.215:8080/teacher/getName/'+message.sender,
                                                                    success: function (data) {
                                                                                             tName=data;
                                                                                             $("#btnStart").attr("disabled", false);
@@ -291,7 +304,7 @@ $(document).ready(function(){
                                                                                                if((message.sender).startsWith("fc")){
                                                                                                        $.ajax({
                                                                                                            type: "POST",
-                                                                                                           url: 'http://localhost:8080/teacher/getName/'+message.sender,
+                                                                                                           url: 'http://192.168.42.215:8080/teacher/getName/'+message.sender,
                                                                                                            success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       var avatarText = document.createTextNode(sender[0]);
@@ -314,7 +327,7 @@ $(document).ready(function(){
                                                                                                else{
                                                                                                     $.ajax({
                                                                                                             type: "POST",
-                                                                                                            url: 'http://localhost:8080/student/getName/'+message.sender,
+                                                                                                            url: 'http://192.168.42.215:8080/student/getName/'+message.sender,
                                                                                                             success: function (data) {
                                                                                                                                       sender=data;
                                                                                                                                       var avatarText = document.createTextNode(sender[0]);
@@ -341,7 +354,7 @@ $(document).ready(function(){
                              setTimeout(function(){
                               $.ajax({
                                                                                   type : "POST",
-                                                                                  url :'http://localhost:8080/student/getNotification/'+studId,
+                                                                                  url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                                                   success:function(data){
                                                                                           len = data.length;
                                                                                           var i;
@@ -362,7 +375,7 @@ $(document).ready(function(){
                               });
                               $.ajax({
                                                                                   type:'POST',
-                                                                                  url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                                  url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                                   success:function(data){
                                                                                       $("#numNotifications").text(data);
                                                                                   }
@@ -374,11 +387,11 @@ $(document).ready(function(){
                $("#btnStart").attr("disabled", false);
                $("#btnStart").click(shareScreen);
                $.ajax({
-                                                url: 'http://localhost:8080/student/updateNotification/'+t1,
+                                                url: 'http://192.168.42.215:8080/student/updateNotification/'+t1,
                                                 success: function (data) {
                                                     $.ajax({
                                                         type:'POST',
-                                                        url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                        url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                         success:function(data){
                                                             $("#numNotifications").text(data);
                                                         }

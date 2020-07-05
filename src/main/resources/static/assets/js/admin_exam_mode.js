@@ -12,8 +12,10 @@ $(document).ready(function(){
                                 success: function (data) {
 
                                              $("#teacher_name").text(data);
-                                              refresh();
                                               online();
+
+                                              refresh();
+
                                 }
                      });
 

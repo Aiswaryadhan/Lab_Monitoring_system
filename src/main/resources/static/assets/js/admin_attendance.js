@@ -75,13 +75,6 @@ $(document).ready(function(){
                                                          }
         });
     });
-// window.addEventListener("beforeunload", function (e) {
-//   var confirmationMessage = "Are you sure?";
-//
-//   (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-//   return confirmationMessage;                            //Webkit, Safari, Chrome
-// });
-
     $("#startDt").blur(function(){
                                 var sDate = $('#startDt').val();
                                 if(sDate=='')
@@ -152,6 +145,9 @@ $(document).ready(function(){
                                                               $('#listAttendance').append(txt).removeClass("hidden");
                                                 }
                                         }
+                                        else{
+                                            alert("Empty List...");
+                                        }
 
                          }
 
@@ -175,9 +171,11 @@ $(document).ready(function(){
 
         });
     $("#btnReset").click(function(){
-    $("#tblAttendance").hide();
-          $('#startDt').val('');
-          $('#endDt').val('');
+        $("#tblAttendance").hide();
+        $('#startDt').val('');
+        $('#endDt').val('');
+        $('#error_sDate_id').slideUp();
+        $('#error_eDate_id').slideUp();
     });
     function refresh(){
                 setTimeout(function(){

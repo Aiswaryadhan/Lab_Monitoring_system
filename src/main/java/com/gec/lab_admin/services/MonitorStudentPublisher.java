@@ -39,7 +39,7 @@ public class MonitorStudentPublisher {
         System.out.println("Message published: " + message.getText());
 
         // close the topic connection
-        topicConnection.close();
+//        topicConnection.close();
     }
 
 }

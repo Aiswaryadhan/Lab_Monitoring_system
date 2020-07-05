@@ -161,13 +161,13 @@ $(document).ready(function(){
                 var keyCode = e.keyCode || e.which;
 
                 //Regex for Valid Characters i.e. Alphabets and Numbers.
-                var regex = /^[A-Za-z0-9\s]+$/;
+                var regex = /^[0-9]+$/;
 
                 //Validate TextBox value against the Regex.
                 var isValid = regex.test(String.fromCharCode(keyCode));
                 if (!isValid) {
                     $('#error_teacher_id').slideDown();
-                    $("#error_teacher_id").html("Only Alphabets and Numbers allowed.");
+                    $("#error_teacher_id").html("Only Numbers allowed.");
                 }
                 else
                 {
@@ -211,7 +211,7 @@ $(document).ready(function(){
                                                   var isAdmin=arr[2];
                                                   var subjects=arr[3];
                                                   var subject_ids=arr[4];
-                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td>"+subject_ids+"</td></tr>";
+                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td class=\"hidden\">"+subject_ids+"</td></tr>";
                                              }
                                              if(txt != ""){
                                                  $('#listTeacher').append(txt).removeClass("hidden");
@@ -227,6 +227,8 @@ $(document).ready(function(){
         teacherId =jQuery.trim($('#txtTeacherId').val());
         teacherName =jQuery.trim($('#txtTeacherName').val());
         teacherSub = $('#sub').val();
+        var regexId = /^[0-9]+$/;
+        var regexName = /^[A-Za-z\s]+$/;
         var subs=String(teacherSub);
         var f=0;
         var  arr1=subs.split(",");
@@ -239,11 +241,11 @@ $(document).ready(function(){
         }
         teacherAdmin=$('#checkAdmin').val();
 //        alert(teacherAdmin);
-        if(teacherId==''){
+        if(teacherId=='' || !teacherId.match(regexId)){
               $('#error_teacher_id').slideDown();
               $('#error_teacher_id').html('Please provide valid Id');
         }
-        else if(teacherName==''){
+        else if(teacherName=='' || !teacherName.match(regexName)){
               $('#error_teacher_name').slideDown();
               $('#error_teacher_name').html('Please provide valid Name');
         }
@@ -256,7 +258,7 @@ $(document).ready(function(){
                $('#error_teacher_name').slideUp();
                $('#error_teacher_sub').slideUp();
                var teacherData = {
-                                 'id': teacherId,
+                                 'id': 'fc'+teacherId,
                                  'name': teacherName,
                                  'is_admin':teacherAdmin
                };
@@ -284,7 +286,7 @@ $(document).ready(function(){
                                                                             var isAdmin=arr[2];
                                                                             var subjects=arr[3];
                                                                             var subject_ids=arr[4];
-                                                                            txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td>"+subject_ids+"</td></tr>";
+                                                                            txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td class=\"hidden\">"+subject_ids+"</td></tr>";
                                                                        }
                                                                        if(txt != ""){
                                                                            $('#listTeacher').append(txt).removeClass("hidden");
@@ -300,7 +302,7 @@ $(document).ready(function(){
                });
                 for(i=0;i<subLen;i++){
                     var teacherData = {
-                                                'teacher_id': teacherId,
+                                                'teacher_id': 'fc'+teacherId,
                                                 'subject_id':arr1[i]
                     };
                     var aJson = JSON.stringify(teacherData);
@@ -365,6 +367,8 @@ $(document).ready(function(){
           teacherId = jQuery.trim($('#txtTeacherId').val());
           teacherName =jQuery.trim($('#txtTeacherName').val());
           teacherSub = $('#sub').val();
+          var regexId = /^[0-9]+$/;
+          var regexName = /^[A-Za-z\s]+$/;
           var subs=String(teacherSub);
           var f=0;
           var arr1=subs.split(",");
@@ -376,7 +380,7 @@ $(document).ready(function(){
                 $('#checkAdmin').val(false);
           }
           teacherAdmin=$('#checkAdmin').val();
-          if(teacherName==''){
+          if(teacherName=='' || !teacherName.match(regexName)){
                 $('#error_teacher_name').slideDown();
                 $('#error_teacher_name').html('Please provide valid Name');
           }
@@ -416,7 +420,7 @@ $(document).ready(function(){
                                                                                                   var isAdmin=arr[2];
                                                                                                   var subjects=arr[3];
                                                                                                   var subject_ids=arr[4];
-                                                                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td>"+subject_ids+"</td></tr>";
+                                                                                                  txt += "<tr><td>"+(i+1)+"</td><td>"+id+"</td><td>"+name+"</td><td>"+isAdmin+"</td><td>"+subjects+"</td><td class=\"hidden\">"+subject_ids+"</td></tr>";
                                                                                       }
                                                                                       if(txt != ""){
                                                                                                   $('#listTeacher').append(txt).removeClass("hidden");

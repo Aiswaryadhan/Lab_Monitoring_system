@@ -91,7 +91,45 @@ $(document).ready(function(){
                                      $("#onlineStud").text(data);
                 }
     });
+    $("#btnPublish").click(function(){
 
+                  $.ajax({
+                                           type: "POST",
+                                           url: 'http://localhost:8080/teacher/blockSites',
+                                           success: function (data) {
+                                                    alert("Blocked..");
+                                           }
+                  });
+     });
+     $("#txtChangeTime").blur(function(){
+                                var t = $('#txtChangeTime').val();
+                                 if(t<1 || t>120)
+                                 {
+                                       $('#error_time').slideDown();
+                                       $('#error_time').html('Please enter a value between 1 and 120...');
+                                 }
+                                 else
+                                 {
+                                       $('#error_time').slideUp();
+                                 }
+     });
+     $("#btnTime").click(function(){
+        var t=$("#txtChangeTime").val();
+        if(t!='' && t>1 && t<120){
+                       $.ajax({
+                                                type: "POST",
+                                                url: 'http://localhost:8080/teacher/changeMinTime/'+t,
+                                                success: function (data) {
+                                                     alert("Default minimum time updated...");
+                                                     $("#txtChangeTime").val('');
+                                                }
+                       });
+        }
+        else{
+            $('#error_time').slideDown();
+            $('#error_time').html('Please enter a value between 1 and 120...');
+        }
+     });
 
     $("#adminLogout").click(function(){
         $.removeCookie('id');

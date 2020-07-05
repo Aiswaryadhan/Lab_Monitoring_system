@@ -12,26 +12,27 @@ $(document).ready(function(){
                 receiver=$.cookie("teacherId");
                 $("#studName").text(studName);
                 refresh();
+
     }
     else{
-                window.location.replace("http://localhost:8080/student_login");
+                window.location.replace("http://192.168.42.215:8080/student_login");
          }
-         $.ajax({
-                                type: "POST",
-                                url: 'http://localhost:8090/stop',
-                                success: function () {
-                                }
-         });
-         $.ajax({
-                                                             type: "POST",
-                                                             url: 'http://localhost:8080/stopAdapters',
-                                                             success: function () {
-
-                                                             }
-         });
+//         $.ajax({
+//                                type: "POST",
+//                                url: 'http://localhost:8090/stop',
+//                                success: function () {
+//                                }
+//         });
+//         $.ajax({
+//                                                             type: "POST",
+//                                                             url: 'http://192.168.42.215:8080/stopAdapters',
+//                                                             success: function () {
+//
+//                                                             }
+//         });
     $.ajax({
                                                                  type : "POST",
-                                                                 url :'http://localhost:8080/student/getNotification/'+studId,
+                                                                 url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                                  success:function(data){
                                                                                                  len = data.length;
                                                                                                  var i;
@@ -51,7 +52,7 @@ $(document).ready(function(){
     });
     $.ajax({
                                                                  type:'POST',
-                                                                 url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                 url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                  success:function(data){
                                                                      $("#numNotifications").text(data);
                                                                  }
@@ -61,16 +62,28 @@ $(document).ready(function(){
                 $.removeCookie('studId');
                 $.removeCookie('studName');
                 $.removeCookie('studSem');
-                document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
+//                document.cookie ="_instance=true;expires=Thu, 1970-01-01 00:00:01 GMT";
                 $.ajax({
                                          url: 'http://localhost:8090/sitesUnblock',
                                          success: function (data) {
                                          }
-                                });
+                });
+                $.ajax({
+                        type: "POST",
+                        url: 'http://localhost:8090/stop',
+                        success: function () {
+                            $.ajax({
+                                                    type: "POST",
+                                                    url: 'http://192.168.42.215:8080/stopAdapters',
+                                                    success: function () {
 
+                                                    }
+                            });
+                        }
+                });
                 $.ajax({
                                          type: "POST",
-                                         url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                                         url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
                                          success: function (data) {
 
                                          }
@@ -89,7 +102,7 @@ $(document).ready(function(){
         var filename = $('input[type=file]').val().split('\\').pop();
         if(filename!=''){
             $.ajax({
-                url: "http://localhost:8080/uploadFile/"+studId+'/'+teacherSub,
+                url: "http://192.168.42.215:8080/uploadFile/"+studId+'/'+teacherSub,
                 type: "POST",
                 data: new FormData($("#upload-file-form")[0]),
                 enctype: 'multipart/form-data',
@@ -98,11 +111,11 @@ $(document).ready(function(){
                 cache: false,
                 success: function () {
                 $.ajax({
-                                url: "http://localhost:8080/student/upload/"+studId+'/'+teacherSub+'/'+filename,
+                                url: "http://192.168.42.215:8080/student/upload/"+studId+'/'+teacherSub+'/'+filename,
                                 type: "POST",
                                 success: function () {
                                             $.ajax({
-                                                url: "http://localhost:8080/student/getUploadDetails/"+studId+'/'+teacherSub,
+                                                url: "http://192.168.42.215:8080/student/getUploadDetails/"+studId+'/'+teacherSub,
                                                 type: "POST",
                                                 success: function (data) {
                                                      len = data.length;
@@ -111,13 +124,13 @@ $(document).ready(function(){
                                                                  for(var i=0;i!=len;i++){
                                                                                    var arr=data[i].split(",");
                                                                                    var date=arr[0];
-                                                                                   alert(date);
+//                                                                                   alert(date);
                                                                                    var file_name=arr[1];
-                                                                                   alert(file_name);
+//                                                                                   alert(file_name);
                                                                                    txt += "<tr><td>"+(i+1)+"</td><td>"+date+"</td><td>"+file_name+"</td></tr>";
 
                                                                  }
-                                                                 alert(txt);
+//                                                                 alert(txt);
                                                                  if(txt != ""){
                                                                           $('#listFiles').append(txt).removeClass("hidden");
                                                                           $("#tblFiles").show();
@@ -152,7 +165,7 @@ $(document).ready(function(){
                                  setTimeout(function(){
                                   $.ajax({
                                                                                       type : "POST",
-                                                                                      url :'http://localhost:8080/student/getNotification/'+studId,
+                                                                                      url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                                                       success:function(data){
                                                                                               len = data.length;
                                                                                               var i;
@@ -173,7 +186,7 @@ $(document).ready(function(){
                                   });
                                   $.ajax({
                                                                                       type:'POST',
-                                                                                      url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                                      url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                                       success:function(data){
                                                                                           $("#numNotifications").text(data);
                                                                                       }
@@ -183,11 +196,11 @@ $(document).ready(function(){
     }
     $('#notificationList').on( 'click', 'li', function(){
                    $.ajax({
-                                                    url: 'http://localhost:8080/student/updateNotification/'+t1,
+                                                    url: 'http://192.168.42.215:8080/student/updateNotification/'+t1,
                                                     success: function (data) {
                                                         $.ajax({
                                                             type:'POST',
-                                                            url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                            url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                             success:function(data){
                                                                 $("#numNotifications").text(data);
                                                             }

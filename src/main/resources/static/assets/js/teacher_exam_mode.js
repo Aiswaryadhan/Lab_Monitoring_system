@@ -12,8 +12,9 @@ $(document).ready(function(){
                                 success: function (data) {
 
                                              $("#teacher_name").text(data);
+                                             online();
                                               refresh();
-                                              online();
+
                                 }
                      });
 
@@ -55,14 +56,11 @@ $(document).ready(function(){
                                                                       url:'http://localhost:8080/teacher/getStudInfo/'+sub,
                                                                       success:function(data){
                                                                                 var len=data.length;
-//                                                                                var row=len/4;
-//                                                                                var i;
                                                                                 var txtTable='';
                                                                                 for(j=0;j<len;j++){
                                                                                     arr=data[j].split(',');
                                                                                     stId=arr[0];
                                                                                     var stName=arr[1];
-//                                                                                    alert(stId);
                                                                                     txtTable +="<div id=\"div1\" class=\"grid-item\" name=\""+stId+"\"><p>Roll No:"+(j+1)+"</p><button name=\"studBtn\" type=\"button\" class=\"btn btn-success\" style=\"height:50px;width:125px\" id=\""+stId+"\" disabled><i class=\"fa fa-check-circle\"></i>"+stName+"</button></div>"
 
                                                                                 }
@@ -77,15 +75,6 @@ $(document).ready(function(){
      });
      $(document).on("click", "div.grid-item" , function() {
                 stId=$(this).attr('name');
-//                $.ajax({
-//                                                                                         type: "POST",
-//
-//                                                                                         url: 'http://localhost:8090/stop',
-//
-//                                                                                         success: function (data) {
-//
-//                                                                                         }
-//                });
                 $.ajax({
                                           url: 'http://localhost:8080/monitorStart',
                                           success: function (data) {
@@ -140,7 +129,7 @@ $(document).ready(function(){
                    }
             });
             online();
-        },10000);
+        },1000);
      }
 
     function refresh(){
@@ -175,7 +164,7 @@ $(document).ready(function(){
                                                              }
          });
          refresh();
-          },5000);
+          },1000);
     }
      $('#notificationList').on( 'click', 'li', function(){
                 var n=$(this).attr('name');

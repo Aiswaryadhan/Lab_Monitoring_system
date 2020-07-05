@@ -1,18 +1,11 @@
 $(document).ready(function(){
             var ip;
-//            getIp();
-//            function getIp() {
-//                    $.getJSON("http://jsonip.com?callback=?", DisplayIP);
-//            }
-//            function DisplayIP(response) {
-//                    ip=response.ip;
-//                    alert(ip);
-//            }
             $.ajax({
-                      type: "GET",
+                      type: "POST",
                       url: 'http://localhost:8090/findIpAddress',
                       success: function (data) {
                         ip=data;
+                        alert(ip);
                       }
             });
             $("#user").blur(function(){
@@ -52,10 +45,18 @@ $(document).ready(function(){
                 var user=$('#user').val();
                 var pwd=$('#pass').val();
                var sub;
-
-                $.ajax({
+               if(user==''){
+                                     $('#error_user').slideDown();
+                                     $('#error_user').html('Please provide username');
+               }
+               else if(pwd==''){
+                                      $('#error_pass').slideDown();
+                                      $('#error_pass').html('Please provide password');
+               }
+               else{
+                    $.ajax({
                         type : "POST",
-                        url : 'http://localhost:8080/student/getTeacherName',
+                        url : 'http://192.168.42.215:8080/student/getTeacherName',
                         headers : {
                                         "Content-Type" : "application/json"
                         },
@@ -68,7 +69,7 @@ $(document).ready(function(){
                                            sub=$.cookie("teacherSub");
                                            $.ajax({
                                                                                   type : "POST",
-                                                                                  url : 'http://localhost:8080/student/getCount/'+user+'/'+sub,
+                                                                                  url : 'http://192.168.42.215:8080/student/getCount/'+user+'/'+sub,
                                                                                   headers : {
                                                                                                      "Content-Type" : "application/json"
                                                                                   },
@@ -81,46 +82,46 @@ $(document).ready(function(){
                                                                                                      var aJson = JSON.stringify(logCred);
                                                                                                      //
                                                                                                      $.ajax({
-                                                                                                                type : "POST",
-                                                                                                                url : 'http://localhost:8080/student/login/'+ip,
-                                                                                                                headers : {
-                                                                                                                              "Content-Type" : "application/json"
-                                                                                                                },
-                                                                                                                data:aJson,
-                                                                                                                success : function(data) {
-                                                                                                                                      if(data=="multipleIp"){
-                                                                                                                                        alert("already logged In");
-                                                                                                                                                                $("#user").prop('disabled',true);
-                                                                                                                                                                $("#pass").prop('disabled',true);
-                                                                                                                                                                $("#submit").prop('disabled',true);
+                                                                                                                                                                                                                     type : "POST",
+                                                                                                                                                                                                                     url : 'http://192.168.42.215:8080/student/login/'+ip,
+                                                                                                                                                                                                                     headers : {
+                                                                                                                                                                                                                                   "Content-Type" : "application/json"
+                                                                                                                                                                                                                     },
+                                                                                                                                                                                                                     data:aJson,
+                                                                                                                                                                                                                     success : function(data) {
+                                                                                                                                                                                                                                           if(data=="multipleIp"){
+                                                                                                                                                                                                                                             alert("already logged In");
+                                                                                                                                                                                                                                                                     $("#user").prop('disabled',true);
+                                                                                                                                                                                                                                                                     $("#pass").prop('disabled',true);
+                                                                                                                                                                                                                                                                     $("#submit").prop('disabled',true);
 
-                                                                                                                                      }
-                                                                                                                                      else if(data != "invalid"){
-                                                                                                                                              $('#error_cred').slideUp();
-                                                                                                                                               var arr=data.split(",");
-                                                                                                                                               $.cookie("studName",arr[0]);
-                                                                                                                                               $.cookie("studSem",arr[1]);
-                                                                                                                                               $.cookie("studId", user);
-                                                                                                                                               $.ajax({
-                                                                                                                                                        url: 'http://localhost:8090/sitesBlock',
-                                                                                                                                                        success: function (data) {
-                                                                                                                                                        }
-                                                                                                                                               });
-                                                                                                                                               $.ajax({
-                                                                                                                                                        url: 'http://localhost:8090/subscriberCheck/'+user,
-                                                                                                                                                        success: function (data) {
-                                                                                                                                                        }
-                                                                                                                                               });
-                                                                                                                                               window.location.replace("http://localhost:8080/student_home");
+                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                           else if(data != "invalid"){
+                                                                                                                                                                                                                                                   $('#error_cred').slideUp();
+                                                                                                                                                                                                                                                    var arr=data.split(",");
+                                                                                                                                                                                                                                                    $.cookie("studName",arr[0]);
+                                                                                                                                                                                                                                                    $.cookie("studSem",arr[1]);
+                                                                                                                                                                                                                                                    $.cookie("studId", user);
+                                                                                                                                                                                                                                                    $.ajax({
+                                                                                                                                                                                                                                                             url: 'http://localhost:8090/sitesBlock',
+                                                                                                                                                                                                                                                             success: function (data) {
+                                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                                    $.ajax({
+                                                                                                                                                                                                                                                             url: 'http://localhost:8090/subscriberCheck/'+user,
+                                                                                                                                                                                                                                                             success: function (data) {
+                                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                                    window.location.replace("http://192.168.42.215:8080/student_home");
 
-                                                                                                                                      }
-                                                                                                                                      else{
-                                                                                                                                           $('#error_cred').slideDown();
-                                                                                                                                                                                                      $('#error_cred').html('Incorrect username or password');
-                                                                                                                                      }
-                                                                                                                }
+                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                           else{
+                                                                                                                                                                                                                                                $('#error_cred').slideDown();
+                                                                                                                                                                                                                                                                                                           $('#error_cred').html('Incorrect username or password');
+                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                     }
 
-                                                                                                     });
+                                                                                                                                                                                                          });
                                                                                              }
                                                                                              else{
                                                                                                       alert("You are not allowed to attend this session!")
@@ -133,8 +134,8 @@ $(document).ready(function(){
                                         }
                         }
 
-                });
-
+                    });
+               }
             });//close of click
 });//close of document ready
 

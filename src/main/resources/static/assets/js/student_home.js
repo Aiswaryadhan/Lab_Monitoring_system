@@ -10,13 +10,14 @@ $(document).ready(function(){
                 sub=$.cookie("teacherSub")
                 $("#studName").text(studName);
                 refresh();
+
      }
      else{
-                 window.location.replace("http://localhost:8080/student_login");
+                 window.location.replace("http://192.168.42.215:8080/student_login");
           }
      $.ajax({
                                                                       type : "POST",
-                                                                      url :'http://localhost:8080/student/getNotification/'+studId,
+                                                                      url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                                       success:function(data){
                                                                                                       len = data.length;
                                                                                                       var i;
@@ -36,35 +37,35 @@ $(document).ready(function(){
      });
      $.ajax({
                                                                       type:'POST',
-                                                                      url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                      url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                       success:function(data){
                                                                           $("#numNotifications").text(data);
                                                                       }
      });
      $.ajax({
                          type: "POST",
-                         url: 'http://localhost:8080/teacher/getTime',
+                         url: 'http://192.168.42.215:8080/teacher/getTime',
                          success: function (data) {
                                                $("#txtTime").text(data);
                          }
      });
      $.ajax({
                           type: "POST",
-                          url: 'http://localhost:8080/teacher/getSubName/'+sub,
+                          url: 'http://192.168.42.215:8080/teacher/getSubName/'+sub,
                           success: function (data) {
                                                 $("#txtSubject").text(data);
                           }
      });
 //     $.ajax({
 //                               type: "POST",
-//                               url: 'http://localhost:8080/student/getPercentage/'+sub+'/'+studId,
+//                               url: 'http://192.168.42.215/student/getPercentage/'+sub+'/'+studId,
 //                               success: function (data) {
 //                                                     $("#attendance").text(data);
 //                               }
 //     });
      $.ajax({
                               type: "POST",
-                              url: 'http://localhost:8080/student/getFilesNum/'+sub+'/'+studId,
+                              url: 'http://192.168.42.215:8080/student/getFilesNum/'+sub+'/'+studId,
                               success: function (data) {
                                                     $("#fileNum").text(data);
                               }
@@ -75,7 +76,7 @@ $(document).ready(function(){
                         success: function () {
                             $.ajax({
                                                     type: "POST",
-                                                    url: 'http://localhost:8080/stopAdapters',
+                                                    url: 'http://192.168.42.215:8080/stopAdapters',
                                                     success: function () {
 
                                                     }
@@ -95,10 +96,22 @@ $(document).ready(function(){
 
                          }
                 });
-
+//                $.ajax({
+//                                        type: "POST",
+//                                        url: 'http://localhost:8090/stop',
+//                                        success: function () {
+//                                            $.ajax({
+//                                                                    type: "POST",
+//                                                                    url: 'http://192.168.42.215:8080/stopAdapters',
+//                                                                    success: function () {
+//
+//                                                                    }
+//                                            });
+//                                        }
+//                });
                 $.ajax({
                     type: "POST",
-                    url: 'http://localhost:8080/loggedStudent/delete/'+studId,
+                    url: 'http://192.168.42.215:8080/loggedStudent/delete/'+studId,
                     success: function (data) {
 
                     }
@@ -109,7 +122,7 @@ $(document).ready(function(){
                                      setTimeout(function(){
                                       $.ajax({
                                                                                           type : "POST",
-                                                                                          url :'http://localhost:8080/student/getNotification/'+studId,
+                                                                                          url :'http://192.168.42.215:8080/student/getNotification/'+studId,
                                                                                           success:function(data){
                                                                                                   len = data.length;
                                                                                                   var i;
@@ -130,7 +143,7 @@ $(document).ready(function(){
                                       });
                                       $.ajax({
                                                                                           type:'POST',
-                                                                                          url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                                          url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                                           success:function(data){
                                                                                               $("#numNotifications").text(data);
                                                                                           }
@@ -140,11 +153,11 @@ $(document).ready(function(){
     }
     $('#notificationList').on( 'click', 'li', function(){
                        $.ajax({
-                                                        url: 'http://localhost:8080/student/updateNotification/'+t1,
+                                                        url: 'http://192.168.42.215:8080/student/updateNotification/'+t1,
                                                         success: function (data) {
                                                             $.ajax({
                                                                 type:'POST',
-                                                                url:'http://localhost:8080/student/getNotificationCount/'+studId,
+                                                                url:'http://192.168.42.215:8080/student/getNotificationCount/'+studId,
                                                                 success:function(data){
                                                                     $("#numNotifications").text(data);
                                                                 }

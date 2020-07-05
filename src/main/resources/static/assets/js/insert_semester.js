@@ -4,6 +4,7 @@ $(document).ready(function(){
     var teacherId;
     var sub;
     var requester;
+    var lenData=0;
     if ($.cookie("id") != null && $.cookie("subject") != null) {
                     teacherId =$.cookie("id");
                     sub= $.cookie("subject");
@@ -114,10 +115,10 @@ $(document).ready(function(){
                type: "GET",
                url: 'http://localhost:8080/semester/getAll',
                success: function (data) {
-                                           len = data.length;
+                                           lenData = data.length;
                                            var txt = "";
-                                           if(len > 0){
-                                                     for(var i=0;i!=len;i++){
+                                           if(lenData > 0){
+                                                     for(var i=0;i!=lenData;i++){
                                                           if(data[i].id)
                                                           txt += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td></tr>";
                                                      }
@@ -134,7 +135,9 @@ $(document).ready(function(){
     });
     $("#btnInsertSem").click(function(){
         var sem=jQuery.trim($('#txtSem').val());
-        if(sem==''){
+        var regex = /^[A-Za-z0-9\s]+$/;
+        alert(lenData);
+        if(sem=='' || !sem.match(regex)){
                           $('#error_sem').slideDown();
                           $('#error_sem').html('Please provide valid semester');
         }
@@ -142,7 +145,7 @@ $(document).ready(function(){
                           $('#error_sem').slideUp();
                           status = 0;
                           var semData = {
-                                          'id': len+1,
+                                          'id': lenData+1,
                                           'name': sem
                           };
                           var aJson = JSON.stringify(semData);
@@ -204,7 +207,8 @@ $(document).ready(function(){
     });
     $("#btnUpdateSem").click(function(){
                   var sem=$("#txtSem").val();
-                  if(sem==''){
+                  var regex = /^[A-Za-z0-9\s]+$/;
+                  if(sem=='' || !sem.match(regex)){
                                     $('#error_sem').slideDown();
                                     $('#error_sem').html('Please provide valid semester');
                   }

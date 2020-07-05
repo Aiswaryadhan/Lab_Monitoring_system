@@ -25,10 +25,6 @@ import static com.gec.lab_admin.controllers.TeacherController.LOGGED_IN_TEACHER_
 public class StudentController {
     @Autowired
     StudentService studentService;
-
-    //    TeacherService teacherService;
-    //    LoggedStudentService logge
-//    dStudentService;
     LoggedStudent loggedStudent;
     final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
@@ -73,7 +69,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/student/getTeacherName")
     public String getTeacherName() {
-
+        System.out.println(TeacherController.LOGGED_IN_TEACHER_NAME);
         if (TeacherController.LOGGED_IN_TEACHER_NAME != null && TeacherController.LOGGED_IN_TEACHER_ID!=null && TeacherController.LOGGED_IN_TEACHER_SUBJECT!=null) {
             String res=TeacherController.LOGGED_IN_TEACHER_NAME+","+TeacherController.LOGGED_IN_TEACHER_ID+","+TeacherController.LOGGED_IN_TEACHER_SUBJECT;
             logger.info(res);

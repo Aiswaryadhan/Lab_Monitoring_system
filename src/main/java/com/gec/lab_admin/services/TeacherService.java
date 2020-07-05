@@ -82,7 +82,7 @@ public class TeacherService {
         return teacherRepository.getTeacherDetails();
     }
 
-    public void insertSem(String id, String name, Boolean is_admin) {
+    public void insertTeacher(String id, String name, Boolean is_admin) {
         teacherRepository.insertTeacher(id,name,is_admin);
     }
     public void updateTeacher(String name, Boolean is_admin, String teacherId) {
